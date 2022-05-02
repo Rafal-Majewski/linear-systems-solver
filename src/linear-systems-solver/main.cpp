@@ -1,15 +1,22 @@
 #include <iostream>
-#include "./utils/ArgumentsManager/ArgumentsBuilder/ArgumentsBuilder.h"
-#include "./utils/ArgumentsManager/Parameters/Parameters.h"
-#include "./utils/ArgumentsManager/ArgumentsManager.h"
+#include <CLI/CLI.hpp>
+#include <LinearSystem/SolvingMethod/SolvingMethod.h>
+
+
 
 
 int main(int argc, char *argv[]) {
-	ArgumentsManager argumentsManager = ArgumentsManager();
-	Arguments arguments = argumentsManager.parse(argc, argv);
-	if (arguments.doDisplayHelp) {
-		argumentsManager.displayHelp();
-		return 0;
-	}
+	CLI::App app{"Linear Systems Solver"};
+
+	SolvingMethod solvingMethod;
+	app.add_option("-m,--method", solvingMethod, "Solving method")
+		->required()
+		->transform(CLI::CheckedTransformer(solvingMethodByString, CLI::ignore_case));
+
+
+	CLI11_PARSE(app, argc, argv);
+
+	std::cout << solvingMethod << std::endl;
+
 	return 0;
 }

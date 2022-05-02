@@ -28,7 +28,7 @@ BigInt::BigInt(const BigInt& other) {
 
 BigInt::operator std::string() const {
 	std::vector<char> digitsDecimal;
-	std::vector<char> digitsMultiplier = { 1 };
+	std::vector<char> digitsMultiplier = {1};
 	for (int i = 0; i < digits.size(); ++i) {
 		if (digits[i] == 1) {
 			digitsDecimal = addDigits(digitsDecimal, digitsMultiplier, 10);
@@ -75,6 +75,16 @@ BigInt& BigInt::operator+=(const BigInt& rhs) {
 		digits.clear();
 		return *this;
 	}
+
+	sign *= digitsComparisonResult;
+	digits = substractDigits(
+		digitsComparisonResult == 1 ? digits : rhs.digits,
+		digitsComparisonResult == 1 ? rhs.digits : digits,
+		2
+	);
+	return *this;
+	// the lines above are a simplification of:
+	/*
 	if (sign == 1 && digitsComparisonResult == 1) {
 		sign = 1;
 		digits = substractDigits(digits, rhs.digits, 2);
@@ -95,6 +105,7 @@ BigInt& BigInt::operator+=(const BigInt& rhs) {
 		digits = substractDigits(digits, rhs.digits, 2);
 		return *this;
 	// }
+	*/
 }
 
 BigInt& BigInt::operator-=(const BigInt& rhs) {
@@ -108,7 +119,6 @@ BigInt& BigInt::operator-=(const BigInt& rhs) {
 	}
 	if (sign == rhs.sign) {
 		if (compareDigits(digits, rhs.digits) == 1) {
-			sign = 1;
 			digits = substractDigits(digits, rhs.digits, 2);
 			return *this;
 		}
@@ -116,26 +126,13 @@ BigInt& BigInt::operator-=(const BigInt& rhs) {
 		digits = substractDigits(rhs.digits, digits, 2);
 		return *this;
 	}
-	if (sign == 1 && compareDigits(digits, rhs.digits) == 1) {
-		sign = -1;
-		digits = substractDigits(rhs.digits, digits, 2);
-		return *this;
-	}
-	if (sign == -1 && compareDigits(digits, rhs.digits) == -1) {
-		sign = 1;
-		digits = substractDigits(digits, rhs.digits, 2);
-		return *this;
-	}
-	if (sign == 1 && compareDigits(digits, rhs.digits) == -1) {
-		sign = -1;
-		digits = substractDigits(digits, rhs.digits, 2);
-		return *this;
-	}
-	// if (sign == -1 && compareDigits(digits, rhs.digits) == 1) {
-		sign = 1;
-		digits = substractDigits(rhs.digits, digits, 2);
-		return *this;
-	// }
+	digits = addDigits(
+		digits,
+		rhs.digits,
+		2
+	);
+	return *this;
+
 }
 
 BigInt& BigInt::operator*=(const BigInt& rhs) {

@@ -2,7 +2,7 @@
 #define MATRIX_H_INCLUDED
 
 #include "./Size/Size.h"
-#include "./WrongMatrixSizeException/WrongMatrixSizeException.h"
+#include "./InvalidMatrixSizeException/InvalidMatrixSizeException.h"
 #include <stdexcept>
 
 
@@ -31,7 +31,7 @@ class Matrix {
 
 	friend Matrix<T> operator+(const Matrix<T> &lhs, const Matrix<T> &rhs) {
 		if (lhs.size != rhs.size) {
-			throw WrongMatrixSizeException("Matrixes have different sizes");
+			throw InvalidMatrixSizeException("Matrixes have different sizes");
 		}
 		Matrix<T> matrix = lhs.copy();
 		for (int y = 0; y < lhs.size.rowsCount; ++y) {
@@ -43,7 +43,7 @@ class Matrix {
 	}
 	friend Matrix<T> operator-(const Matrix<T> &lhs, const Matrix<T> &rhs) {
 		if (lhs.size != rhs.size) {
-			throw WrongMatrixSizeException("Matrixes have different sizes");
+			throw InvalidMatrixSizeException("Matrixes have different sizes");
 		}
 		Matrix<T> matrix = lhs.copy();
 		for (int y = 0; y < lhs.size.rowsCount; ++y) {
@@ -55,7 +55,7 @@ class Matrix {
 	}
 	friend Matrix<T> operator*(const Matrix<T> &lhs, const Matrix<T> &rhs) {
 		if (lhs.size.columnsCount != rhs.size.rowsCount) {
-			throw WrongMatrixSizeException("Matrixes cannot be multiplied");
+			throw InvalidMatrixSizeException("Matrixes cannot be multiplied");
 		}
 		Matrix<T> matrix = Matrix<T>(Size(lhs.size.rowsCount, rhs.size.columnsCount));
 		for (int y = 0; y < matrix.size.rowsCount; ++y) {
@@ -122,7 +122,7 @@ bool Matrix<T>::areSizesEqual(const Matrix<T> &first, const Matrix<T> &second) {
 template <typename T>
 void Matrix<T>::throwIfDifferentSizes(const Matrix<T> &first, const Matrix<T> &second) {
 	if (!Matrix<T>::areSizesEqual(first, second)) {
-		throw WrongMatrixSizeException("Matrixes have different sizes");
+		throw InvalidMatrixSizeException("Matrixes have different sizes");
 	}
 }
 
@@ -164,7 +164,7 @@ Matrix<T>::~Matrix() {
 template <typename T>
 Matrix<T> Matrix<T>::unit(Size a_size) {
 	if (a_size.rowsCount != a_size.columnsCount) {
-		throw WrongMatrixSizeException("Matrix must be square");
+		throw InvalidMatrixSizeException("Matrix must be square");
 	}
 	Matrix<T> matrix = Matrix<T>(a_size);
 	for (int y = 0; y < a_size.rowsCount; ++y) {

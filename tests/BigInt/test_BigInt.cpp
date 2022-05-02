@@ -471,3 +471,27 @@ TEST(BigInt, division_modulo_0_with_minus_2) {
 	BigInt bigint2(-2);
 	EXPECT_EQ(BigInt(0), bigint1 % bigint2);
 }
+
+TEST(BigInt, substraction_5_with_minus_2) {
+	BigInt bigint1(5);
+	BigInt bigint2(-2);
+	EXPECT_EQ(BigInt(7), bigint1 - bigint2);
+}
+
+TEST(BigInt, substraction_minus_5_with_minus_2) {
+	BigInt bigint1(-5);
+	BigInt bigint2(-2);
+	EXPECT_EQ(BigInt(-3), bigint1 - bigint2);
+}
+
+TEST(BigInt, substraction_minus_5_with_62) {
+	BigInt bigint1(-5);
+	BigInt bigint2(62);
+	EXPECT_EQ(BigInt(-67), bigint1 - bigint2);
+}
+
+TEST(BigInt, substraction_23_with_25) {
+	BigInt bigint1(23);
+	BigInt bigint2(25);
+	EXPECT_EQ(BigInt(-2), bigint1 - bigint2);
+}
