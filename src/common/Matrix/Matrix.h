@@ -13,6 +13,12 @@ class Matrix {
 	static bool areSizesEqual(const Matrix<T> &first, const Matrix<T> &second);
 	void throwIfOutOfBounds(int y, int x) const;
 	public:
+	operator std::string() const;
+	// ostream
+	friend std::ostream &operator<<(std::ostream &os, const Matrix<T> &matrix) {
+		os << std::string(matrix);
+		return os;
+	};
 	const Size size;
 	Matrix(Size a_size);
 	~Matrix();
@@ -113,6 +119,28 @@ class Matrix {
 		return false;
 	}
 };
+
+template <typename T>
+Matrix<T>::operator std::string() const {
+	std::string result = "Matrix("
+		+ std::string(size)
+		+ ")[";
+	for (int y = 0; y < size.rowsCount; ++y) {
+		result += "[";
+		for (int x = 0; x < size.columnsCount; ++x) {
+			result += std::to_string(values[y][x]);
+			if (x != size.columnsCount - 1) {
+				result += ", ";
+			}
+		}
+		result += "]";
+		if (y != size.rowsCount - 1) {
+			result += ", ";
+		}
+	}
+	result += "]";
+	return result;
+}
 
 template <typename T>
 bool Matrix<T>::areSizesEqual(const Matrix<T> &first, const Matrix<T> &second) {

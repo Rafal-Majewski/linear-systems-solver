@@ -11,3 +11,7 @@ bool Size::operator==(const Size &other) const {
 bool Size::operator!=(const Size &other) const {
 	return rowsCount != other.rowsCount || columnsCount != other.columnsCount;
 }
+
+Size::operator std::string() const {
+	return "Size(" + std::to_string(rowsCount) + ", " + std::to_string(columnsCount) + ")";
+}
