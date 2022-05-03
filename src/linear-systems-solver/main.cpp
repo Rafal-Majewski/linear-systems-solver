@@ -7,8 +7,10 @@
 
 
 void run(SolvingMethod solvingMethod) {
-	LinearSystemReader linearSystemReader = LinearSystemReader<float>();
+	LinearSystemReader<float> linearSystemReader = LinearSystemReader<float>();
+	LinearSystem<float> linearSystem = linearSystemReader.read();
 }
+
 void applyOptions(
 	CLI::App& app,
 	SolvingMethod& solvingMethod
@@ -17,8 +19,6 @@ void applyOptions(
 		->required()
 		->transform(CLI::CheckedTransformer(solvingMethodByString, CLI::ignore_case));
 }
-
-
 
 int main(int argc, char *argv[]) {
 	CLI::App app{"Linear Systems Solver"};

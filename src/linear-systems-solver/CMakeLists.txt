@@ -21,7 +21,12 @@ add_library(linear-system-solver
 	./LinearSystemSolver/SolvingMethod/SolvingMethod.cpp
 )
 
+add_library(linear-system-reader
+	./LinearSystemReader/LinearSystemReader.cpp
+)
+
 target_link_libraries(linear-systems-solver PRIVATE CLI11)
 target_link_libraries(linear-systems-solver PRIVATE linear-system-solver)
 target_link_libraries(linear-systems-solver PRIVATE matrix)
 target_link_libraries(linear-systems-solver PRIVATE linear-system)
+target_link_libraries(linear-systems-solver PRIVATE linear-system-reader)
