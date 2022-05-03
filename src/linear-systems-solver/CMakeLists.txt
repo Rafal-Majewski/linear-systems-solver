@@ -13,6 +13,7 @@ add_executable(linear-systems-solver
 
 add_library(linear-system
 	./LinearSystem/LinearSystem.cpp
+	./LinearSystem/LinearSystemSize/LinearSystemSize.cpp
 )
 
 

@@ -8,7 +8,8 @@
 
 void run(SolvingMethod solvingMethod) {
 	LinearSystemReader<float> linearSystemReader = LinearSystemReader<float>();
-	LinearSystem<float> linearSystem = linearSystemReader.read();
+	linearSystemReader.read();
+	//LinearSystem<float> linearSystem = 
 }
 
 void applyOptions(

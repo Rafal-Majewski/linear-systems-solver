@@ -14,7 +14,6 @@ class Matrix {
 	void throwIfOutOfBounds(int y, int x) const;
 	public:
 	operator std::string() const;
-	// ostream
 	friend std::ostream &operator<<(std::ostream &os, const Matrix<T> &matrix) {
 		os << std::string(matrix);
 		return os;
