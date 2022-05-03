@@ -13,6 +13,9 @@ class Matrix {
 	static bool areMatrixSizesEqual(const Matrix<T> &first, const Matrix<T> &second);
 	void throwIfOutOfBounds(int y, int x) const;
 	public:
+	T* operator[](int y) {
+		return values[y];
+	}
 	operator std::string() const;
 	friend std::ostream &operator<<(std::ostream &os, const Matrix<T> &matrix) {
 		os << std::string(matrix);

@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 
-class InvalidMatrixSizeException : public std::logic_error {
+class InvalidMatrixSizeException : public std::invalid_argument {
 	public:
 	InvalidMatrixSizeException(const char *a_message);
 };
