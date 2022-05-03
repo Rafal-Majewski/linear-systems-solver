@@ -1,6 +1,6 @@
 add_executable(test-matrix
 	./init.cpp
-	./test_Size.cpp
+	./test_MatrixSize.cpp
 	./test_Matrix.cpp
 )
 target_link_libraries(test-matrix PRIVATE gtest)

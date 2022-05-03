@@ -2,7 +2,7 @@
 #include <CLI/CLI.hpp>
 #include <LinearSystemSolver/SolvingMethod/SolvingMethod.h>
 #include <Matrix/Matrix.h>
-#include <Matrix/Size/Size.h>
+#include <Matrix/MatrixSize/MatrixSize.h>
 #include <LinearSystemReader/LinearSystemReader.h>
 
 

@@ -16,8 +16,7 @@ class LinearSystem {
 		// Matrix<T> coefficients,
 		std::vector<T> constants,
 		std::vector<std::string> variables
-	): isDone(false),
-	// coefficients(coefficients),
+	): coefficients(coefficients),
 	constants(constants),
 	variables(variables) {
 		updateIsDone();

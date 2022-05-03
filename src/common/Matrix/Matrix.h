@@ -1,7 +1,7 @@
 #ifndef MATRIX_H_INCLUDED
 #define MATRIX_H_INCLUDED
 
-#include "./Size/Size.h"
+#include "./MatrixSize/MatrixSize.h"
 #include "./InvalidMatrixSizeException/InvalidMatrixSizeException.h"
 #include <stdexcept>
 
@@ -9,8 +9,8 @@
 template <typename T>
 class Matrix {
 	T **values;
-	static void throwIfDifferentSizes(const Matrix<T> &first, const Matrix<T> &second);
-	static bool areSizesEqual(const Matrix<T> &first, const Matrix<T> &second);
+	static void throwIfDifferentMatrixSizes(const Matrix<T> &first, const Matrix<T> &second);
+	static bool areMatrixSizesEqual(const Matrix<T> &first, const Matrix<T> &second);
 	void throwIfOutOfBounds(int y, int x) const;
 	public:
 	operator std::string() const;
@@ -18,12 +18,12 @@ class Matrix {
 		os << std::string(matrix);
 		return os;
 	};
-	const Size size;
-	Matrix(Size a_size);
+	const MatrixSize size;
+	Matrix(MatrixSize a_size);
 	~Matrix();
-	static Matrix<T> unit(Size a_size);
-	static Matrix<T> fromValues(Size a_size, T **a_values);
-	static Matrix<T> fromValues(Size a_size, T *a_values);
+	static Matrix<T> unit(MatrixSize a_size);
+	static Matrix<T> fromValues(MatrixSize a_size, T **a_values);
+	static Matrix<T> fromValues(MatrixSize a_size, T *a_values);
 	T get(int y, int x) const;
 	void set(int y, int x, T value);
 	Matrix<T> transpose() const;
@@ -62,7 +62,7 @@ class Matrix {
 		if (lhs.size.columnsCount != rhs.size.rowsCount) {
 			throw InvalidMatrixSizeException("Matrixes cannot be multiplied");
 		}
-		Matrix<T> matrix = Matrix<T>(Size(lhs.size.rowsCount, rhs.size.columnsCount));
+		Matrix<T> matrix = Matrix<T>(MatrixSize(lhs.size.rowsCount, rhs.size.columnsCount));
 		for (int y = 0; y < matrix.size.rowsCount; ++y) {
 			for (int x = 0; x < matrix.size.columnsCount; ++x) {
 				matrix.values[y][x] = 0;
@@ -92,7 +92,7 @@ class Matrix {
 		return matrix;
 	}
 	friend bool operator==(const Matrix<T> &lhs, const Matrix<T> &rhs) {
-		if (!Matrix<T>::areSizesEqual(lhs, rhs)) {
+		if (!Matrix<T>::areMatrixSizesEqual(lhs, rhs)) {
 			return false;
 		}
 		for (int y = 0; y < lhs.size.rowsCount; ++y) {
@@ -105,7 +105,7 @@ class Matrix {
 		return true;
 	}
 	friend bool operator!=(const Matrix<T> &lhs, const Matrix<T> &rhs) {
-		if (!Matrix<T>::areSizesEqual(lhs, rhs)) {
+		if (!Matrix<T>::areMatrixSizesEqual(lhs, rhs)) {
 			return true;
 		}
 		for (int y = 0; y < lhs.size.rowsCount; ++y) {
@@ -142,13 +142,13 @@ Matrix<T>::operator std::string() const {
 }
 
 template <typename T>
-bool Matrix<T>::areSizesEqual(const Matrix<T> &first, const Matrix<T> &second) {
+bool Matrix<T>::areMatrixSizesEqual(const Matrix<T> &first, const Matrix<T> &second) {
 	return first.size == second.size;
 }
 
 template <typename T>
-void Matrix<T>::throwIfDifferentSizes(const Matrix<T> &first, const Matrix<T> &second) {
-	if (!Matrix<T>::areSizesEqual(first, second)) {
+void Matrix<T>::throwIfDifferentMatrixSizes(const Matrix<T> &first, const Matrix<T> &second) {
+	if (!Matrix<T>::areMatrixSizesEqual(first, second)) {
 		throw InvalidMatrixSizeException("Matrixes have different sizes");
 	}
 }
@@ -172,7 +172,7 @@ Matrix<T> Matrix<T>::copy() const {
 }
 
 template <typename T>
-Matrix<T>::Matrix(Size a_size) : size(a_size) {
+Matrix<T>::Matrix(MatrixSize a_size) : size(a_size) {
 	values = new T*[size.rowsCount];
 	for (int y = 0; y < size.rowsCount; ++y) {
 		values[y] = new T[size.columnsCount];
@@ -189,7 +189,7 @@ Matrix<T>::~Matrix() {
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::unit(Size a_size) {
+Matrix<T> Matrix<T>::unit(MatrixSize a_size) {
 	if (a_size.rowsCount != a_size.columnsCount) {
 		throw InvalidMatrixSizeException("Matrix must be square");
 	}
@@ -203,7 +203,7 @@ Matrix<T> Matrix<T>::unit(Size a_size) {
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::fromValues(Size a_size, T **a_values) {
+Matrix<T> Matrix<T>::fromValues(MatrixSize a_size, T **a_values) {
 	Matrix<T> matrix = Matrix<T>(a_size);
 	for (int y = 0; y < a_size.rowsCount; ++y) {
 		for (int x = 0; x < a_size.columnsCount; ++x) {
@@ -214,7 +214,7 @@ Matrix<T> Matrix<T>::fromValues(Size a_size, T **a_values) {
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::fromValues(Size a_size, T *a_values) {
+Matrix<T> Matrix<T>::fromValues(MatrixSize a_size, T *a_values) {
 	Matrix<T> matrix = Matrix<T>(a_size);
 	for (int y = 0, i = 0; y < a_size.rowsCount; ++y) {
 		for (int x = 0; x < a_size.columnsCount; ++x, ++i) {
@@ -238,7 +238,7 @@ void Matrix<T>::set(int y, int x, T value) {
 
 template <typename T>
 Matrix<T> Matrix<T>::transpose() const {
-	Matrix<T> matrix = Matrix<T>(Size(size.columnsCount, size.rowsCount));
+	Matrix<T> matrix = Matrix<T>(MatrixSize(size.columnsCount, size.rowsCount));
 	for (int y = 0; y < size.rowsCount; ++y) {
 		for (int x = 0; x < size.columnsCount; ++x) {
 			matrix.values[x][y] = values[y][x];

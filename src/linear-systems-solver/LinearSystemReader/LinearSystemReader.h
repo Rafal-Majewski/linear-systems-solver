@@ -23,4 +23,6 @@ template <typename T>
 LinearSystem<T> LinearSystemReader<T>::read() const {
 	LinearSystemSize size = readSize();
 	std::cout << size << std::endl;
+	LinearSystem<T> linearSystem(size);
+	return linearSystem;
 }
