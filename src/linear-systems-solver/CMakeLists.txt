@@ -26,6 +26,10 @@ add_library(linear-system-reader
 	./LinearSystemReader/LinearSystemReader.cpp
 )
 
+add_library(datatype
+	./Datatype/Datatype.cpp
+)
+
 target_link_libraries(linear-systems-solver PRIVATE CLI11)
 target_link_libraries(linear-systems-solver PRIVATE linear-system-solver)
 target_link_libraries(linear-systems-solver PRIVATE matrix)
