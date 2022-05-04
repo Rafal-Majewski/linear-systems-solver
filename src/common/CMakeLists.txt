@@ -6,7 +6,7 @@ add_library(matrix
 
 add_library(bigint
 	./BigInt/BigInt.cpp
-	./BigInt/utils/digitsOperations.cpp
+	./BigInt/BigIntDigits/BigIntDigits.cpp
 )
 
 add_library(rational

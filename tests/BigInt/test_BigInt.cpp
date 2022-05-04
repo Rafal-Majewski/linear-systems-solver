@@ -59,6 +59,42 @@ TEST(BigInt, addition_0_with_65) {
 	EXPECT_EQ(BigInt(65), bigint1 + bigint2);
 }
 
+TEST(BigInt, addition_33_with_itself) {
+	BigInt bigint(33);
+	EXPECT_EQ(BigInt(66), bigint + bigint);
+}
+
+TEST(BigInt, addition_5_with_itself) {
+	BigInt bigint(5);
+	EXPECT_EQ(BigInt(10), bigint + bigint);
+}
+
+TEST(BigInt, add_5_to_10) {
+	BigInt bigint1(10);
+	BigInt bigint2(5);
+	bigint1 += bigint2;
+	EXPECT_EQ(BigInt(15), bigint1);
+}
+
+TEST(BigInt, substract_6_from_10) {
+	BigInt bigint1(10);
+	BigInt bigint2(6);
+	bigint1 -= bigint2;
+	EXPECT_EQ(BigInt(4), bigint1);
+}
+TEST(BigInt, substract_6_from_10_rhs_unchanged) {
+	BigInt bigint1(10);
+	BigInt bigint2(6);
+	bigint1 -= bigint2;
+	EXPECT_EQ(BigInt(6), bigint2);
+}
+
+TEST(BigInt, add_itself_to_22) {
+	BigInt bigint(22);
+	bigint += bigint;
+	EXPECT_EQ(BigInt(44), bigint);
+}
+
 TEST(BigInt, multiplication_3_with_2) {
 	BigInt bigint1(3);
 	BigInt bigint2(2);
@@ -76,6 +112,31 @@ TEST(BigInt, division_100_with_103) {
 	BigInt bigint2(103);
 	EXPECT_EQ(BigInt(0), bigint1 / bigint2);
 }
+
+TEST(BigInt, greater_or_equal_5_with_5) {
+	BigInt bigint1(5);
+	BigInt bigint2(5);
+	EXPECT_TRUE(bigint1 >= bigint2);
+}
+
+TEST(BigInt, greater_or_equal_5_with_4) {
+	BigInt bigint1(5);
+	BigInt bigint2(4);
+	EXPECT_TRUE(bigint1 >= bigint2);
+}
+
+TEST(BigInt, greater_or_equal_5_with_6) {
+	BigInt bigint1(5);
+	BigInt bigint2(6);
+	EXPECT_FALSE(bigint1 >= bigint2);
+}
+
+TEST(BigInt, greater_or_equal_0_with_3) {
+	BigInt bigint1(0);
+	BigInt bigint2(3);
+	EXPECT_FALSE(bigint1 >= bigint2);
+}
+
 
 TEST(BigInt, division_73_with_3) {
 	BigInt bigint1(73);
@@ -494,4 +555,22 @@ TEST(BigInt, substraction_23_with_25) {
 	BigInt bigint1(23);
 	BigInt bigint2(25);
 	EXPECT_EQ(BigInt(-2), bigint1 - bigint2);
+}
+
+TEST(BigInt, substraction_0_with_0) {
+	BigInt bigint1(0);
+	BigInt bigint2(0);
+	EXPECT_EQ(BigInt(0), bigint1 - bigint2);
+}
+
+TEST(BigInt, substraction_0_with_35) {
+	BigInt bigint1(0);
+	BigInt bigint2(35);
+	EXPECT_EQ(BigInt(-35), bigint1 - bigint2);
+}
+
+TEST(BigInt, substraction_0_with_minus_44) {
+	BigInt bigint1(0);
+	BigInt bigint2(-44);
+	EXPECT_EQ(BigInt(44), bigint1 - bigint2);
 }
