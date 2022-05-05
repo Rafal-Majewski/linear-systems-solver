@@ -1,3 +1,6 @@
+#ifndef LINEAR_SYSTEM_READER_H_INCLUDED
+#define LINEAR_SYSTEM_READER_H_INCLUDED
+
 #include <LinearSystem/LinearSystem.h>
 #include <LinearSystem/LinearSystemSize/LinearSystemSize.h>
 #include <iostream>
@@ -25,7 +28,7 @@ LinearSystemSize LinearSystemReader<T>::readSize() const {
 template <typename T>
 std::vector<std::string> LinearSystemReader<T>::readVariables(LinearSystemSize size) const {
 	std::vector<std::string> variables(size.variablesCount);
-	for (int i = 0; i < size.variablesCount; i++) {
+	for (int i = 0; i < size.variablesCount; ++i) {
 		std::cin >> variables[i];
 	}
 	return variables;
@@ -37,9 +40,13 @@ std::pair<Matrix<T>, std::vector<T>> LinearSystemReader<T>::readCoefficientsAndC
 	std::vector<T> constants(size.equationsCount);
 	for (int ei = 0; ei < size.equationsCount; ++ei) {
 		for (int vi = 0; vi < size.variablesCount; ++vi) {
-			std::cin >> coefficients[ei][vi];
+			T coefficient;
+			std::cin >> coefficient;
+			coefficients.set(ei, vi, coefficient);
 		}
-		std::cin >> constants[ei];
+		T constant;
+		std::cin >> constant;
+		constants[ei] = constant;
 	}
 	return std::make_pair(coefficients, constants);
 }
@@ -47,7 +54,10 @@ std::pair<Matrix<T>, std::vector<T>> LinearSystemReader<T>::readCoefficientsAndC
 template <typename T>
 LinearSystem<T> LinearSystemReader<T>::read() const {
 	LinearSystemSize size = readSize();
-	auto [coefficients, constants] = readCoefficientsAndConstants(size);
 	std::vector<std::string> variables = readVariables(size);
+	auto [coefficients, constants] = readCoefficientsAndConstants(size);
+	
 	return LinearSystem<T>(coefficients, constants, variables);
 }
+
+#endif

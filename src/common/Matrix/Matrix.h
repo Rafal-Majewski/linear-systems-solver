@@ -4,18 +4,16 @@
 #include "./MatrixSize/MatrixSize.h"
 #include "./InvalidMatrixSizeException/InvalidMatrixSizeException.h"
 #include <stdexcept>
+#include <vector>
 
 
 template <typename T>
 class Matrix {
-	T **values;
-	static void throwIfDifferentMatrixSizes(const Matrix<T> &first, const Matrix<T> &second);
+	std::vector<std::vector<T>> values;
+	static void assertEqualMatrixSizes(const Matrix<T> &first, const Matrix<T> &second);
 	static bool areMatrixSizesEqual(const Matrix<T> &first, const Matrix<T> &second);
-	void throwIfOutOfBounds(int y, int x) const;
+	void assertInBounds(int y, int x) const;
 	public:
-	T* operator[](int y) {
-		return values[y];
-	}
 	operator std::string() const;
 	friend std::ostream &operator<<(std::ostream &os, const Matrix<T> &matrix) {
 		os << std::string(matrix);
@@ -23,10 +21,9 @@ class Matrix {
 	};
 	const MatrixSize size;
 	Matrix(MatrixSize a_size);
-	~Matrix();
+	// ~Matrix();
 	static Matrix<T> unit(MatrixSize a_size);
-	static Matrix<T> fromValues(MatrixSize a_size, T **a_values);
-	static Matrix<T> fromValues(MatrixSize a_size, T *a_values);
+	static Matrix<T> fromValues(MatrixSize a_size, std::vector<std::vector<T>> values);
 	T get(int y, int x) const;
 	void set(int y, int x, T value);
 	Matrix<T> transpose() const;
@@ -150,14 +147,14 @@ bool Matrix<T>::areMatrixSizesEqual(const Matrix<T> &first, const Matrix<T> &sec
 }
 
 template <typename T>
-void Matrix<T>::throwIfDifferentMatrixSizes(const Matrix<T> &first, const Matrix<T> &second) {
+void Matrix<T>::assertEqualMatrixSizes(const Matrix<T> &first, const Matrix<T> &second) {
 	if (!Matrix<T>::areMatrixSizesEqual(first, second)) {
 		throw InvalidMatrixSizeException("Matrixes have different sizes");
 	}
 }
 
 template <typename T>
-void Matrix<T>::throwIfOutOfBounds(int y, int x) const {
+void Matrix<T>::assertInBounds(int y, int x) const {
 	if (y < 0 || y >= size.rowsCount || x < 0 || x >= size.columnsCount) {
 		throw std::out_of_range("Out of bounds operation.");
 	}
@@ -176,20 +173,15 @@ Matrix<T> Matrix<T>::copy() const {
 
 template <typename T>
 Matrix<T>::Matrix(MatrixSize a_size) : size(a_size) {
-	values = new T*[size.rowsCount];
-	for (int y = 0; y < size.rowsCount; ++y) {
-		values[y] = new T[size.columnsCount];
-	}
+	values = std::vector<std::vector<T>>(size.rowsCount, std::vector<T>(size.columnsCount));
+	// values = new T*[size.rowsCount];
+	// for (int y = 0; y < size.rowsCount; ++y) {
+	// 	values[y] = new T[size.columnsCount];
+	// }
 }
 
 
-template <typename T>
-Matrix<T>::~Matrix() {
-	for (int y = 0; y < size.rowsCount; ++y) {
-		delete[] values[y];
-	}
-	delete[] values;
-}
+
 
 template <typename T>
 Matrix<T> Matrix<T>::unit(MatrixSize a_size) {
@@ -206,7 +198,7 @@ Matrix<T> Matrix<T>::unit(MatrixSize a_size) {
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::fromValues(MatrixSize a_size, T **a_values) {
+Matrix<T> Matrix<T>::fromValues(MatrixSize a_size, std::vector<std::vector<T>> a_values) {
 	Matrix<T> matrix = Matrix<T>(a_size);
 	for (int y = 0; y < a_size.rowsCount; ++y) {
 		for (int x = 0; x < a_size.columnsCount; ++x) {
@@ -216,26 +208,26 @@ Matrix<T> Matrix<T>::fromValues(MatrixSize a_size, T **a_values) {
 	return matrix;
 }
 
-template <typename T>
-Matrix<T> Matrix<T>::fromValues(MatrixSize a_size, T *a_values) {
-	Matrix<T> matrix = Matrix<T>(a_size);
-	for (int y = 0, i = 0; y < a_size.rowsCount; ++y) {
-		for (int x = 0; x < a_size.columnsCount; ++x, ++i) {
-			matrix.values[y][x] = a_values[i];
-		}
-	}
-	return matrix;
-}
+// template <typename T>
+// Matrix<T> Matrix<T>::fromValues(MatrixSize a_size, T *a_values) {
+// 	Matrix<T> matrix = Matrix<T>(a_size);
+// 	for (int y = 0, i = 0; y < a_size.rowsCount; ++y) {
+// 		for (int x = 0; x < a_size.columnsCount; ++x, ++i) {
+// 			matrix.values[y][x] = a_values[i];
+// 		}
+// 	}
+// 	return matrix;
+// }
 
 template <typename T>
 T Matrix<T>::get(int y, int x) const {
-	throwIfOutOfBounds(y, x);
+	assertInBounds(y, x);
 	return values[y][x];
 }
 
 template <typename T>
 void Matrix<T>::set(int y, int x, T value) {
-	throwIfOutOfBounds(y, x);
+	assertInBounds(y, x);
 	values[y][x] = value;
 }
 

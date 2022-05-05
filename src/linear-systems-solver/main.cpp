@@ -1,12 +1,29 @@
 #include <iostream>
 #include <CLI/CLI.hpp>
+#include <LinearSystemSolver/LinearSystemSolver.h>
 #include <LinearSystemSolver/SolvingMethod/SolvingMethod.h>
+
 #include <Matrix/Matrix.h>
 #include <Matrix/MatrixSize/MatrixSize.h>
 #include <LinearSystemReader/LinearSystemReader.h>
 #include <Datatype/Datatype.h>
 #include <Rational/Rational.h>
 #include <BigInt/BigInt.h>
+#include <LinearSystemPrinter/LinearSystemPrinter.h>
+
+template <typename T>
+void solve(
+	LinearSystemSolver<T> linearSystemSolver
+) {
+	LinearSystemPrinter<T> linearSystemPrinter = LinearSystemPrinter<T>();
+	while(!linearSystemSolver.getIsDone()) {
+		// linearSystemSolver.print();
+		// linearSystemSolver.solveStep();
+	}
+	linearSystemPrinter.print(linearSystemSolver.getLinearSystem());
+
+}
+
 
 template <typename T>
 void runForDatatype(
@@ -14,6 +31,8 @@ void runForDatatype(
 ) {
 	LinearSystemReader<T> linearSystemReader;
 	LinearSystem<T> linearSystem = linearSystemReader.read();
+	LinearSystemSolver<T> linearSystemSolver(solvingMethod, linearSystem);
+	solve(linearSystemSolver);
 }
 
 

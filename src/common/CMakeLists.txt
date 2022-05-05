@@ -13,6 +13,6 @@ add_library(rational
 	./Rational/Rational.cpp
 )
 
-target_link_libraries(matrix
-	bigint
-)
+# target_link_libraries(matrix
+# 	bigint
+# )

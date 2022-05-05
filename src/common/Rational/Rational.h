@@ -160,7 +160,7 @@ Rational<T>& Rational<T>::operator+=(const Rational<T> &rhs) {
 
 template <typename T>
 Rational<T>::operator std::string() const {
-	return std::to_string(numerator) + "/" + std::to_string(denominator);
+	return std::string(numerator) + "/" + std::string(denominator);
 }
 
 #endif
