@@ -1,12 +1,16 @@
 #include <gtest/gtest.h>
 #include <Matrix/MatrixSize/MatrixSize.h>
 #include <Matrix/Matrix.h>
+#include <vector>
 
 
 TEST(Matrix, fromValues) {
 	Matrix<int> matrix = Matrix<int>::fromValues(
 		MatrixSize(2, 2),
-		new int[4]{1, 2, 3, 4}
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{3, 4}
+		})
 	);
 	EXPECT_EQ(matrix.get(0, 0), 1);
 	EXPECT_EQ(matrix.get(0, 1), 2);
@@ -17,7 +21,11 @@ TEST(Matrix, fromValues) {
 TEST(Matrix, scalar_multiplication_left) {
 	Matrix<int> matrix = Matrix<int>::fromValues(
 		MatrixSize(2, 2),
-		new int[4]{1, 2, 3, 4}
+		// new int[4]{1, 2, 3, 4}
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{3, 4}
+		})
 	);
 	Matrix<int> result = 2 * matrix;
 	EXPECT_EQ(result.get(0, 0), 2);
@@ -29,7 +37,11 @@ TEST(Matrix, scalar_multiplication_left) {
 TEST(Matrix, scalar_multiplication_right) {
 	Matrix<int> matrix = Matrix<int>::fromValues(
 		MatrixSize(2, 2),
-		new int[4]{1, 2, 3, 4}
+		// new int[4]{1, 2, 3, 4}
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{3, 4}
+		})
 	);
 	Matrix<int> result = matrix * 2;
 	EXPECT_EQ(result.get(0, 0), 2);
@@ -41,11 +53,18 @@ TEST(Matrix, scalar_multiplication_right) {
 TEST(Matrix, multiplication_quadratic) {
 	Matrix<int> matrix1 = Matrix<int>::fromValues(
 		MatrixSize(2, 2),
-		new int[4]{1, 2, 3, 4}
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{3, 4}
+		})
 	);
 	Matrix<int> matrix2 = Matrix<int>::fromValues(
 		MatrixSize(2, 2),
-		new int[4]{5, 6, 7, 8}
+		// new int[4]{5, 6, 7, 8}
+		std::vector<std::vector<int>>({
+			{5, 6},
+			{7, 8}
+		})
 	);
 	Matrix<int> result = matrix1 * matrix2;
 	EXPECT_EQ(result.get(0, 0), 19);
@@ -58,18 +77,27 @@ TEST(Matrix, multiplication_quadratic) {
 TEST(Matrix, multiplication_rectangular) {
 	Matrix<int> matrix1 = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	Matrix<int> matrix2 = Matrix<int>::fromValues(
 		MatrixSize(2, 3),
-		new int[6]{
-			2, 5, 1,
-			6, 7, 1
-		}
+		// new int[6]{
+		// 	2, 5, 1,
+		// 	6, 7, 1
+		// }
+		std::vector<std::vector<int>>({
+			{2, 5, 1},
+			{6, 7, 1}
+		})
 	);
 	Matrix<int> result = matrix1 * matrix2;
 	EXPECT_EQ(result.get(0, 0), 14);
@@ -86,11 +114,19 @@ TEST(Matrix, multiplication_rectangular) {
 TEST(Matrix, addition) {
 	Matrix<int> matrix1 = Matrix<int>::fromValues(
 		MatrixSize(2, 2),
-		new int[4]{1, 2, 3, 4}
+		// new int[4]{1, 2, 3, 4}
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{3, 4}
+		})
 	);
 	Matrix<int> matrix2 = Matrix<int>::fromValues(
 		MatrixSize(2, 2),
-		new int[4]{5, 6, 7, 8}
+		// new int[4]{5, 6, 7, 8}
+		std::vector<std::vector<int>>({
+			{5, 6},
+			{7, 8}
+		})
 	);
 	Matrix<int> result = matrix1 + matrix2;
 	EXPECT_EQ(result.get(0, 0), 6);
@@ -102,11 +138,19 @@ TEST(Matrix, addition) {
 TEST(Matrix, subtraction) {
 	Matrix<int> matrix1 = Matrix<int>::fromValues(
 		MatrixSize(2, 2),
-		new int[4]{1, 2, 3, 4}
+		// new int[4]{1, 2, 3, 4}
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{3, 4}
+		})
 	);
 	Matrix<int> matrix2 = Matrix<int>::fromValues(
 		MatrixSize(2, 2),
-		new int[4]{52, 3, 22, 1}
+		// new int[4]{52, 3, 22, 1}
+		std::vector<std::vector<int>>({
+			{52, 3},
+			{22, 1}
+		})
 	);
 	Matrix<int> result = matrix1 - matrix2;
 	EXPECT_EQ(result.get(0, 0), -51);
@@ -118,11 +162,16 @@ TEST(Matrix, subtraction) {
 TEST(Matrix, transpose) {
 	Matrix<int> matrix = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	Matrix<int> result = matrix.transpose();
 	EXPECT_EQ(result.get(0, 0), 1);
@@ -136,11 +185,16 @@ TEST(Matrix, transpose) {
 TEST(Matrix, out_of_bounds_get_right) {
 	Matrix<int> matrix = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	EXPECT_THROW(matrix.get(0, 2), std::out_of_range);
 }
@@ -149,11 +203,16 @@ TEST(Matrix, out_of_bounds_get_right) {
 TEST(Matrix, out_of_bounds_get_left) {
 	Matrix<int> matrix = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	EXPECT_THROW(matrix.get(0, -1), std::out_of_range);
 }
@@ -161,11 +220,16 @@ TEST(Matrix, out_of_bounds_get_left) {
 TEST(Matrix, out_of_bounds_get_top) {
 	Matrix<int> matrix = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	EXPECT_THROW(matrix.get(-1, 0), std::out_of_range);
 }
@@ -173,11 +237,16 @@ TEST(Matrix, out_of_bounds_get_top) {
 TEST(Matrix, out_of_bounds_get_bottom) {
 	Matrix<int> matrix = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	EXPECT_THROW(matrix.get(3, 0), std::out_of_range);
 }
@@ -185,11 +254,16 @@ TEST(Matrix, out_of_bounds_get_bottom) {
 TEST(Matrix, out_of_bounds_set) {
 	Matrix<int> matrix = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	EXPECT_THROW(matrix.set(0, 2, 0), std::out_of_range);
 }
@@ -197,19 +271,29 @@ TEST(Matrix, out_of_bounds_set) {
 TEST(Matrix, equality_true) {
 	Matrix<int> matrix1 = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	Matrix<int> matrix2 = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	EXPECT_TRUE(matrix1 == matrix2);
 }
@@ -218,19 +302,29 @@ TEST(Matrix, equality_true) {
 TEST(Matrix, inequality_false) {
 	Matrix<int> matrix1 = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	Matrix<int> matrix2 = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	EXPECT_FALSE(matrix1 != matrix2);
 }
@@ -238,18 +332,27 @@ TEST(Matrix, inequality_false) {
 TEST(Matrix, equality_false_different_size) {
 	Matrix<int> matrix1 = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	Matrix<int> matrix2 = Matrix<int>::fromValues(
 		MatrixSize(2, 2),
-		new int[4]{
-			1, 2,
-			0, 1
-		}
+		// new int[4]{
+		// 	1, 2,
+		// 	0, 1
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1}
+		})
 	);
 	EXPECT_FALSE(matrix1 == matrix2);
 }
@@ -257,18 +360,27 @@ TEST(Matrix, equality_false_different_size) {
 TEST(Matrix, inequality_true_different_size) {
 	Matrix<int> matrix1 = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	Matrix<int> matrix2 = Matrix<int>::fromValues(
 		MatrixSize(2, 2),
-		new int[4]{
-			1, 2,
-			0, 1
-		}
+		// new int[4]{
+		// 	1, 2,
+		// 	0, 1
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1}
+		})
 	);
 	EXPECT_TRUE(matrix1 != matrix2);
 }
@@ -276,19 +388,29 @@ TEST(Matrix, inequality_true_different_size) {
 TEST(Matrix, equality_false_different_values) {
 	Matrix<int> matrix1 = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	Matrix<int> matrix2 = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 2
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 2
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 2}
+		})
 	);
 	EXPECT_FALSE(matrix1 == matrix2);
 }
@@ -296,19 +418,29 @@ TEST(Matrix, equality_false_different_values) {
 TEST(Matrix, inequality_true_different_values) {
 	Matrix<int> matrix1 = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 3
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 3
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 3}
+		})
 	);
 	Matrix<int> matrix2 = Matrix<int>::fromValues(
 		MatrixSize(3, 2),
-		new int[6]{
-			1, 2,
-			0, 1,
-			2, 2
-		}
+		// new int[6]{
+		// 	1, 2,
+		// 	0, 1,
+		// 	2, 2
+		// }
+		std::vector<std::vector<int>>({
+			{1, 2},
+			{0, 1},
+			{2, 2}
+		})
 	);
 	EXPECT_TRUE(matrix1 != matrix2);
 }

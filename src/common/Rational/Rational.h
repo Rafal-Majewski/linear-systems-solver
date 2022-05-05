@@ -163,4 +163,9 @@ Rational<T>::operator std::string() const {
 	return std::string(numerator) + "/" + std::string(denominator);
 }
 
+template <>
+Rational<int>::operator std::string() const {
+	return std::to_string(numerator) + "/" + std::to_string(denominator);
+}
+
 #endif

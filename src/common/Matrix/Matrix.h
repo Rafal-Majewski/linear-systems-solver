@@ -24,6 +24,7 @@ class Matrix {
 	// ~Matrix();
 	static Matrix<T> unit(MatrixSize a_size);
 	static Matrix<T> fromValues(MatrixSize a_size, std::vector<std::vector<T>> values);
+	static Matrix<T> fromValues(std::vector<std::vector<T>> values);
 	T get(int y, int x) const;
 	void set(int y, int x, T value);
 	Matrix<T> transpose() const;
@@ -202,6 +203,22 @@ Matrix<T> Matrix<T>::fromValues(MatrixSize a_size, std::vector<std::vector<T>> a
 	Matrix<T> matrix = Matrix<T>(a_size);
 	for (int y = 0; y < a_size.rowsCount; ++y) {
 		for (int x = 0; x < a_size.columnsCount; ++x) {
+			matrix.values[y][x] = a_values[y][x];
+		}
+	}
+	return matrix;
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::fromValues(std::vector<std::vector<T>> a_values) {
+	Matrix<T> matrix = Matrix<T>(
+		MatrixSize(
+			a_values.size(),
+			a_values.size() == 0 ? 0 : a_values[0].size()
+		)
+	);
+	for (int y = 0; y < matrix.size.rowsCount; ++y) {
+		for (int x = 0; x < matrix.size.columnsCount; ++x) {
 			matrix.values[y][x] = a_values[y][x];
 		}
 	}
