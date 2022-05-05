@@ -14,6 +14,8 @@ class BigIntDigits {
 	std::vector<char> digits;
 	void addOnPosition(const BigIntDigits& other, int pos);
 	public:
+	BigIntDigits(std::string str);
+	BigIntDigits();
 	char get(int pos) const;
 	void set(int pos, char digit);
 	void incrementDigit(int pos);
@@ -31,8 +33,8 @@ class BigIntDigits {
 // 	friend BigIntDigits operator>>(const BigIntDigits& lhs, int rhs);
 	friend bool operator==(const BigIntDigits& lhs, const BigIntDigits& rhs);
 	friend bool operator!=(const BigIntDigits& lhs, const BigIntDigits& rhs);
-// 	friend bool operator<(const BigIntDigits& lhs, const BigIntDigits& rhs);
-// 	friend bool operator>(const BigIntDigits& lhs, const BigIntDigits& rhs);
+	friend bool operator<(const BigIntDigits& lhs, const BigIntDigits& rhs);
+	friend bool operator>(const BigIntDigits& lhs, const BigIntDigits& rhs);
 	friend bool operator<=(const BigIntDigits& lhs, const BigIntDigits& rhs);
 	friend bool operator>=(const BigIntDigits& lhs, const BigIntDigits& rhs);
 	BigIntDigits& operator+=(const BigIntDigits);

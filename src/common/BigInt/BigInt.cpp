@@ -1,7 +1,9 @@
 #include "./BigInt.h"
 
 
-
+BigInt::BigInt() {
+	sign = 0;
+}
 
 BigInt::BigInt(int a_number) {
 	if (a_number == 0) {
@@ -81,7 +83,6 @@ bool operator>=(const BigInt& bigint1, const BigInt& bigint2) {
 	if (bigint1.sign == 1 && bigint2.sign == 0) {
 		return true;
 	}
-
 	if (bigint1.sign == -1 && bigint2.sign == 0) {
 		return false;
 	}
@@ -90,6 +91,36 @@ bool operator>=(const BigInt& bigint1, const BigInt& bigint2) {
 	}
 	// if (bigint1.sign == 0 && bigint2.sign == 0) {
 		return true;
+	// }
+}
+
+bool operator<(const BigInt& bigint1, const BigInt& bigint2) {
+	if (bigint1.sign == -1 && bigint2.sign == 1) {
+		return true;
+	}
+	if (bigint1.sign == 1 && bigint2.sign == -1) {
+		return false;
+	}
+	if (bigint1.sign == -1 && bigint2.sign == -1) {
+		return bigint1.digits > bigint2.digits;
+	}
+	if (bigint1.sign == 1 && bigint2.sign == 1) {
+		return bigint1.digits < bigint2.digits;
+	}
+	if (bigint1.sign == 0 && bigint2.sign == 1) {
+		return true;
+	}
+	if (bigint1.sign == 1 && bigint2.sign == 0) {
+		return false;
+	}
+	if (bigint1.sign == -1 && bigint2.sign == 0) {
+		return true;
+	}
+	if (bigint1.sign == 0 && bigint2.sign == -1) {
+		return false;
+	}
+	// if (bigint1.sign == 0 && bigint2.sign == 0) {
+		return false;
 	// }
 }
 
@@ -254,4 +285,37 @@ BigInt operator%(const BigInt& bigint1, const BigInt& bigint2) {
 	BigInt result(bigint1);
 	result %= bigint2;
 	return result;
+}
+
+
+BigInt BigInt::operator-() const {
+	BigInt result(*this);
+	result.sign *= -1;
+	return result;
+}
+
+
+BigInt::BigInt(std::string str) {
+	if (str[0] == '-') {
+		sign = -1;
+		str.erase(0, 1);
+	} else {
+		sign = 1;
+	}
+	digits = BigIntDigits(str);
+	if (digits.size() == 0) {
+		sign = 0;
+	}
+}
+
+
+BigInt BigInt::gcd(const BigInt& bigint) const {
+	BigInt a(*this);
+	BigInt b(bigint);
+	while (b.sign != 0) {
+		BigInt temp(b);
+		b = a % b;
+		a = temp;
+	}
+	return a;
 }

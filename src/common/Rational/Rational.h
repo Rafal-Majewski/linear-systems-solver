@@ -12,10 +12,14 @@ struct Rational {
 	T numerator;
 	T denominator;
 	void reduce();
+	inline T calculateGcd();
 	public:
 	T getNumerator() const;
 	T getDenominator() const;
-	Rational(T anumerator, T adenominator);
+	// Rational();
+	// Rational(T a_numerator);
+	Rational(T a_numerator = 0, T a_denominator = 1);
+	Rational(std::string str);
 
 
 	// Because of the compiler errors
@@ -70,11 +74,30 @@ struct Rational {
 	Rational<T>& operator--();
 	Rational<T> operator++(int count);
 	Rational<T> operator--(int count);
-	friend std::ostream& operator<<(std::ostream& os, const Rational& rational) {
+	friend std::ostream& operator<<(std::ostream& os, const Rational<T>& rational) {
 		os << std::string(rational);
 		return os;
 	};
+	friend std::istream& operator>>(std::istream& is, Rational<T>& rational) {
+		std::string str;
+		is >> str;
+		rational = Rational<T>(str);
+		return is;
+	};
 };
+
+template <typename T>
+Rational<T>::Rational(std::string str) {
+	std::string::size_type pos = str.find('/');
+	if (pos == std::string::npos) {
+		numerator = T(str);
+		denominator = 1;
+	} else {
+		numerator = T(str.substr(0, pos));
+		denominator = T(str.substr(pos + 1));
+	}
+	reduce();
+}
 
 template <typename T>
 T Rational<T>::getNumerator() const {
@@ -94,10 +117,33 @@ void Rational<T>::reduce() {
 	} else if (denominator == 0) {
 		throw std::invalid_argument("Denominator cannot be 0");
 	}
-	T gcd = std::gcd(numerator, denominator);
+	T gcd = calculateGcd();
 	numerator /= gcd;
 	denominator /= gcd;
 }
+
+template <typename T>
+T Rational<T>::calculateGcd() {
+	return numerator.gcd(denominator);
+}
+
+template <>
+int Rational<int>::calculateGcd() {
+	return std::gcd(numerator, denominator);
+}
+
+// template <>
+// void Rational<int>::reduce() {
+// 	if (denominator < 0) {
+// 		numerator = -numerator;
+// 		denominator = -denominator;
+// 	} else if (denominator == 0) {
+// 		throw std::invalid_argument("Denominator cannot be 0");
+// 	}
+// 	int gcd = std::gcd(numerator, denominator);
+// 	numerator /= gcd;
+// 	denominator /= gcd;
+// }
 
 template <typename T>
 Rational<T>::Rational(T anumerator, T adenominator) : numerator(anumerator), denominator(adenominator) {

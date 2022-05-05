@@ -196,6 +196,42 @@ bool operator>=(const BigIntDigits& lhs, const BigIntDigits& rhs) {
 	return true;
 }
 
+bool operator>(const BigIntDigits& lhs, const BigIntDigits& rhs) {
+	if (lhs.digits.size() > rhs.digits.size()) {
+		return true;
+	}
+	if (lhs.digits.size() < rhs.digits.size()) {
+		return false;
+	}
+	for (int i = lhs.digits.size() - 1; i >= 0; --i) {
+		if (lhs.digits[i] > rhs.digits[i]) {
+			return true;
+		}
+		if (lhs.digits[i] < rhs.digits[i]) {
+			return false;
+		}
+	}
+	return false;
+}
+
+bool operator<(const BigIntDigits& lhs, const BigIntDigits& rhs) {
+	if (lhs.digits.size() < rhs.digits.size()) {
+		return true;
+	}
+	if (lhs.digits.size() > rhs.digits.size()) {
+		return false;
+	}
+	for (int i = lhs.digits.size() - 1; i >= 0; --i) {
+		if (lhs.digits[i] < rhs.digits[i]) {
+			return true;
+		}
+		if (lhs.digits[i] > rhs.digits[i]) {
+			return false;
+		}
+	}
+	return false;
+}
+
 bool operator<=(const BigIntDigits& lhs, const BigIntDigits& rhs) {
 	if (lhs.digits.size() < rhs.digits.size()) {
 		return true;
@@ -546,3 +582,13 @@ BigIntDigits::operator std::string() const {
 // ) {
 
 // }
+
+
+BigIntDigits::BigIntDigits(std::string str) {
+	// todo	
+}
+
+
+BigIntDigits::BigIntDigits() {
+	// todo
+}

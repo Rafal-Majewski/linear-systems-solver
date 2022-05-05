@@ -14,8 +14,10 @@ struct BigInt {
 		// 0 for no sign (zero)
 	BigIntDigits digits;
 	public:
+	BigInt();
 	BigInt(int number);
 	BigInt(const BigInt& other);
+	BigInt(std::string str);
 	operator std::string() const;
 	friend std::ostream& operator<<(std::ostream& os, const BigInt& bigint);
 	friend BigInt operator+(const BigInt& bigint1, const BigInt& bigint2);
@@ -30,7 +32,7 @@ struct BigInt {
 	friend bool operator==(const BigInt& bigint1, const BigInt& bigint2);
 	friend bool operator!=(const BigInt& bigint1, const BigInt& bigint2);
 	friend BigInt operator%(const BigInt& bigint1, const BigInt& bigint2);
-	// friend bool operator<(const BigInt& bigint1, const BigInt& bigint2);
+	friend bool operator<(const BigInt& bigint1, const BigInt& bigint2);
 	// friend bool operator>(const BigInt& bigint1, const BigInt& bigint2);
 	// friend bool operator<=(const BigInt& bigint1, const BigInt& bigint2);
 	friend bool operator>=(const BigInt& bigint1, const BigInt& bigint2);
@@ -38,6 +40,8 @@ struct BigInt {
 	// BigInt& operator--();
 	// BigInt operator++(int count);
 	// BigInt operator--(int count);
+	BigInt operator-() const;
+	BigInt gcd(const BigInt& bigint) const;
 };
 
 #endif
