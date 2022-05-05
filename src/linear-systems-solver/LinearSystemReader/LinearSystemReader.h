@@ -5,9 +5,8 @@
 
 template <typename T>
 class LinearSystemReader {
-	protected:
+	private:
 	LinearSystemSize readSize() const;
-	virtual T readElement() const;
 	std::pair<Matrix<T>, std::vector<T>> readCoefficientsAndConstants(LinearSystemSize size) const;
 	std::vector<std::string> readVariables(LinearSystemSize size) const;
 

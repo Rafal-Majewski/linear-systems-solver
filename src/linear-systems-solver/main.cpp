@@ -3,20 +3,34 @@
 #include <LinearSystemSolver/SolvingMethod/SolvingMethod.h>
 #include <Matrix/Matrix.h>
 #include <Matrix/MatrixSize/MatrixSize.h>
-#include "./linearsystemreaders/FloatLinearSystemReader/FloatLinearSystemReader.h"
+#include <LinearSystemReader/LinearSystemReader.h>
 #include <Datatype/Datatype.h>
 #include <Rational/Rational.h>
 #include <BigInt/BigInt.h>
+
+template <typename T>
+void runForDatatype(
+	SolvingMethod solvingMethod
+) {
+	LinearSystemReader<T> linearSystemReader;
+	LinearSystem<T> linearSystem = linearSystemReader.read();
+}
 
 
 void run(
 	SolvingMethod solvingMethod,
 	Datatype datatype
 ) {
-	LinearSystemReader linearSystemReader = FloatLinearSystemReader();
-		// : throw std::runtime_error("Unknown datatype");
-	linearSystemReader.read();
-	//LinearSystem<float> linearSystem = 
+	switch (datatype) {
+		case Datatype::RATIONAL:
+			return runForDatatype<Rational<BigInt>>(solvingMethod);
+		case Datatype::FLOAT:
+			return runForDatatype<float>(solvingMethod);
+		case Datatype::DOUBLE:
+			return runForDatatype<double>(solvingMethod);
+		default:
+			throw std::runtime_error("Unknown datatype");
+	}
 }
 
 void applyOptions(
