@@ -1,8 +1,8 @@
 #ifndef LINEAR_SYSTEM_READER_H_INCLUDED
 #define LINEAR_SYSTEM_READER_H_INCLUDED
 
-#include <LinearSystem/LinearSystem.h>
-#include <LinearSystem/LinearSystemSize/LinearSystemSize.h>
+#include <LinearSystem/LinearSystem.hpp>
+#include <LinearSystem/LinearSystemSize/LinearSystemSize.hpp>
 #include <iostream>
 
 

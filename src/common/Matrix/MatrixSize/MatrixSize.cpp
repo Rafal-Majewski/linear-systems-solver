@@ -1,4 +1,4 @@
-#include "MatrixSize.h"
+#include "./MatrixSize.hpp"
 
 
 MatrixSize::MatrixSize(int a_rowsCount, int a_columnsCount) : rowsCount(a_rowsCount), columnsCount(a_columnsCount) {

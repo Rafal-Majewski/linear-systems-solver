@@ -1,4 +1,4 @@
-#include "./BigInt.h"
+#include "./BigInt.hpp"
 
 
 BigInt::BigInt() {
@@ -138,13 +138,38 @@ BigInt& BigInt::operator+=(const BigInt rhs) {
 	char digitsComparisonResult = digits.compare(rhs.digits);
 	if (digitsComparisonResult == 0) {
 		sign = 0;
-		digits.zero();
+		digits = 0;
 		return *this;
 	}
 	sign *= digitsComparisonResult;
 	digits -= rhs.digits;
 	return *this;
 
+}
+
+BigInt& BigInt::operator>>=(int shift) {
+	digits >>= shift;
+	if (digits.size() == 0) {
+		sign = 0;
+	}
+	return *this;
+}
+
+BigInt& BigInt::operator<<=(int shift) {
+	digits <<= shift;
+	return *this;
+}
+
+BigInt BigInt::operator>>(int shift) const {
+	BigInt result(*this);
+	result >>= shift;
+	return result;
+}
+
+BigInt BigInt::operator<<(int shift) const {
+	BigInt result(*this);
+	result <<= shift;
+	return result;
 }
 
 BigInt& BigInt::operator-=(const BigInt rhs) {
@@ -163,7 +188,7 @@ BigInt& BigInt::operator-=(const BigInt rhs) {
 	char digitsComparisonResult = digits.compare(rhs.digits);
 	if (digitsComparisonResult == 0) {
 		sign = 0;
-		digits.zero();
+		digits = 0;
 		return *this;
 	}
 	sign *= digitsComparisonResult;
@@ -206,7 +231,7 @@ bool operator!=(const BigInt& lhs, const BigInt& rhs) {
 BigInt& BigInt::operator*=(const BigInt rhs) {
 	if (sign == 0 || rhs.sign == 0) {
 		sign = 0;
-		digits.zero();
+		digits = 0;
 		return *this;
 	}
 	sign *= rhs.sign;

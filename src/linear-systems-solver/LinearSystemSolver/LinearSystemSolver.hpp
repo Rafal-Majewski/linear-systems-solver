@@ -1,8 +1,8 @@
 #ifndef LINEAR_SYSTEM_SOLVER_H_INCLUDED
 #define LINEAR_SYSTEM_SOLVER_H_INCLUDED
 
-#include "./SolvingMethod/SolvingMethod.h"
-#include "../LinearSystem/LinearSystem.h"
+#include "./SolvingMethod/SolvingMethod.hpp"
+#include "../LinearSystem/LinearSystem.hpp"
 #include <iostream>
 
 

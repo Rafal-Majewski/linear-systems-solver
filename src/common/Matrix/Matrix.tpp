@@ -1,4 +1,4 @@
-#include "./Matrix.h"
+#include "./Matrix.hpp"
 
 
 template <typename T>
@@ -96,24 +96,16 @@ Matrix<T>::Matrix(const Matrix<T> &other) : size(other.size), values(other.value
 template <typename T>
 Matrix<T> Matrix<T>::operator+(const Matrix<T> &other) const {
 	assertEqualMatrixSize(other);
-	Matrix<T> result(size);
-	for (int y = 0; y < size.rowsCount; ++y) {
-		for (int x = 0; x < size.columnsCount; ++x) {
-			result.values[y][x] = values[y][x] + other.values[y][x];
-		}
-	}
+	Matrix<T> result(*this);
+	result += other;
 	return result;
 }
 
 template <typename T>
 Matrix<T> Matrix<T>::operator-(const Matrix<T> &other) const {
 	assertEqualMatrixSize(other);
-	Matrix<T> result(size);
-	for (int y = 0; y < size.rowsCount; ++y) {
-		for (int x = 0; x < size.columnsCount; ++x) {
-			result.values[y][x] = values[y][x] - other.values[y][x];
-		}
-	}
+	Matrix<T> result(*this);
+	result -= other;
 	return result;
 }
 
@@ -192,10 +184,10 @@ Matrix<T> Matrix<T>::operator/(T scalar) const {
 
 template <typename T>
 Matrix<T> Matrix<T>::operator-() const {
-	Matrix<T> result(size);
+	Matrix<T> result(*this);
 	for (int y = 0; y < size.rowsCount; ++y) {
 		for (int x = 0; x < size.columnsCount; ++x) {
-			result.values[y][x] = -values[y][x];
+			result.values[y][x] = -result.values[y][x];
 		}
 	}
 	return result;
@@ -203,11 +195,17 @@ Matrix<T> Matrix<T>::operator-() const {
 
 template <typename T>
 Matrix<T> Matrix<T>::operator+() const {
-	return Matrix<T>(*this);
+	Matrix<T> result(*this);
+	for (int y = 0; y < size.rowsCount; ++y) {
+		for (int x = 0; x < size.columnsCount; ++x) {
+			result.values[y][x] = +result.values[y][x];
+		}
+	}
+	return result;
 }
 
 template <typename T>
-Matrix<T>& Matrix<T>::operator+=(const Matrix<T> &other) {
+Matrix<T>& Matrix<T>::operator+=(Matrix<T> other) {
 	assertEqualMatrixSize(other);
 	for (int y = 0; y < size.rowsCount; ++y) {
 		for (int x = 0; x < size.columnsCount; ++x) {
@@ -218,7 +216,7 @@ Matrix<T>& Matrix<T>::operator+=(const Matrix<T> &other) {
 }
 
 template <typename T>
-Matrix<T>& Matrix<T>::operator-=(const Matrix<T> &other) {
+Matrix<T>& Matrix<T>::operator-=(Matrix<T> other) {
 	assertEqualMatrixSize(other);
 	for (int y = 0; y < size.rowsCount; ++y) {
 		for (int x = 0; x < size.columnsCount; ++x) {

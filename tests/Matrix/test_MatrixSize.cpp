@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <Matrix/MatrixSize/MatrixSize.h>
+#include <Matrix/MatrixSize/MatrixSize.hpp>
 
 
 TEST(MatrixSize, constructor) {

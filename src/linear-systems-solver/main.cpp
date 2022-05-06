@@ -1,15 +1,15 @@
 #include <iostream>
 #include <CLI/CLI.hpp>
-#include <LinearSystemSolver/LinearSystemSolver.h>
-#include <LinearSystemSolver/SolvingMethod/SolvingMethod.h>
+#include <LinearSystemSolver/LinearSystemSolver.hpp>
+#include <LinearSystemSolver/SolvingMethod/SolvingMethod.hpp>
 
-#include <Matrix/Matrix.h>
-#include <Matrix/MatrixSize/MatrixSize.h>
-#include <LinearSystemReader/LinearSystemReader.h>
-#include <Datatype/Datatype.h>
-#include <Rational/Rational.h>
-#include <BigInt/BigInt.h>
-#include <LinearSystemPrinter/LinearSystemPrinter.h>
+#include <Matrix/Matrix.hpp>
+#include <Matrix/MatrixSize/MatrixSize.hpp>
+#include <LinearSystemReader/LinearSystemReader.hpp>
+#include <Datatype/Datatype.hpp>
+#include <Rational/Rational.hpp>
+#include <BigInt/BigInt.hpp>
+#include <LinearSystemPrinter/LinearSystemPrinter.hpp>
 
 template <typename T>
 void solve(

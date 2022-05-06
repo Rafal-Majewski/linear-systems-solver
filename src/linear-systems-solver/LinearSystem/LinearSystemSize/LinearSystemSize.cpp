@@ -1,4 +1,4 @@
-#include "./LinearSystemSize.h"
+#include "./LinearSystemSize.hpp"
 
 
 LinearSystemSize::LinearSystemSize(int a_equationsCount, int a_variablesCount) : equationsCount(a_equationsCount), variablesCount(a_variablesCount) {

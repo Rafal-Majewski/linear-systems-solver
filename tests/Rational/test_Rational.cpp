@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <Rational/Rational.h>
+#include <Rational/Rational.hpp>
 
 
 TEST(Rational, constructor_1_with_2) {

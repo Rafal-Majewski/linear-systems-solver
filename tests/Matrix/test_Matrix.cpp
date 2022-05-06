@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include <Matrix/MatrixSize/MatrixSize.h>
-#include <Matrix/Matrix.h>
+#include <Matrix/MatrixSize/MatrixSize.hpp>
+#include <Matrix/Matrix.hpp>
 #include <vector>
 
 

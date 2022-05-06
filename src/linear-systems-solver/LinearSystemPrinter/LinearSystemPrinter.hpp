@@ -1,7 +1,7 @@
 #ifndef LINEAR_SYSTEM_PRINTER_H_INCLUDED
 #define LINEAR_SYSTEM_PRINTER_H_INCLUDED
 
-#include <LinearSystem/LinearSystem.h>
+#include <LinearSystem/LinearSystem.hpp>
 
 
 template <typename T>

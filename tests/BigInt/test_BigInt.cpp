@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <BigInt/BigInt.h>
+#include <BigInt/BigInt.hpp>
 
 
 TEST(BigInt, toString_0) {
@@ -82,6 +82,7 @@ TEST(BigInt, substract_6_from_10) {
 	bigint1 -= bigint2;
 	EXPECT_EQ(BigInt(4), bigint1);
 }
+
 TEST(BigInt, substract_6_from_10_rhs_unchanged) {
 	BigInt bigint1(10);
 	BigInt bigint2(6);
@@ -573,4 +574,29 @@ TEST(BigInt, substraction_0_with_minus_44) {
 	BigInt bigint1(0);
 	BigInt bigint2(-44);
 	EXPECT_EQ(BigInt(44), bigint1 - bigint2);
+}
+
+TEST(BigInt, 34_right_shift_1) {
+	BigInt bigint1(34);
+	EXPECT_EQ(BigInt(17), bigint1 >> 1);
+}
+
+TEST(BigInt, 34_right_shift_2) {
+	BigInt bigint1(34);
+	EXPECT_EQ(BigInt(8), bigint1 >> 2);
+}
+
+TEST(BigInt, 34_right_shift_3) {
+	BigInt bigint1(34);
+	EXPECT_EQ(BigInt(4), bigint1 >> 3);
+}
+
+TEST(BigInt, 153_right_shift_1) {
+	BigInt bigint1(153);
+	EXPECT_EQ(BigInt(76), bigint1 >> 1);
+}
+
+TEST(BigInt, 153_right_shift_34) {
+	BigInt bigint1(153);
+	EXPECT_EQ(BigInt(0), bigint1 >> 34);
 }

@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 #include "./InvalidLinearSystemSizeException/InvalidLinearSystemSizeException.h"
-#include <Matrix/Matrix.h>
+#include <Matrix/Matrix.hpp>
 #include <iostream>
 
 

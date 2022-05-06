@@ -1,8 +1,8 @@
 #ifndef MATRIX_H_INCLUDED
 #define MATRIX_H_INCLUDED
 
-#include "./MatrixSize/MatrixSize.h"
-#include "./InvalidMatrixSizeException/InvalidMatrixSizeException.h"
+#include "./MatrixSize/MatrixSize.hpp"
+#include "./InvalidMatrixSizeException/InvalidMatrixSizeException.hpp"
 #include <stdexcept>
 #include <vector>
 
@@ -38,8 +38,8 @@ class Matrix {
 	Matrix<T> operator+() const;
 	Matrix<T> operator*(T scalar) const;
 	Matrix<T> operator/(T scalar) const;
-	Matrix<T>& operator+=(const Matrix<T> &other);
-	Matrix<T>& operator-=(const Matrix<T> &other);
+	Matrix<T>& operator+=(Matrix<T> other);
+	Matrix<T>& operator-=(Matrix<T> other);
 	Matrix<T>& operator*=(T scalar);
 	Matrix<T>& operator/=(T scalar);
 };

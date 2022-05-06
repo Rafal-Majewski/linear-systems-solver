@@ -2,7 +2,7 @@
 #define BIG_INT_H_INCLUDED
 
 #include <vector>
-#include "./BigIntDigits/BigIntDigits.h"
+#include "./BigIntDigits/BigIntDigits.hpp"
 #include <sstream>
 
 
@@ -14,6 +14,10 @@ struct BigInt {
 		// 0 for no sign (zero)
 	BigIntDigits digits;
 	public:
+	BigInt& operator>>=(int shift);
+	BigInt& operator<<=(int shift);
+	BigInt operator>>(int shift) const;
+	BigInt operator<<(int shift) const;
 	BigInt();
 	BigInt(int number);
 	BigInt(const BigInt& other);
