@@ -15,7 +15,7 @@ ctest
 ## Usage
 ### Solving linear systems
 ```
-./linear-systems-solver arg1Name=arg1Value arg2Name=arg2Value ...
+./linear-systems-solver -arg1Name arg1Value -arg2Name arg2Value ...
 ```
 #### Parameters
 - `method`: The method to use to solve the linear system. Possible values are:
