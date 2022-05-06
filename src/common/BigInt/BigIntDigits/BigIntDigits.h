@@ -16,6 +16,7 @@ class BigIntDigits {
 	public:
 	BigIntDigits(std::string str);
 	BigIntDigits();
+	BigIntDigits(unsigned int num);
 	char get(int pos) const;
 	void set(int pos, char digit);
 	void incrementDigit(int pos);

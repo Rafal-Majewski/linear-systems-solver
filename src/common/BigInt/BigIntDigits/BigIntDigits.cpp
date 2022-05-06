@@ -585,10 +585,29 @@ BigIntDigits::operator std::string() const {
 
 
 BigIntDigits::BigIntDigits(std::string str) {
-	// todo	
+	BigIntDigits result;
+	std::vector<char> decimalDigits;
+	for (int i = str.length() - 1; i >= 0; --i) {
+		decimalDigits.push_back(str[i] - '0');
+	}
+	BigIntDigits multiplier(1);
+	for (int i = 0; i < decimalDigits.size(); ++i) {
+		result += multiplier * decimalDigits[i];
+		multiplier *= 10;
+	}
+	digits = result.digits;
 }
 
 
 BigIntDigits::BigIntDigits() {
 	// todo
+}
+
+BigIntDigits::BigIntDigits(unsigned int number) {
+	BigIntDigits result;
+	while (number > 0) {
+		result.digits.push_back(number & 1);
+		number >>= 1;
+	}
+	digits = result.digits;
 }

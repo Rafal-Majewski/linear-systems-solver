@@ -17,10 +17,7 @@ BigInt::BigInt(int a_number) {
 	} else {
 		sign = 1;
 	}
-	while (number > 0) {
-		digits.pushMostImportant(number & 1);
-		number >>= 1;
-	}
+	digits = BigIntDigits(number);
 }
 
 BigInt::BigInt(const BigInt& other) {
@@ -294,15 +291,17 @@ BigInt BigInt::operator-() const {
 	return result;
 }
 
+#include <iostream>
 
 BigInt::BigInt(std::string str) {
 	if (str[0] == '-') {
 		sign = -1;
-		str.erase(0, 1);
 	} else {
 		sign = 1;
 	}
-	digits = BigIntDigits(str);
+	digits = BigIntDigits(
+		str.substr(str[0] == '-' ? 1 : 0)
+	);
 	if (digits.size() == 0) {
 		sign = 0;
 	}
