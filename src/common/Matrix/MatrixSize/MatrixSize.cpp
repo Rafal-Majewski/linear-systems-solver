@@ -12,6 +12,10 @@ bool MatrixSize::operator!=(const MatrixSize &other) const {
 	return rowsCount != other.rowsCount || columnsCount != other.columnsCount;
 }
 
-MatrixSize::operator std::string() const {
-	return "MatrixSize(" + std::to_string(rowsCount) + ", " + std::to_string(columnsCount) + ")";
+MatrixSize MatrixSize::transposed() const {
+	return MatrixSize(columnsCount, rowsCount);
+}
+
+MatrixSize MatrixSize::multipliedBy(MatrixSize other) const {
+	return MatrixSize(rowsCount, other.columnsCount);
 }

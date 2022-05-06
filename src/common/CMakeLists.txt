@@ -1,5 +1,5 @@
 add_library(matrix
-	./Matrix/Matrix.cpp
+	./Matrix/Matrix.tpp
 	./Matrix/MatrixSize/MatrixSize.cpp
 	./Matrix/InvalidMatrixSizeException/InvalidMatrixSizeException.cpp
 )

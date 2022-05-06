@@ -9,7 +9,8 @@ struct MatrixSize {
 	MatrixSize(int a_rowsCount, int a_columnsCount);
 	bool operator!=(const MatrixSize &other) const;
 	bool operator==(const MatrixSize &other) const;
-	operator std::string() const;
+	MatrixSize transposed() const;
+	MatrixSize multipliedBy(MatrixSize other) const;
 };
 
 #endif
