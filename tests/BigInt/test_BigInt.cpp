@@ -600,3 +600,75 @@ TEST(BigInt, 153_right_shift_34) {
 	BigInt bigint1(153);
 	EXPECT_EQ(BigInt(0), bigint1 >> 34);
 }
+
+TEST(BigInt, 52_greater_than_34) {
+	BigInt bigint1(52);
+	BigInt bigint2(34);
+	EXPECT_TRUE(bigint1 > bigint2);
+}
+
+TEST(BigInt, 34_greater_than_52) {
+	BigInt bigint1(34);
+	BigInt bigint2(52);
+	EXPECT_FALSE(bigint1 > bigint2);
+}
+
+TEST(BigInt, 34_greater_than_34) {
+	BigInt bigint1(34);
+	BigInt bigint2(34);
+	EXPECT_FALSE(bigint1 > bigint2);
+}
+
+TEST(BigInt, 34_greater_than_0) {
+	BigInt bigint1(34);
+	BigInt bigint2(0);
+	EXPECT_TRUE(bigint1 > bigint2);
+}
+
+TEST(BigInt, 0_greater_than_34) {
+	BigInt bigint1(0);
+	BigInt bigint2(34);
+	EXPECT_FALSE(bigint1 > bigint2);
+}
+
+TEST(BigInt, 0_greater_than_0) {
+	BigInt bigint1(0);
+	BigInt bigint2(0);
+	EXPECT_FALSE(bigint1 > bigint2);
+}
+
+TEST(BigInt, 34_greater_than_minus_34) {
+	BigInt bigint1(34);
+	BigInt bigint2(-34);
+	EXPECT_TRUE(bigint1 > bigint2);
+}
+
+TEST(BigInt, minus_34_greater_than_minus_34) {
+	BigInt bigint1(-34);
+	BigInt bigint2(-34);
+	EXPECT_FALSE(bigint1 > bigint2);
+}
+
+TEST(BigInt, minus_34_greater_than_minus_52) {
+	BigInt bigint1(-34);
+	BigInt bigint2(-52);
+	EXPECT_TRUE(bigint1 > bigint2);
+}
+
+TEST(BigInt, minus_34_greater_than_52) {
+	BigInt bigint1(-34);
+	BigInt bigint2(52);
+	EXPECT_FALSE(bigint1 > bigint2);
+}
+
+TEST(BigInt, minus_34_lower_than_minus_52) {
+	BigInt bigint1(-34);
+	BigInt bigint2(-52);
+	EXPECT_FALSE(bigint1 < bigint2);
+}
+
+TEST(BigInt, minus_52_lower_than_minus_34) {
+	BigInt bigint1(-52);
+	BigInt bigint2(-34);
+	EXPECT_TRUE(bigint1 < bigint2);
+}

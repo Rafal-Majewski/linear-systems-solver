@@ -23,29 +23,32 @@ struct BigInt {
 	BigInt(const BigInt& other);
 	BigInt(std::string str);
 	operator std::string() const;
-	friend std::ostream& operator<<(std::ostream& os, const BigInt& bigint);
-	friend BigInt operator+(const BigInt& bigint1, const BigInt& bigint2);
-	friend BigInt operator-(const BigInt& bigint1, const BigInt& bigint2);
-	friend BigInt operator*(const BigInt& bigint1, const BigInt& bigint2);
-	friend BigInt operator/(const BigInt& bigint1, const BigInt& bigint2);
+	BigInt operator+(const BigInt& other) const;
+	BigInt operator-(const BigInt& other) const;
+	BigInt operator*(const BigInt& other) const;
+	BigInt operator/(const BigInt& other) const;
+	BigInt operator%(const BigInt& other) const;
+	bool operator==(const BigInt& other) const;
+	bool operator!=(const BigInt& other) const;
+	bool operator<(const BigInt& other) const;
+	bool operator>(const BigInt& other) const;
+	bool operator<=(const BigInt& other) const;
+	bool operator>=(const BigInt& other) const;
 	BigInt& operator+=(const BigInt bigint);
 	BigInt& operator-=(const BigInt bigint);
 	BigInt& operator*=(const BigInt bigint);
 	BigInt& operator/=(const BigInt bigint);
 	BigInt& operator%=(const BigInt bigint);
-	friend bool operator==(const BigInt& bigint1, const BigInt& bigint2);
-	friend bool operator!=(const BigInt& bigint1, const BigInt& bigint2);
-	friend BigInt operator%(const BigInt& bigint1, const BigInt& bigint2);
-	friend bool operator<(const BigInt& bigint1, const BigInt& bigint2);
-	// friend bool operator>(const BigInt& bigint1, const BigInt& bigint2);
-	// friend bool operator<=(const BigInt& bigint1, const BigInt& bigint2);
-	friend bool operator>=(const BigInt& bigint1, const BigInt& bigint2);
-	// BigInt& operator++();
-	// BigInt& operator--();
-	// BigInt operator++(int count);
-	// BigInt operator--(int count);
+	BigInt& operator++();
+	BigInt operator++(int);
+	BigInt& operator--();
+	BigInt operator--(int);
 	BigInt operator-() const;
+	BigInt operator+() const;
+	char compare(const BigInt& other) const;
 	BigInt gcd(const BigInt& bigint) const;
 };
+
+std::ostream& operator<<(std::ostream& os, const BigInt& bigint);
 
 #endif
