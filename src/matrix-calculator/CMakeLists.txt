@@ -7,4 +7,4 @@ add_executable(matrix-calculator
 )
 
 
-target_link_libraries(matrix-calculator PRIVATE CLI11)
+target_link_libraries(matrix-calculator PUBLIC CLI11)
