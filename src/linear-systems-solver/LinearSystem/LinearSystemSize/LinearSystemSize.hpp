@@ -10,7 +10,6 @@ struct LinearSystemSize {
 	LinearSystemSize(int a_equationsCount, int a_variablesCount);
 	bool operator!=(const LinearSystemSize &other) const;
 	bool operator==(const LinearSystemSize &other) const;
-	operator std::string() const;
 	friend std::ostream &operator<<(std::ostream &os, const LinearSystemSize &size);
 };
 

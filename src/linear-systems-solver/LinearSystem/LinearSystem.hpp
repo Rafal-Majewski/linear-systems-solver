@@ -4,10 +4,9 @@
 // #include <matrix/Matrix.h>
 #include <vector>
 #include <string>
-#include "./InvalidLinearSystemSizeException/InvalidLinearSystemSizeException.h"
+#include "./InvalidLinearSystemSizeException/InvalidLinearSystemSizeException.hpp"
 #include <Matrix/Matrix.hpp>
 #include <iostream>
-
 
 
 template <typename T>
