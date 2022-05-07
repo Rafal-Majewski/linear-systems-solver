@@ -1,7 +1,6 @@
 #ifndef MATRIX_SIZE_H_INCLUDED
 #define MATRIX_SIZE_H_INCLUDED
 
-#include <string>
 
 struct MatrixSize {
 	const int rowsCount;

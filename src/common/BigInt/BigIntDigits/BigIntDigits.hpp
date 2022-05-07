@@ -2,7 +2,7 @@
 #define BIG_INT_DIGITS_H_INCLUDED
 
 #include <vector>
-#include <sstream>
+#include <iostream>
 
 
 class BigIntDigits {

@@ -1,5 +1,5 @@
 add_library(matrix
-	./Matrix/Matrix.tpp
+	./Matrix/Matrix.cpp
 	./Matrix/MatrixSize/MatrixSize.cpp
 	./Matrix/InvalidMatrixSizeException/InvalidMatrixSizeException.cpp
 )
@@ -12,7 +12,3 @@ add_library(bigint
 add_library(rational
 	./Rational/Rational.cpp
 )
-
-# target_link_libraries(matrix
-# 	bigint
-# )

@@ -3,7 +3,6 @@
 
 #include "./MatrixSize/MatrixSize.hpp"
 #include "./InvalidMatrixSizeException/InvalidMatrixSizeException.hpp"
-#include <stdexcept>
 #include <vector>
 
 
