@@ -1,5 +1,6 @@
 #ifndef SOLVING_METHOD_H_INCLUDED
 #define SOLVING_METHOD_H_INCLUDED
+
 #include <map>
 #include <string>
 
@@ -9,6 +10,7 @@ enum SolvingMethod {
 	PG,
 	FG,
 };
+
 std::map<std::string, SolvingMethod> solvingMethodByString = {
 	{"g", SolvingMethod::G},
 	{"pg", SolvingMethod::PG},

@@ -2,7 +2,6 @@
 #include <CLI/CLI.hpp>
 #include <LinearSystemSolver/LinearSystemSolver.hpp>
 #include <LinearSystemSolver/SolvingMethod/SolvingMethod.hpp>
-
 #include <Matrix/Matrix.hpp>
 #include <Matrix/MatrixSize/MatrixSize.hpp>
 #include <LinearSystemReader/LinearSystemReader.hpp>
@@ -10,6 +9,7 @@
 #include <Rational/Rational.hpp>
 #include <BigInt/BigInt.hpp>
 #include <LinearSystemPrinter/LinearSystemPrinter.hpp>
+
 
 template <typename T>
 void solve(

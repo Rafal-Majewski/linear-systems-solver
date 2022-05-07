@@ -35,8 +35,6 @@ add_library(linear-system-printer
 	./LinearSystemPrinter/LinearSystemPrinter.cpp
 )
 
-target_link_libraries(linear-system PUBLIC matrix)
-target_link_libraries(linear-system-printer PUBLIC linear-system)
 target_link_libraries(linear-systems-solver PUBLIC CLI11)
 target_link_libraries(linear-systems-solver PUBLIC linear-system-solver)
 target_link_libraries(linear-systems-solver PUBLIC matrix)
