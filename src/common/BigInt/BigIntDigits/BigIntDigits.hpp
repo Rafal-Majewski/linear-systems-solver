@@ -17,7 +17,7 @@ class BigIntDigits {
 	void preventPositiveOverflow(int pos);
 	void preventNegativeOverflow(int pos);
 	public:
-	BigIntDigits(std::string str);
+	explicit BigIntDigits(std::string str);
 	BigIntDigits();
 	BigIntDigits(unsigned int num);
 	char get(int pos) const;
@@ -51,7 +51,7 @@ class BigIntDigits {
 	BigIntDigits& operator<<=(int shift);
 	char compare(const BigIntDigits& other) const;
 	std::pair<BigIntDigits, BigIntDigits> divideWithRemainder(const BigIntDigits& divisor) const;
-	operator std::string() const;
+	explicit operator std::string() const;
 };
 
 std::ostream& operator<<(std::ostream& os, const BigIntDigits& bigintdigits);

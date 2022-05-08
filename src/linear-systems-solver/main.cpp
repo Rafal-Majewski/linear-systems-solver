@@ -52,7 +52,6 @@ void runWithDatatype(
 	SolvingMethod solvingMethod,
 	bool isVerbose
 ) {
-	// pointer to function
 	void (*solveStepCallback)(
 		LinearSystemSolver<T> &,
 		LinearSystemPrinter<T> &
@@ -94,7 +93,7 @@ void applyOptions(
 	CLI::App& app,
 	SolvingMethod& solvingMethod,
 	Datatype& datatype,
-	bool isVerbose
+	bool& isVerbose
 ) {
 	app.add_option("-m,--method", solvingMethod, "Solving method")
 		->required()
@@ -102,7 +101,7 @@ void applyOptions(
 	app.add_option("-d,--datatype", datatype, "Datatype")
 		->required()
 		->transform(CLI::CheckedTransformer(datatypeByString, CLI::ignore_case));
-	app.add_option("-v,--verbose", isVerbose, "Print all steps");
+	app.add_flag("-v,--verbose", isVerbose, "Print all steps");
 }
 
 int main(int argc, char *argv[]) {

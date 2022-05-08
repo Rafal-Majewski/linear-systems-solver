@@ -17,7 +17,7 @@ struct Rational {
 	Rational(T a_numerator, T a_denominator);
 	Rational(T a_numerator);
 	Rational();
-	Rational(std::string str);
+	explicit Rational(std::string str);
 	Rational<T> operator+(const Rational<T> &other) const;
 	Rational<T> operator-(const Rational<T> &other) const;
 	Rational<T> operator*(const Rational<T> &other) const;
@@ -29,7 +29,9 @@ struct Rational {
 	Rational<T>& operator*=(Rational<T> other);
 	Rational<T>& operator/=(Rational<T> other);
 	bool operator==(const Rational<T> &other) const;
+	// bool operator==(int other) const;
 	bool operator!=(const Rational<T> &other) const;
+	// bool operator!=(int other) const;
 	bool operator<(const Rational<T> &other) const;
 	bool operator>(const Rational<T> &other) const;
 	bool operator<=(const Rational<T> &other) const;
@@ -39,7 +41,25 @@ struct Rational {
 	Rational<T>& operator--();
 	Rational<T> operator++(int);
 	Rational<T> operator--(int);
-	operator std::string() const;
+	explicit operator std::string() const;
+
+	// overload operators for int specifically
+	// to prevent ambiguity
+	Rational<T> operator+(int other) const;
+	Rational<T> operator-(int other) const;
+	Rational<T> operator*(int other) const;
+	Rational<T> operator/(int other) const;
+	bool operator==(int other) const;
+	bool operator!=(int other) const;
+	bool operator<(int other) const;
+	bool operator>(int other) const;
+	bool operator<=(int other) const;
+	bool operator>=(int other) const;
+	char compare(int other) const;
+	Rational<T>& operator+=(int other);
+	Rational<T>& operator-=(int other);
+	Rational<T>& operator*=(int other);
+	Rational<T>& operator/=(int other);
 };
 
 template <typename T>

@@ -55,6 +55,11 @@ bool Rational<T>::operator==(const Rational<T> &other) const {
 	return compare(other) == 0;
 }
 
+// template <typename T>
+// bool Rational<T>::operator==(int other) const {
+// 	return compare(Rational<T>(other)) == 0;
+// }
+
 template <typename T>
 bool Rational<T>::operator<(const Rational<T> &other) const {
 	return compare(other) < 0;
@@ -146,7 +151,6 @@ template <typename T>
 Rational<T>::Rational() : numerator(0), denominator(1) {
 }
 
-
 template <typename T>
 Rational<T>& Rational<T>::operator+=(Rational<T> rhs) {
 	numerator = numerator * rhs.denominator + rhs.numerator * denominator;
@@ -178,4 +182,62 @@ std::istream& operator>>(std::istream& is, Rational<T>& rational) {
 	is >> str;
 	rational = Rational<T>(str);
 	return is;
+}
+
+template <typename T>
+bool Rational<T>::operator==(int other) const {
+	return *this == Rational<T>(other);
+}
+template <typename T>
+bool Rational<T>::operator!=(int other) const {
+	return *this != Rational<T>(other);
+}
+
+template <typename T>
+bool Rational<T>::operator<(int other) const {
+	return *this < Rational<T>(other);
+}
+
+template <typename T>
+bool Rational<T>::operator>(int other) const {
+	return *this > Rational<T>(other);
+}
+
+template <typename T>
+bool Rational<T>::operator<=(int other) const {
+	return *this <= Rational<T>(other);
+}
+
+template <typename T>
+bool Rational<T>::operator>=(int other) const {
+	return *this >= Rational<T>(other);
+}
+
+template <typename T>
+char Rational<T>::compare(int other) const {
+	return compare(Rational<T>(other));
+}
+
+template <typename T>
+Rational<T>& Rational<T>::operator+=(int other) {
+	*this += Rational<T>(other);
+	return this;
+}
+
+template <typename T>
+Rational<T>& Rational<T>::operator-=(int other) {
+	*this -= Rational<T>(other);
+	return this;
+}
+
+template <typename T>
+Rational<T>& Rational<T>::operator*=(int other) {
+	*this *= Rational<T>(other);
+	return this;
+}
+
+template <typename T>
+Rational<T>& Rational<T>::operator/=(int other) {
+	*this /= Rational<T>(other);
+	return this;
 }
