@@ -1,25 +1,25 @@
 #ifndef LINEAR_SYSTEM_SOLVER_H_INCLUDED
 #define LINEAR_SYSTEM_SOLVER_H_INCLUDED
 
-#include "./SolvingMethod/SolvingMethod.hpp"
+
 #include <LinearSystem/LinearSystem.hpp>
-#include <iostream>
+#include "./LinearSystemSolvingAlgorithm/LinearSystemSolvingAlgorithm.hpp"
 
 
 template <typename T>
 class LinearSystemSolver {
 	private:
 	const LinearSystem<T> linearSystem;
-	bool isDone = false;
-	void updateIsDone();
+	LinearSystemSolvingAlgorithm<T> *algorithm;
+	bool isDone;
 	public:
 	bool getIsDone() const;
 	LinearSystem<T> getLinearSystem() const;
-	const SolvingMethod solvingMethod;
 	LinearSystemSolver(
-		SolvingMethod solvingMethod,
-		LinearSystem<T> linearSystem
+		LinearSystem<T> linearSystem,
+		LinearSystemSolvingAlgorithm<T> *algorithm
 	);
+	void solveStep();
 };
 
 #include "./LinearSystemSolver.tpp"

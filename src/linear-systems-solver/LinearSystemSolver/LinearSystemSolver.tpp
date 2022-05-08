@@ -1,5 +1,11 @@
 #include "./LinearSystemSolver.hpp"
+#include "./LinearSystemSolvingAlgorithm/LinearSystemSolvingAlgorithm.hpp"
 
+
+template <typename T>
+bool LinearSystemSolver<T>::getIsDone() const {
+	return isDone;
+}
 
 template <typename T>
 LinearSystem<T> LinearSystemSolver<T>::getLinearSystem() const {
@@ -7,22 +13,15 @@ LinearSystem<T> LinearSystemSolver<T>::getLinearSystem() const {
 }
 
 template <typename T>
-void LinearSystemSolver<T>::updateIsDone() {
-	// todo
-	isDone = true;
+LinearSystemSolver<T>::LinearSystemSolver(
+	LinearSystem<T> linearSystem,
+	LinearSystemSolvingAlgorithm<T> *algorithm
+) : linearSystem(linearSystem), algorithm(algorithm) {
+
+	isDone = algorithm->checkIsAlreadyDone();
 }
 
-
-
 template <typename T>
-LinearSystemSolver<T>::LinearSystemSolver(
-	SolvingMethod solvingMethod,
-	LinearSystem<T> linearSystem
-) : solvingMethod(solvingMethod), linearSystem(linearSystem) {
-	updateIsDone();
-};
-
-template <typename T>
-bool LinearSystemSolver<T>::getIsDone() const {
-	return isDone;
+void LinearSystemSolver<T>::solveStep() {
+	isDone = algorithm->solveStep();
 }

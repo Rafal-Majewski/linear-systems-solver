@@ -17,10 +17,14 @@ add_library(linear-system
 	./LinearSystem/InvalidLinearSystemSizeException/InvalidLinearSystemSizeException.cpp
 )
 
+add_library(solving-method
+	./SolvingMethod/SolvingMethod.cpp
+)
+
 
 add_library(linear-system-solver
 	./LinearSystemSolver/LinearSystemSolver.cpp
-	./LinearSystemSolver/SolvingMethod/SolvingMethod.cpp
+	./LinearSystemSolver/LinearSystemSolvingAlgorithm/LinearSystemSolvingAlgorithm.cpp
 )
 
 add_library(linear-system-reader
@@ -34,7 +38,7 @@ add_library(datatype
 add_library(linear-system-printer
 	./LinearSystemPrinter/LinearSystemPrinter.cpp
 )
-
+target_link_libraries(linear-system-solver PUBLIC linear-system)
 target_link_libraries(linear-systems-solver PUBLIC CLI11)
 target_link_libraries(linear-systems-solver PUBLIC linear-system-solver)
 target_link_libraries(linear-systems-solver PUBLIC matrix)

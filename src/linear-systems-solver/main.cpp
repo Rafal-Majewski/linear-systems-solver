@@ -1,7 +1,7 @@
 #include <iostream>
 #include <CLI/CLI.hpp>
 #include <LinearSystemSolver/LinearSystemSolver.hpp>
-#include <LinearSystemSolver/SolvingMethod/SolvingMethod.hpp>
+#include <SolvingMethod/SolvingMethod.hpp>
 #include <Matrix/Matrix.hpp>
 #include <Matrix/MatrixSize/MatrixSize.hpp>
 #include <LinearSystemReader/LinearSystemReader.hpp>
@@ -10,43 +10,79 @@
 #include <BigInt/BigInt.hpp>
 #include <LinearSystemPrinter/LinearSystemPrinter.hpp>
 
+// #include <LinearSystemSolver/implementations/LinearSystemSolverG/LinearSystemSolverG.hpp>
+// #include <LinearSystemSolver/implementations/LinearSystemSolverPG/LinearSystemSolverPG.hpp>
+// #include <LinearSystemSolver/implementations/LinearSystemSolverFG/LinearSystemSolverFG.hpp>
+
 
 template <typename T>
 void solve(
-	LinearSystemSolver<T> linearSystemSolver
+	LinearSystemSolver<T> &linearSystemSolver,
+	void (*solveStepCallback)(LinearSystemSolver<T> &, LinearSystemPrinter<T> &)
 ) {
 	LinearSystemPrinter<T> linearSystemPrinter = LinearSystemPrinter<T>();
 	while(!linearSystemSolver.getIsDone()) {
-		// linearSystemSolver.print();
-		// linearSystemSolver.solveStep();
+		solveStepCallback(linearSystemSolver, linearSystemPrinter);
 	}
 	linearSystemPrinter.print(linearSystemSolver.getLinearSystem());
+}
 
+template <typename T>
+void solveStepDefaultCallback(
+	LinearSystemSolver<T> &linearSystemSolver,
+	LinearSystemPrinter<T> &linearSystemPrinter
+) {
+	linearSystemSolver.solveStep();
+}
+
+template <typename T>
+void solveStepVerboseCallback(
+	LinearSystemSolver<T> &linearSystemSolver,
+	LinearSystemPrinter<T> &linearSystemPrinter
+) {
+	linearSystemPrinter.print(linearSystemSolver.getLinearSystem());
+	linearSystemSolver.solveStep();
 }
 
 
+
 template <typename T>
-void runForDatatype(
-	SolvingMethod solvingMethod
+void runWithDatatype(
+	SolvingMethod solvingMethod,
+	bool isVerbose
 ) {
+	// pointer to function
+	void (*solveStepCallback)(
+		LinearSystemSolver<T> &,
+		LinearSystemPrinter<T> &
+	);
+	solveStepCallback = isVerbose ? &solveStepVerboseCallback<T> : &solveStepDefaultCallback<T>;
 	LinearSystemReader<T> linearSystemReader;
 	LinearSystem<T> linearSystem = linearSystemReader.read();
-	LinearSystemSolver<T> linearSystemSolver(solvingMethod, linearSystem);
-	solve(linearSystemSolver);
+	LinearSystemSolver<T> *linearSystemSolver = nullptr;
+	switch(solvingMethod) {
+		// case SolvingMethod::G:
+		// 	linearSystemSolver = new LinearSystemSolverG<T>(linearSystem);
+		// 	break;
+		default:
+			throw std::runtime_error("Unknown solving method");
+	}
+	solve(*linearSystemSolver, *solveStepCallback);
 }
 
 
 void run(
 	SolvingMethod solvingMethod,
-	Datatype datatype
+	Datatype datatype,
+	bool isVerbose
 ) {
 	switch (datatype) {
 		case Datatype::RATIONAL:
-			return runForDatatype<Rational<BigInt>>(solvingMethod);
+			return runWithDatatype<Rational<BigInt>>(solvingMethod, isVerbose);
 		case Datatype::FLOAT:
-			return runForDatatype<float>(solvingMethod);
+			return runWithDatatype<float>(solvingMethod, isVerbose);
 		case Datatype::DOUBLE:
-			return runForDatatype<double>(solvingMethod);
+			return runWithDatatype<double>(solvingMethod, isVerbose);
 		default:
 			throw std::runtime_error("Unknown datatype");
 	}
@@ -55,7 +91,8 @@ void run(
 void applyOptions(
 	CLI::App& app,
 	SolvingMethod& solvingMethod,
-	Datatype& datatype
+	Datatype& datatype,
+	bool isVerbose
 ) {
 	app.add_option("-m,--method", solvingMethod, "Solving method")
 		->required()
@@ -63,6 +100,7 @@ void applyOptions(
 	app.add_option("-d,--datatype", datatype, "Datatype")
 		->required()
 		->transform(CLI::CheckedTransformer(datatypeByString, CLI::ignore_case));
+	app.add_option("-v,--verbose", isVerbose, "Print all steps");
 }
 
 int main(int argc, char *argv[]) {
@@ -70,9 +108,10 @@ int main(int argc, char *argv[]) {
 
 	SolvingMethod solvingMethod;
 	Datatype datatype;
-	applyOptions(app, solvingMethod, datatype);
+	bool isVerbose;
+	applyOptions(app, solvingMethod, datatype, isVerbose);
 	CLI11_PARSE(app, argc, argv);
-	run(solvingMethod, datatype);
+	run(solvingMethod, datatype, isVerbose);
 
 	return 0;
 }
