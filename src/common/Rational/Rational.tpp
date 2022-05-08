@@ -194,7 +194,9 @@ Rational<T>& Rational<T>::operator-=(int other) {
 
 template <typename T>
 Rational<T>& Rational<T>::operator-=(Rational<T> other) {
-	*this -= other;
+	numerator = numerator * other.denominator - other.numerator * denominator;
+	denominator *= other.denominator;
+	reduce();
 	return *this;
 }
 
@@ -206,7 +208,9 @@ Rational<T>& Rational<T>::operator*=(int other) {
 
 template <typename T>
 Rational<T>& Rational<T>::operator*=(Rational<T> other) {
-	*this *= other;
+	numerator *= other.numerator;
+	denominator *= other.denominator;
+	reduce();
 	return *this;
 }
 
@@ -218,7 +222,9 @@ Rational<T>& Rational<T>::operator/=(int other) {
 
 template <typename T>
 Rational<T>& Rational<T>::operator/=(Rational<T> other) {
-	*this /= other;
+	numerator *= other.denominator;
+	denominator *= other.numerator;
+	reduce();
 	return *this;
 }
 
