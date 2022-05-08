@@ -1,21 +1,22 @@
-#ifndef LINEAR_SYSTEM_SOLVER_G_H_INCLUDED
-#define LINEAR_SYSTEM_SOLVER_G_H_INCLUDED
+#ifndef GAUSS_ALGORITHM_H_INCLUDED
+#define GAUSS_ALGORITHM_H_INCLUDED
 
 
-#include <LinearSystemSolver/LinearSystemSolver.hpp>
+#include <LinearSystemSolver/LinearSystemSolvingAlgorithm/LinearSystemSolvingAlgorithm.hpp>
 
 
 template <typename T>
-class LinearSystemSolverG : public LinearSystemSolver<T> {
+class GaussAlgorithm : public LinearSystemSolvingAlgorithm<T> {
 	private:
-	void checkIsAlreadyDone();
+	bool checkIsAlreadyDone() const override;
+	bool solveStep() override;
 	public:
-	void solveStep() override;
-	LinearSystemSolverG(
-		LinearSystem<T> linearSystem
-	);
+	// GaussAlgorithm(
+	// 	LinearSystem<T> linearSystem
+	// );
+	using LinearSystemSolvingAlgorithm<T>::LinearSystemSolvingAlgorithm;
 };
 
-#include "./LinearSystemSolverG.tpp"
+#include "./GaussAlgorithm.tpp"
 
 #endif

@@ -27,6 +27,8 @@ add_library(linear-system-solver
 	./LinearSystemSolver/LinearSystemSolvingAlgorithm/LinearSystemSolvingAlgorithm.cpp
 )
 
+target_link_libraries(linear-system-solver PUBLIC linear-system)
+
 add_library(linear-system-reader
 	./LinearSystemReader/LinearSystemReader.cpp
 )
@@ -38,7 +40,16 @@ add_library(datatype
 add_library(linear-system-printer
 	./LinearSystemPrinter/LinearSystemPrinter.cpp
 )
-target_link_libraries(linear-system-solver PUBLIC linear-system)
+
+add_library(linear-system-solving-algorithms
+	./linearsystemsolvingalgorithms/GaussAlgorithm/GaussAlgorithm.cpp
+)
+target_link_libraries(linear-system-solving-algorithms
+	linear-system-solver
+)
+
+target_link_libraries(linear-systems-solver PUBLIC linear-system-solving-algorithms)
+
 target_link_libraries(linear-systems-solver PUBLIC CLI11)
 target_link_libraries(linear-systems-solver PUBLIC linear-system-solver)
 target_link_libraries(linear-systems-solver PUBLIC matrix)

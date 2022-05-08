@@ -9,15 +9,13 @@ bool LinearSystemSolver<T>::getIsDone() const {
 
 template <typename T>
 LinearSystem<T> LinearSystemSolver<T>::getLinearSystem() const {
-	return linearSystem;
+	return algorithm->getLinearSystem();
 }
 
 template <typename T>
 LinearSystemSolver<T>::LinearSystemSolver(
-	LinearSystem<T> linearSystem,
 	LinearSystemSolvingAlgorithm<T> *algorithm
-) : linearSystem(linearSystem), algorithm(algorithm) {
-
+) : algorithm(algorithm) {
 	isDone = algorithm->checkIsAlreadyDone();
 }
 

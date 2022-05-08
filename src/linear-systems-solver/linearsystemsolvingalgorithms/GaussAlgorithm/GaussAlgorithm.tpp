@@ -1,18 +1,17 @@
-#include "./LinearSystemSolverG.hpp"
+#include "./GaussAlgorithm.hpp"
 
 
 template <typename T>
-void LinearSystemSolverG<T>::solveStep() {
+bool GaussAlgorithm<T>::solveStep() {
+	// TODO
 }
 
 template <typename T>
-void LinearSystemSolverG<T>::checkIsAlreadyDone() {
-
+bool GaussAlgorithm<T>::checkIsAlreadyDone() const {
+	// TODO
 }
 
-template <typename T>
-LinearSystemSolverG<T>::LinearSystemSolverG(
-	LinearSystem<T> linearSystem
-) : LinearSystemSolver<T>(linearSystem) {
-
-}
+// template <typename T>
+// GaussAlgorithm<T>::GaussAlgorithm(
+// 	LinearSystem<T> linearSystem
+// ) : LinearSystemSolver<T>(linearSystem) {

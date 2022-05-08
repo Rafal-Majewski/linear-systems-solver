@@ -1,1 +1,1 @@
-#include "./LinearSystemSolverG.hpp"
+#include "./GaussAlgorithm.hpp"

@@ -7,10 +7,11 @@
 template <typename T>
 class LinearSystemSolvingAlgorithm {
 	LinearSystem<T> &linearSystem;
-	LinearSystemSolvingAlgorithm(LinearSystem<T> &linearSystem);
 	public:
-	virtual bool checkIsAlreadyDone() = 0;
+	LinearSystem<T> getLinearSystem() const;
+	virtual bool checkIsAlreadyDone() const = 0;
 	virtual bool solveStep() = 0;
+	LinearSystemSolvingAlgorithm(LinearSystem<T> &linearSystem);
 };
 
 #include "./LinearSystemSolvingAlgorithm.tpp"

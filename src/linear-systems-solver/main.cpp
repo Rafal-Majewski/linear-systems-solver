@@ -9,6 +9,7 @@
 #include <Rational/Rational.hpp>
 #include <BigInt/BigInt.hpp>
 #include <LinearSystemPrinter/LinearSystemPrinter.hpp>
+#include <linearsystemsolvingalgorithms/GaussAlgorithm/GaussAlgorithm.hpp>
 
 // #include <LinearSystemSolver/implementations/LinearSystemSolverG/LinearSystemSolverG.hpp>
 // #include <LinearSystemSolver/implementations/LinearSystemSolverPG/LinearSystemSolverPG.hpp>
@@ -59,15 +60,16 @@ void runWithDatatype(
 	solveStepCallback = isVerbose ? &solveStepVerboseCallback<T> : &solveStepDefaultCallback<T>;
 	LinearSystemReader<T> linearSystemReader;
 	LinearSystem<T> linearSystem = linearSystemReader.read();
-	LinearSystemSolver<T> *linearSystemSolver = nullptr;
+	LinearSystemSolvingAlgorithm<T> *algorithm = nullptr;
 	switch(solvingMethod) {
-		// case SolvingMethod::G:
-		// 	linearSystemSolver = new LinearSystemSolverG<T>(linearSystem);
-		// 	break;
+		case SolvingMethod::G:
+			algorithm = new GaussAlgorithm<T>(linearSystem);
+			break;
 		default:
 			throw std::runtime_error("Unknown solving method");
 	}
-	solve(*linearSystemSolver, *solveStepCallback);
+	LinearSystemSolver<T> linearSystemSolver = LinearSystemSolver<T>(algorithm);
+	solve(linearSystemSolver, solveStepCallback);
 }
 
 
