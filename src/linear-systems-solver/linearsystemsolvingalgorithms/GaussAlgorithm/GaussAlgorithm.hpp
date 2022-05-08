@@ -11,9 +11,6 @@ class GaussAlgorithm : public LinearSystemSolvingAlgorithm<T> {
 	bool checkIsAlreadyDone() const override;
 	bool solveStep() override;
 	public:
-	// GaussAlgorithm(
-	// 	LinearSystem<T> linearSystem
-	// );
 	using LinearSystemSolvingAlgorithm<T>::LinearSystemSolvingAlgorithm;
 };
 

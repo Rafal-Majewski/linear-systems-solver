@@ -8,6 +8,19 @@ TEST(Rational, constructor_1_with_2) {
 	EXPECT_EQ(q.getDenominator(), 2);
 }
 
+TEST(Rational, equality_operator_2_3_with_2_3) {
+	Rational<int> q1(2, 3);
+	Rational<int> q2(2, 3);
+	EXPECT_TRUE(q1 == q2);
+}
+
+TEST(Rational, equality_operator_2_8_with_2_10) {
+	Rational<int> q1(2, 8);
+	Rational<int> q2(2, 10);
+	EXPECT_FALSE(q1 == q2);
+}
+
+
 
 TEST(Rational, constructor_45_with_9) {
 	Rational<int> q(45, 9);

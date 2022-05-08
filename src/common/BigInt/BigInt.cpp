@@ -29,6 +29,21 @@ BigInt::operator std::string() const {
 	return (sign == -1 ? "-" : "") + std::string(digits);
 }
 
+// BigInt::BigInt(std::string a_str) {
+// 	if (a_str == "0" || a_str == "-0") {
+// 		sign = 0;
+// 		return;
+// 	}
+// 	std::string str = a_str;
+// 	if (str[0] == '-') {
+// 		sign = -1;
+// 		str = str.substr(1);
+// 	} else {
+// 		sign = 1;
+// 	}
+// 	digits = BigIntDigits(str);
+// }
+
 BigInt BigInt::operator+(const BigInt& other) const {
 	BigInt result(*this);
 	result += other;

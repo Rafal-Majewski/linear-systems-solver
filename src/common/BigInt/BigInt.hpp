@@ -21,6 +21,7 @@ struct BigInt {
 	BigInt();
 	BigInt(int number);
 	BigInt(const BigInt& other);
+	// BigInt(std::string str);
 	explicit BigInt(std::string str);
 	explicit operator std::string() const;
 	BigInt operator+(const BigInt& other) const;

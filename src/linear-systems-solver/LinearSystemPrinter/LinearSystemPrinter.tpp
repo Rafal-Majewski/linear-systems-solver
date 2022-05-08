@@ -3,14 +3,14 @@
 
 template <typename T>
 void LinearSystemPrinter<T>::printSize(const LinearSystem<T>& linearSystem) const {
-	std::cout << linearSystem.coefficients.size.rowsCount << '\t' << linearSystem.coefficients.size.columnsCount << '\n';
+	std::cout << linearSystem.coefficients.size.rowsCount << separator << linearSystem.coefficients.size.columnsCount << '\n';
 }
 
 template <typename T>
 void LinearSystemPrinter<T>::printVariables(const LinearSystem<T>& linearSystem) const {
 	std::cout << linearSystem.variables[0];
 	for (int i = 1; i < linearSystem.variables.size(); ++i) {
-		std::cout << '\t' << linearSystem.variables[i];
+		std::cout << separator << linearSystem.variables[i];
 	}
 	std::cout << '\n';
 }
@@ -34,5 +34,5 @@ void LinearSystemPrinter<T>::print(const LinearSystem<T>& linearSystem) const {
 }
 
 template <typename T>
-LinearSystemPrinter<T>::LinearSystemPrinter() {
+LinearSystemPrinter<T>::LinearSystemPrinter(std::string separator) : separator(separator) {
 }

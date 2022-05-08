@@ -1,52 +1,9 @@
 #include "./Rational.hpp"
 #include <numeric>
 
-
-template <typename T>
-Rational<T> Rational<T>::operator+(const Rational<T> &other) const {
-	Rational<T> result(*this);
-	result += other;
-	return result;
-}
-
-template <typename T>
-Rational<T> Rational<T>::operator-(const Rational<T> &other) const {
-	Rational<T> result(*this);
-	result -= other;
-	return result;
-}
-
-template <typename T>
-Rational<T> Rational<T>::operator*(const Rational<T> &other) const {
-	Rational<T> result(*this);
-	result *= other;
-	return result;
-}
-
-template <typename T>
-Rational<T> Rational<T>::operator/(const Rational<T> &other) const {
-	Rational<T> result(*this);
-	result /= other;
-	return result;
-}
-
-template <typename T>
-Rational<T> Rational<T>::operator-() const {
-	Rational<T> result(*this);
-	result.numerator = -result.numerator;
-	return result;
-}
-
-template <typename T>
-Rational<T> Rational<T>::operator+() const {
-	Rational<T> result(*this);
-	result.numerator = +result.numerator;
-	return result;
-}
-
 template <typename T>
 char Rational<T>::compare(const Rational<T> &other) const {
-	T comparisonResult = numerator * other.denominator - numerator * other.denominator;
+	T comparisonResult = this->numerator * other.denominator - this->denominator * other.numerator;
 	return (T(0) < comparisonResult) - (comparisonResult < T(0));
 }
 
@@ -54,11 +11,6 @@ template <typename T>
 bool Rational<T>::operator==(const Rational<T> &other) const {
 	return compare(other) == 0;
 }
-
-// template <typename T>
-// bool Rational<T>::operator==(int other) const {
-// 	return compare(Rational<T>(other)) == 0;
-// }
 
 template <typename T>
 bool Rational<T>::operator<(const Rational<T> &other) const {
@@ -93,14 +45,24 @@ Rational<T>& Rational<T>::operator--() {
 }
 
 template <typename T>
+T Rational<T>::stringToNumber(const std::string &str) {
+	return T(str);
+}
+
+template <>
+int Rational<int>::stringToNumber(const std::string &str) {
+	return std::stoi(str);
+}
+
+template <typename T>
 Rational<T>::Rational(std::string str) {
 	std::string::size_type pos = str.find('/');
 	if (pos == std::string::npos) {
-		numerator = T(str);
+		numerator = stringToNumber(str);
 		denominator = 1;
 	} else {
-		numerator = T(str.substr(0, pos));
-		denominator = T(str.substr(pos + 1));
+		numerator = stringToNumber(str.substr(0, pos));
+		denominator = stringToNumber(str.substr(pos + 1));
 	}
 	reduce();
 }
@@ -221,23 +183,84 @@ char Rational<T>::compare(int other) const {
 template <typename T>
 Rational<T>& Rational<T>::operator+=(int other) {
 	*this += Rational<T>(other);
-	return this;
+	return *this;
 }
 
 template <typename T>
 Rational<T>& Rational<T>::operator-=(int other) {
 	*this -= Rational<T>(other);
-	return this;
+	return *this;
+}
+
+template <typename T>
+Rational<T>& Rational<T>::operator-=(Rational<T> other) {
+	*this -= other;
+	return *this;
 }
 
 template <typename T>
 Rational<T>& Rational<T>::operator*=(int other) {
 	*this *= Rational<T>(other);
-	return this;
+	return *this;
+}
+
+template <typename T>
+Rational<T>& Rational<T>::operator*=(Rational<T> other) {
+	*this *= other;
+	return *this;
 }
 
 template <typename T>
 Rational<T>& Rational<T>::operator/=(int other) {
 	*this /= Rational<T>(other);
-	return this;
+	return *this;
+}
+
+template <typename T>
+Rational<T>& Rational<T>::operator/=(Rational<T> other) {
+	*this /= other;
+	return *this;
+}
+
+
+template <typename T>
+Rational<T> Rational<T>::operator+(const Rational<T> &other) const {
+	Rational<T> result(*this);
+	result += other;
+	return result;
+}
+
+template <typename T>
+Rational<T> Rational<T>::operator-(const Rational<T> &other) const {
+	Rational<T> result(*this);
+	result -= other;
+	return result;
+}
+
+template <typename T>
+Rational<T> Rational<T>::operator*(const Rational<T> &other) const {
+	Rational<T> result(*this);
+	result *= other;
+	return result;
+}
+
+template <typename T>
+Rational<T> Rational<T>::operator/(const Rational<T> &other) const {
+	Rational<T> result(*this);
+	result /= other;
+	return result;
+}
+
+template <typename T>
+Rational<T> Rational<T>::operator-() const {
+	Rational<T> result(*this);
+	result.numerator = -result.numerator;
+	return result;
+}
+
+template <typename T>
+Rational<T> Rational<T>::operator+() const {
+	Rational<T> result(*this);
+	result.numerator = +result.numerator;
+	return result;
 }

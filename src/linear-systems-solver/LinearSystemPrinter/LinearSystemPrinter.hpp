@@ -11,8 +11,9 @@ class LinearSystemPrinter {
 	void printVariables(const LinearSystem<T>& linearSystem) const;
 	void printCoefficientsAndConstants(const LinearSystem<T>& linearSystem) const;
 	public:
+	const std::string separator;
 	void print(const LinearSystem<T>& linearSystem) const;
-	LinearSystemPrinter();
+	LinearSystemPrinter(std::string separator);
 };
 
 #include "./LinearSystemPrinter.tpp"

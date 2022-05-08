@@ -27,6 +27,7 @@ add_library(linear-system-solver
 	./LinearSystemSolver/LinearSystemSolvingAlgorithm/LinearSystemSolvingAlgorithm.cpp
 )
 
+
 target_link_libraries(linear-system-solver PUBLIC linear-system)
 
 add_library(linear-system-reader
@@ -45,8 +46,9 @@ add_library(linear-system-solving-algorithms
 	./linearsystemsolvingalgorithms/GaussAlgorithm/GaussAlgorithm.cpp
 )
 target_link_libraries(linear-system-solving-algorithms
-	linear-system-solver
+	PUBLIC linear-system-solver
 )
+
 
 target_link_libraries(linear-systems-solver PUBLIC linear-system-solving-algorithms)
 

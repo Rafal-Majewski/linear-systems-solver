@@ -3,12 +3,13 @@
 #include <LinearSystemSolver/LinearSystemSolver.hpp>
 #include <SolvingMethod/SolvingMethod.hpp>
 #include <Matrix/Matrix.hpp>
+#include <LinearSystemPrinter/LinearSystemPrinter.hpp>
 #include <Matrix/MatrixSize/MatrixSize.hpp>
 #include <LinearSystemReader/LinearSystemReader.hpp>
 #include <Datatype/Datatype.hpp>
 #include <Rational/Rational.hpp>
 #include <BigInt/BigInt.hpp>
-#include <LinearSystemPrinter/LinearSystemPrinter.hpp>
+
 #include <linearsystemsolvingalgorithms/GaussAlgorithm/GaussAlgorithm.hpp>
 
 // #include <LinearSystemSolver/implementations/LinearSystemSolverG/LinearSystemSolverG.hpp>
@@ -21,7 +22,7 @@ void solve(
 	LinearSystemSolver<T> &linearSystemSolver,
 	void (*solveStepCallback)(LinearSystemSolver<T> &, LinearSystemPrinter<T> &)
 ) {
-	LinearSystemPrinter<T> linearSystemPrinter = LinearSystemPrinter<T>();
+	LinearSystemPrinter<T> linearSystemPrinter = LinearSystemPrinter<T>(" ");
 	while(!linearSystemSolver.getIsDone()) {
 		solveStepCallback(linearSystemSolver, linearSystemPrinter);
 	}

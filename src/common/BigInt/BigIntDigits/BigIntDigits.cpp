@@ -180,7 +180,7 @@ BigIntDigits::operator std::string() const {
 
 std::vector<char> BigIntDigits::stringToDecimalDigits(std::string str) {
 	std::vector<char> result;
-	for (int i = 0; i < str.size(); ++i) {
+	for (int i = str.size() - 1; i >= 0; --i) {
 		result.push_back(str[i] - '0');
 	}
 	return result;

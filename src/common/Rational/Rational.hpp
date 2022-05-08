@@ -11,6 +11,7 @@ struct Rational {
 	T denominator;
 	void reduce();
 	inline T calculateGcd();
+	inline T stringToNumber(const std::string &str);
 	public:
 	T getNumerator() const;
 	T getDenominator() const;
