@@ -41,5 +41,5 @@ LinearSystem<T> LinearSystemReader<T>::read() const {
 	std::vector<std::string> variables = readVariables(size);
 	auto [coefficients, constants] = readCoefficientsAndConstants(size);
 	
-	return LinearSystem<T>(coefficients, constants, variables);
+	return LinearSystem<T>(size, coefficients, constants, variables);
 }

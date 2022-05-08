@@ -6,6 +6,7 @@
 
 template <typename T>
 class LinearSystemSolvingAlgorithm {
+	protected:
 	LinearSystem<T> &linearSystem;
 	public:
 	LinearSystem<T> getLinearSystem() const;

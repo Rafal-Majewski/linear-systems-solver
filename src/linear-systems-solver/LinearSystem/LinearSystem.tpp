@@ -3,7 +3,7 @@
 
 template <typename T>
 void LinearSystem<T>::assertValidVariablesCount() const {
-	if (variables.size() != coefficients.size.columnsCount) {
+	if (variables.size() != size.variablesCount) {
 		throw InvalidLinearSystemSizeException(
 			"Variables count is not equal to coefficients columns count"
 		);
@@ -12,7 +12,7 @@ void LinearSystem<T>::assertValidVariablesCount() const {
 
 template <typename T>
 void LinearSystem<T>::assertValidCoefficientsCount() const {
-	if (coefficients.size.rowsCount != constants.size()) {
+	if (coefficients.size.rowsCount != size.equationsCount) {
 		throw InvalidLinearSystemSizeException(
 			"Coefficients rows count is not equal to constants count"
 		);
@@ -24,10 +24,33 @@ LinearSystem<T>::LinearSystem(
 	Matrix<T> coefficients,
 	std::vector<T> constants,
 	std::vector<std::string> variables
-) : coefficients(coefficients), constants(constants), variables(variables) {
+) : size(LinearSystemSize(coefficients.size.rowsCount, coefficients.size.columnsCount)),
+	coefficients(coefficients),
+	constants(constants),
+	variables(variables) {
 	assertValidVariablesCount();
 	assertValidCoefficientsCount();
 }
+
+template <typename T>
+LinearSystem<T>::LinearSystem(
+	LinearSystemSize size,
+	Matrix<T> coefficients,
+	std::vector<T> constants,
+	std::vector<std::string> variables
+) : size(size),
+	coefficients(coefficients),
+	constants(constants),
+	variables(variables) {
+	assertValidVariablesCount();
+	assertValidCoefficientsCount();
+}
+
+template <typename T>
+T LinearSystem<T>::getCoefficient(int equationIndex, int variableIndex) const {
+	return coefficients.get(equationIndex, variableIndex);
+}
+
 
 
 	// LinearSystem(
