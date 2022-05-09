@@ -24,7 +24,6 @@ add_library(solving-method
 
 add_library(linear-system-solver
 	./LinearSystemSolver/LinearSystemSolver.cpp
-	./LinearSystemSolver/LinearSystemSolvingAlgorithm/LinearSystemSolvingAlgorithm.cpp
 )
 
 
@@ -48,10 +47,12 @@ add_library(linear-system-solving-algorithms
 target_link_libraries(linear-system-solving-algorithms
 	PUBLIC linear-system-solver
 )
+target_link_libraries(linear-system-solving-algorithms
+	PUBLIC linear-system
+)
 
 
 target_link_libraries(linear-systems-solver PUBLIC linear-system-solving-algorithms)
-
 target_link_libraries(linear-systems-solver PUBLIC CLI11)
 target_link_libraries(linear-systems-solver PUBLIC linear-system-solver)
 target_link_libraries(linear-systems-solver PUBLIC matrix)

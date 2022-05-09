@@ -52,17 +52,15 @@ T LinearSystem<T>::getCoefficient(int equationIndex, int variableIndex) const {
 }
 
 template <typename T>
-void LinearSystem<T>::substractRows(int sourceRowIndex, int operandRowIndex, T factor) {
-	std::cout << "Substracting rows " << sourceRowIndex << " and " << operandRowIndex << " with factor " << factor << std::endl;
+void LinearSystem<T>::substractRows(int targetRowIndex, int toSubstractRowIndex, T factor) {
 	for (int x = 0; x < size.variablesCount; ++x) {
-		std::cout << "debug: " << sourceRowIndex << " " << operandRowIndex << " " << x << " " << factor << " " << coefficients.get(sourceRowIndex, x) - coefficients.get(operandRowIndex, x) * factor << std::endl;
 		coefficients.set(
-			sourceRowIndex,
+			targetRowIndex,
 			x,
-			coefficients.get(sourceRowIndex, x) - coefficients.get(operandRowIndex, x) * factor
+			coefficients.get(targetRowIndex, x) - coefficients.get(toSubstractRowIndex, x) * factor
 		);
 	}
-	constants[sourceRowIndex] -= constants[operandRowIndex] * factor;
+	constants[targetRowIndex] -= constants[toSubstractRowIndex] * factor;
 }
 
 

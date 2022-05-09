@@ -6,7 +6,6 @@
 #include <string>
 #include "./InvalidLinearSystemSizeException/InvalidLinearSystemSizeException.hpp"
 #include <Matrix/Matrix.hpp>
-#include <iostream>
 #include "./LinearSystemSize/LinearSystemSize.hpp"
 
 
@@ -20,7 +19,7 @@ class LinearSystem {
 	void assertValidCoefficientsCount() const;
 	public:
 	T getCoefficient(int equationIndex, int variableIndex) const;
-	void substractRows(int sourceRowIndex, int operandRowIndex, T factor);
+	void substractRows(int targetRowIndex, int toSubstractRowIndex, T factor);
 	const LinearSystemSize size;
 	LinearSystem(
 		Matrix<T> coefficients,

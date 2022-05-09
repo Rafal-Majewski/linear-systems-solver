@@ -3,23 +3,12 @@
 
 
 #include <LinearSystem/LinearSystem.hpp>
-#include "./LinearSystemSolvingAlgorithm/LinearSystemSolvingAlgorithm.hpp"
 
 
 template <typename T>
 class LinearSystemSolver {
-	private:
-	LinearSystemSolvingAlgorithm<T> *algorithm;
-	bool isDone;
 	public:
-	bool getIsDone() const;
-	LinearSystem<T> getLinearSystem() const;
-	LinearSystemSolver(
-		LinearSystemSolvingAlgorithm<T> *algorithm
-	);
-	void solveStep();
+	virtual LinearSystem<T> solve(LinearSystem<T> linearSystem) const = 0;
 };
-
-#include "./LinearSystemSolver.tpp"
 
 #endif

@@ -19,32 +19,36 @@
 
 template <typename T>
 void solve(
-	LinearSystemSolver<T> &linearSystemSolver,
-	void (*solveStepCallback)(LinearSystemSolver<T> &, LinearSystemPrinter<T> &)
+	LinearSystemSolver<T> *linearSystemSolver,
+	LinearSystem<T> linearSystem
+	// void (*solveStepCallback)(LinearSystemSolver<T> &, LinearSystemPrinter<T> &)
 ) {
 	LinearSystemPrinter<T> linearSystemPrinter = LinearSystemPrinter<T>(" ");
-	while(!linearSystemSolver.getIsDone()) {
-		solveStepCallback(linearSystemSolver, linearSystemPrinter);
-	}
-	linearSystemPrinter.print(linearSystemSolver.getLinearSystem());
+	// linearSystemSolver.solve();
+	// while(!linearSystemSolver.getIsDone()) {
+	// 	solveStepCallback(linearSystemSolver, linearSystemPrinter);
+	// }
+	linearSystemPrinter.print(
+		linearSystemSolver->solve(linearSystem)
+	);
 }
 
-template <typename T>
-void solveStepDefaultCallback(
-	LinearSystemSolver<T> &linearSystemSolver,
-	LinearSystemPrinter<T> &linearSystemPrinter
-) {
-	linearSystemSolver.solveStep();
-}
+// template <typename T>
+// void solveStepDefaultCallback(
+// 	LinearSystemSolver<T> &linearSystemSolver,
+// 	LinearSystemPrinter<T> &linearSystemPrinter
+// ) {
+// 	linearSystemSolver.solveStep();
+// }
 
-template <typename T>
-void solveStepVerboseCallback(
-	LinearSystemSolver<T> &linearSystemSolver,
-	LinearSystemPrinter<T> &linearSystemPrinter
-) {
-	linearSystemPrinter.print(linearSystemSolver.getLinearSystem());
-	linearSystemSolver.solveStep();
-}
+// template <typename T>
+// void solveStepVerboseCallback(
+// 	LinearSystemSolver<T> &linearSystemSolver,
+// 	LinearSystemPrinter<T> &linearSystemPrinter
+// ) {
+// 	linearSystemPrinter.print(linearSystemSolver.getLinearSystem());
+// 	linearSystemSolver.solveStep();
+// }
 
 
 
@@ -57,19 +61,19 @@ void runWithDatatype(
 		LinearSystemSolver<T> &,
 		LinearSystemPrinter<T> &
 	);
-	solveStepCallback = isVerbose ? &solveStepVerboseCallback<T> : &solveStepDefaultCallback<T>;
+	// solveStepCallback = isVerbose ? &solveStepVerboseCallback<T> : &solveStepDefaultCallback<T>;
 	LinearSystemReader<T> linearSystemReader;
 	LinearSystem<T> linearSystem = linearSystemReader.read();
-	LinearSystemSolvingAlgorithm<T> *algorithm = nullptr;
+	LinearSystemSolver<T> *linearSystemSolver = nullptr;
 	switch(solvingMethod) {
 		case SolvingMethod::G:
-			algorithm = new GaussAlgorithm<T>(linearSystem);
+			linearSystemSolver = new GaussAlgorithm<T>();
 			break;
 		default:
 			throw std::runtime_error("Unknown solving method");
 	}
-	LinearSystemSolver<T> linearSystemSolver = LinearSystemSolver<T>(algorithm);
-	solve(linearSystemSolver, solveStepCallback);
+	// LinearSystemSolver<T> linearSystemSolver = LinearSystemSolver<T>(algorithm);
+	solve<T>(linearSystemSolver, linearSystem);
 }
 
 
@@ -102,7 +106,7 @@ void applyOptions(
 	app.add_option("-d,--datatype", datatype, "Datatype")
 		->required()
 		->transform(CLI::CheckedTransformer(datatypeByString, CLI::ignore_case));
-	app.add_flag("-v,--verbose", isVerbose, "Print all steps");
+	// app.add_flag("-v,--verbose", isVerbose, "Print all steps");
 }
 
 int main(int argc, char *argv[]) {

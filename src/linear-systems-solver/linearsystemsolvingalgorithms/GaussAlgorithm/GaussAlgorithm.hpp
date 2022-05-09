@@ -2,16 +2,14 @@
 #define GAUSS_ALGORITHM_H_INCLUDED
 
 
-#include <LinearSystemSolver/LinearSystemSolvingAlgorithm/LinearSystemSolvingAlgorithm.hpp>
+#include <LinearSystemSolver/LinearSystemSolver.hpp>
+#include <LinearSystem/LinearSystem.hpp>
 
 
 template <typename T>
-class GaussAlgorithm : public LinearSystemSolvingAlgorithm<T> {
-	private:
-	bool checkIsAlreadyDone() const override;
-	bool solveStep() override;
+class GaussAlgorithm : public LinearSystemSolver<T> {
 	public:
-	using LinearSystemSolvingAlgorithm<T>::LinearSystemSolvingAlgorithm;
+	LinearSystem<T> solve(LinearSystem<T> linearSystem) const override;
 };
 
 #include "./GaussAlgorithm.tpp"

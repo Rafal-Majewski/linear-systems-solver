@@ -1,4 +1,5 @@
 #include "./LinearSystemPrinter.hpp"
+#include <iostream>
 
 
 template <typename T>
