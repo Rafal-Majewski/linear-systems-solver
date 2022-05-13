@@ -19,4 +19,4 @@ class LinearSystemPrinter {
 
 #include "./LinearSystemPrinter.tpp"
 
-#endif // LINEAR_SYSTEM_PRINTER_H_INCLUDED
+#endif

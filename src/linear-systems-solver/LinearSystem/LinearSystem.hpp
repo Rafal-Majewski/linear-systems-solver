@@ -17,6 +17,8 @@ class LinearSystem {
 	std::vector<std::string> variables;
 	void assertValidVariablesCount() const;
 	void assertValidCoefficientsCount() const;
+	void assertQuadraticSize() const;
+	void assertValidInput() const;
 	public:
 	T getCoefficient(int equationIndex, int variableIndex) const;
 	T getConstant(int equationIndex) const;
@@ -34,8 +36,6 @@ class LinearSystem {
 		std::vector<T> constants,
 		std::vector<std::string> variables
 	);
-	template <typename>
-	friend class LinearSystemPrinter;
 };
 
 #include "./LinearSystem.tpp"

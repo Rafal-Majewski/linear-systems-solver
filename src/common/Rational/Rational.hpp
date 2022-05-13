@@ -30,9 +30,7 @@ struct Rational {
 	Rational<T>& operator*=(Rational<T> other);
 	Rational<T>& operator/=(Rational<T> other);
 	bool operator==(const Rational<T> &other) const;
-	// bool operator==(int other) const;
 	bool operator!=(const Rational<T> &other) const;
-	// bool operator!=(int other) const;
 	bool operator<(const Rational<T> &other) const;
 	bool operator>(const Rational<T> &other) const;
 	bool operator<=(const Rational<T> &other) const;

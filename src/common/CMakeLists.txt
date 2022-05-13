@@ -12,3 +12,7 @@ add_library(bigint
 add_library(rational
 	./Rational/Rational.cpp
 )
+
+add_library(datatype
+	./Datatype/Datatype.cpp
+)

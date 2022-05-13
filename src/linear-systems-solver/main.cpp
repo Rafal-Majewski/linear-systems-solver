@@ -3,13 +3,14 @@
 #include <LinearSystemSolver/LinearSystemSolver.hpp>
 #include <SolvingMethod/SolvingMethod.hpp>
 #include <Matrix/Matrix.hpp>
+#include <LinearSystemReader/LinearSystemReader.hpp>
 #include <LinearSystemPrinter/LinearSystemPrinter.hpp>
 #include <Matrix/MatrixSize/MatrixSize.hpp>
-#include <LinearSystemReader/LinearSystemReader.hpp>
 #include <Datatype/Datatype.hpp>
 #include <Rational/Rational.hpp>
 #include <BigInt/BigInt.hpp>
 #include <solvingalgorithms/GaussAlgorithm/GaussAlgorithm.hpp>
+
 
 
 template <typename T>

@@ -20,6 +20,22 @@ void LinearSystem<T>::assertValidCoefficientsCount() const {
 }
 
 template <typename T>
+void LinearSystem<T>::assertQuadraticSize() const {
+	if (size.equationsCount != size.variablesCount) {
+		throw InvalidLinearSystemSizeException(
+			"Currently only quadratic systems are supported"
+		);
+	}
+}
+
+template <typename T>
+void LinearSystem<T>::assertValidInput() const {
+	assertValidVariablesCount();
+	assertValidCoefficientsCount();
+	assertQuadraticSize();
+}
+
+template <typename T>
 LinearSystem<T>::LinearSystem(
 	Matrix<T> coefficients,
 	std::vector<T> constants,
@@ -28,8 +44,7 @@ LinearSystem<T>::LinearSystem(
 	coefficients(coefficients),
 	constants(constants),
 	variables(variables) {
-	assertValidVariablesCount();
-	assertValidCoefficientsCount();
+	assertValidInput();
 }
 
 template <typename T>
@@ -42,8 +57,7 @@ LinearSystem<T>::LinearSystem(
 	coefficients(coefficients),
 	constants(constants),
 	variables(variables) {
-	assertValidVariablesCount();
-	assertValidCoefficientsCount();
+	assertValidInput();
 }
 
 template <typename T>

@@ -1,6 +1,7 @@
 #include "./Rational.hpp"
 #include <numeric>
 
+
 template <typename T>
 char Rational<T>::compare(const Rational<T> &other) const {
 	T comparisonResult = this->numerator * other.denominator - this->denominator * other.numerator;

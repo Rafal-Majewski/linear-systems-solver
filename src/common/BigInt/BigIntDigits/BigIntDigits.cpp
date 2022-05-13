@@ -1,6 +1,7 @@
 #include "./BigIntDigits.hpp"
 #include <algorithm>
 
+
 int BigIntDigits::size() const {
 	return digits.size();
 }

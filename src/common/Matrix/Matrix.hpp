@@ -9,13 +9,13 @@
 template <typename T>
 class Matrix {
 	private:
+	std::vector<std::vector<T>> values;
+
 	void assertValuesSizeMatchesMatrixSize() const;
 	void assertEqualMatrixSize(const Matrix<T> &other) const;
 	void assertMatrixSizeValidForMultiplication(const Matrix<T> &other) const;
 	void assertInBounds(int y, int x) const;
-	
 
-	std::vector<std::vector<T>> values;
 	public:
 	std::vector<std::vector<T>> getValues() const;
 	const MatrixSize size;
@@ -27,7 +27,6 @@ class Matrix {
 	void set(int y, int x, T value);
 	Matrix<T> transposed() const;
 	Matrix(const Matrix<T> &other);
-
 	Matrix<T> operator+(const Matrix<T> &other) const;
 	Matrix<T> operator-(const Matrix<T> &other) const;
 	Matrix<T> operator*(const Matrix<T> &other) const;

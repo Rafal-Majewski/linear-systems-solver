@@ -21,9 +21,9 @@ void LinearSystemPrinter<T>::printCoefficientsAndConstants(const LinearSystem<T>
 	for (int y = 0; y < linearSystem.coefficients.size.rowsCount; ++y) {
 		std::cout << linearSystem.coefficients.get(y, 0);
 		for (int x = 1; x < linearSystem.coefficients.size.columnsCount; ++x) {
-			std::cout << '\t' << linearSystem.coefficients.get(y, x);
+			std::cout << separator << linearSystem.coefficients.get(y, x);
 		}
-		std::cout << '\t' << linearSystem.constants[y] << '\n';
+		std::cout << separator << linearSystem.constants[y] << '\n';
 	}
 }
 
