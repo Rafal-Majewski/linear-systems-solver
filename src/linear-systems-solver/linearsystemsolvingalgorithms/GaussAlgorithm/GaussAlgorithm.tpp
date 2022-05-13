@@ -2,7 +2,7 @@
 
 
 template <typename T>
-LinearSystem<T> GaussAlgorithm<T>::solve(LinearSystem<T> a_linearSystem) const {
+LinearSystem<T> GaussAlgorithm<T>::eliminate(LinearSystem<T> a_linearSystem) const {
 	LinearSystem<T> linearSystem = a_linearSystem;
 	for (int x = 0; x < linearSystem.size.variablesCount; ++x) {
 		for (int y = x + 1; y < linearSystem.size.equationsCount; ++y) {
@@ -14,6 +14,28 @@ LinearSystem<T> GaussAlgorithm<T>::solve(LinearSystem<T> a_linearSystem) const {
 		}
 	}
 	return linearSystem;
+}
+
+template <typename T>
+std::vector<std::pair<std::string, T>> GaussAlgorithm<T>::extractSolutions(const LinearSystem<T> &linearSystem) const {
+	std::vector<std::pair<std::string, T>> solutions(linearSystem.size.variablesCount);
+	for (int y = linearSystem.size.variablesCount - 1; y >= 0; --y) {
+		std::string variable = linearSystem.getVariable(y);
+		T value = linearSystem.getConstant(y);
+		for (int x = y + 1; x < linearSystem.size.variablesCount; ++x) {
+			value -= linearSystem.getCoefficient(y, x) * solutions[x].second;
+		} 
+		value /= linearSystem.getCoefficient(y, y);
+		solutions[y] = std::make_pair(variable, value);
+	}
+	return solutions;
+}
+
+
+template <typename T>
+std::vector<std::pair<std::string, T>> GaussAlgorithm<T>::solve(LinearSystem<T> a_linearSystem) const {
+	LinearSystem<T> linearSystem = eliminate(a_linearSystem);
+	return extractSolutions(linearSystem);
 }
 
 

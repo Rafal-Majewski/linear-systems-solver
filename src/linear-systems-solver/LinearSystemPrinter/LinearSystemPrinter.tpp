@@ -35,5 +35,12 @@ void LinearSystemPrinter<T>::print(const LinearSystem<T>& linearSystem) const {
 }
 
 template <typename T>
+void LinearSystemPrinter<T>::print(const std::vector<std::pair<std::string, T>>& solutions) const {
+	for (int i = 0; i < solutions.size(); ++i) {
+		std::cout << solutions[i].first << separator << solutions[i].second << '\n';
+	}
+}
+
+template <typename T>
 LinearSystemPrinter<T>::LinearSystemPrinter(std::string separator) : separator(separator) {
 }

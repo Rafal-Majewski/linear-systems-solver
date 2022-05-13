@@ -63,16 +63,12 @@ void LinearSystem<T>::substractRows(int targetRowIndex, int toSubstractRowIndex,
 	constants[targetRowIndex] -= constants[toSubstractRowIndex] * factor;
 }
 
+template <typename T>
+T LinearSystem<T>::getConstant(int equationIndex) const {
+	return constants[equationIndex];
+}
 
-
-
-	// LinearSystem(
-	// 	Matrix<T> coefficients,
-	// 	std::vector<T> constants,
-	// 	std::vector<std::string> variables
-	// ): coefficients(coefficients),
-	// constants(constants),
-	// variables(variables) {
-	// 	assertValidVariablesCount();
-	// 	assertValidCoefficientsCount();
-	// }
+template <typename T>
+std::string LinearSystem<T>::getVariable(int variableIndex) const {
+	return variables[variableIndex];
+}

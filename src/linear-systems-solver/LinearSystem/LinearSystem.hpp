@@ -19,6 +19,8 @@ class LinearSystem {
 	void assertValidCoefficientsCount() const;
 	public:
 	T getCoefficient(int equationIndex, int variableIndex) const;
+	T getConstant(int equationIndex) const;
+	std::string getVariable(int variableIndex) const;
 	void substractRows(int targetRowIndex, int toSubstractRowIndex, T factor);
 	const LinearSystemSize size;
 	LinearSystem(
