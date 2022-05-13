@@ -42,7 +42,7 @@ add_library(linear-system-printer
 )
 
 add_library(linear-system-solving-algorithms
-	./linearsystemsolvingalgorithms/GaussAlgorithm/GaussAlgorithm.cpp
+	./solvingalgorithms/GaussAlgorithm/GaussAlgorithm.cpp
 )
 target_link_libraries(linear-system-solving-algorithms
 	PUBLIC linear-system-solver

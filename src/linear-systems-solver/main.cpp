@@ -9,7 +9,8 @@
 #include <Datatype/Datatype.hpp>
 #include <Rational/Rational.hpp>
 #include <BigInt/BigInt.hpp>
-#include <linearsystemsolvingalgorithms/GaussAlgorithm/GaussAlgorithm.hpp>
+#include <solvingalgorithms/GaussAlgorithm/GaussAlgorithm.hpp>
+
 
 template <typename T>
 void solve(
