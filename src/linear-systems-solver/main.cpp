@@ -31,7 +31,7 @@ void runSolve(
 	linearSystemPrinter.print(solve<DT, SL>(linearSystem));
 }
 template <typename DT>
-double calculateError(std::vector<DT> expected, std::vector<DT> actual) {
+double calculateAbsError(std::vector<DT> expected, std::vector<DT> actual) {
 	double error = 0;
 	for (int i = 0; i < expected.size(); i++) {
 		DT difference = expected[i] - actual[i];
@@ -61,7 +61,7 @@ void runBenchmark(
 		auto end = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double, std::milli> float_ms = end - start;
 		std::cout << i + 1 << '\t';
-		std::cout << calculateError(expectedSolutions, actualSolutions) << '\t';
+		std::cout << calculateAbsError(expectedSolutions, actualSolutions) << '\t';
 		std::cout << float_ms.count() / 1000 << '\n';
 	}
 }
