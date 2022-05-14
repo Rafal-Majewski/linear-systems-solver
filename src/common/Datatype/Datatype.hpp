@@ -16,4 +16,10 @@ std::map<std::string, Datatype> datatypeByString = {
 	{"rational", Datatype::RATIONAL},
 };
 
+std::map<Datatype, std::string> stringByDatatype = {
+	{Datatype::FLOAT, "float"},
+	{Datatype::DOUBLE, "double"},
+	{Datatype::RATIONAL, "rational"},
+};
+
 #endif

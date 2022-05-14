@@ -42,38 +42,56 @@ double calculateAbsError(std::vector<DT> expected, std::vector<DT> actual) {
 
 template <typename DT, typename SL>
 void runBenchmark(
-	int benchmarkIterations,
-	int benchmarkSize
+	int benchmarkStartSize,
+	int benchmarkStopSize,
+	int benchmarkStepSize,
+	int benchmarkBatchSize
 ) {
-	LinearSystemGenerator<DT> linearSystemGenerator(
-		benchmarkSize,
-		-0b10000000000000000l,
-		0b10000000000000000l,
-		0b10000000000000000l
-	);
 	LinearSystemPrinter<DT> linearSystemPrinter(" ");
 	SL linearSystemSolver = SL();
-	std::cout << "Iteration" << '\t' << "Error_(abs)" << '\t' << "Time_(s)" << '\n';
-	for (int i = 0; i < benchmarkIterations; ++i) {
-		auto [linearSystem, expectedSolutions] = linearSystemGenerator.generate();
-		auto start = std::chrono::high_resolution_clock::now();
-		std::vector<DT> actualSolutions = linearSystemSolver.solve(linearSystem);
-		auto end = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double, std::milli> float_ms = end - start;
-		std::cout << i + 1 << '\t';
-		std::cout << calculateAbsError(expectedSolutions, actualSolutions) << '\t';
-		std::cout << float_ms.count() / 1000 << '\n';
+	std::cout << "Size\tError\tTime" << std::endl;
+
+	for (int benchmarkSize = benchmarkStartSize; benchmarkSize <= benchmarkStopSize; benchmarkSize += benchmarkStepSize) {
+		double averageError = 0;
+		double averageTime = 0;
+		LinearSystemGenerator<DT> linearSystemGenerator(
+			benchmarkSize,
+			-0b10000000000000000l,
+			0b10000000000000000l,
+			0b10000000000000000l
+		);
+		for (int i = 0; i < benchmarkBatchSize; ++i) {
+			auto [linearSystem, expectedSolutions] = linearSystemGenerator.generate();
+			auto start = std::chrono::high_resolution_clock::now();
+			std::vector<DT> actualSolutions = linearSystemSolver.solve(linearSystem);
+			auto end = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double, std::milli> float_ms = end - start;
+			averageError += calculateAbsError(expectedSolutions, actualSolutions);
+			averageTime += float_ms.count() / 1000;
+		}
+		averageError /= benchmarkBatchSize;
+		averageTime /= benchmarkBatchSize;
+		std::cout << benchmarkSize << '\t';
+		std::cout << averageError << '\t';
+		std::cout << averageTime << '\n';
 	}
 }
 
 template <typename DT, typename SL>
 void runWithDatatypeAndSolver(
 	bool benchmark,
-	int benchmarkIterations,
-	int benchmarkSize
+	int benchmarkStartSize,
+	int benchmarkStopSize,
+	int benchmarkStepSize,
+	int benchmarkBatchSize
 ) {
 	if (benchmark) {
-		return runBenchmark<DT, SL>(benchmarkIterations, benchmarkSize);
+		return runBenchmark<DT, SL>(
+			benchmarkStartSize,
+			benchmarkStopSize,
+			benchmarkStepSize,
+			benchmarkBatchSize
+		);
 	}
 	return runSolve<DT, SL>();
 }
@@ -82,13 +100,16 @@ template <typename DT>
 void runWithDatatype(
 	SolvingMethod solvingMethod,
 	bool benchmark,
-	int benchmarkIterations,
-	int benchmarkSize
+	int benchmarkStartSize,
+	int benchmarkStopSize,
+	int benchmarkStepSize,
+	int benchmarkBatchSize
 ) {
 	switch (solvingMethod) {
 		case SolvingMethod::G:
 			return runWithDatatypeAndSolver<DT, GaussAlgorithm<DT>>(
-				benchmark, benchmarkIterations, benchmarkSize
+				benchmark,
+				benchmarkStartSize, benchmarkStopSize, benchmarkStepSize, benchmarkBatchSize
 			);
 		default:
 			throw std::runtime_error("Unknown solving method");
@@ -100,22 +121,27 @@ void run(
 	SolvingMethod solvingMethod,
 	Datatype datatype,
 	bool benchmark,
-	int benchmarkIterations,
-	int benchmarkSize
+	int benchmarkStartSize,
+	int benchmarkStopSize,
+	int benchmarkStepSize,
+	int benchmarkBatchSize
 ) {
 	std::cout << std::setprecision(20);
 	switch (datatype) {
 		case Datatype::RATIONAL:
 			return runWithDatatype<Rational<BigInt>>(
-				solvingMethod, benchmark, benchmarkIterations, benchmarkSize
+				solvingMethod, benchmark,
+				benchmarkStartSize, benchmarkStopSize, benchmarkStepSize, benchmarkBatchSize
 			);
 		case Datatype::FLOAT:
 			return runWithDatatype<float>(
-				solvingMethod, benchmark, benchmarkIterations, benchmarkSize
+				solvingMethod, benchmark,
+				benchmarkStartSize, benchmarkStopSize, benchmarkStepSize, benchmarkBatchSize
 			);
 		case Datatype::DOUBLE:
 			return runWithDatatype<double>(
-				solvingMethod, benchmark, benchmarkIterations, benchmarkSize
+				solvingMethod, benchmark,
+				benchmarkStartSize, benchmarkStopSize, benchmarkStepSize, benchmarkBatchSize
 			);
 		default:
 			throw std::runtime_error("Unknown datatype");
@@ -127,8 +153,11 @@ void applyOptions(
 	SolvingMethod& solvingMethod,
 	Datatype& datatype,
 	bool& benchmark,
-	int& benchmarkIterations,
-	int& benchmarkSize
+	int& benchmarkStartSize,
+	int& benchmarkStopSize,
+	int& benchmarkStepSize,
+	int& benchmarkBatchSize,
+	int& seed
 ) {
 	app.add_option("-m,--method", solvingMethod, "Solving method")
 		->required()
@@ -137,9 +166,15 @@ void applyOptions(
 		->required()
 		->transform(CLI::CheckedTransformer(datatypeByString, CLI::ignore_case));
 	app.add_flag("-b,--benchmark", benchmark, "Benchmark");
-	app.add_option("-i,--benchmark-iterations", benchmarkIterations, "Benchmark iterations")
+	app.add_option("-s,--benchmark-start-size", benchmarkStartSize, "Benchmark start size")
 		->default_val(0);
-	app.add_option("-s,--benchmark-size", benchmarkSize, "Benchmark size")
+	app.add_option("-e,--benchmark-stop-size", benchmarkStopSize, "Benchmark stop size")
+		->default_val(0);
+	app.add_option("-i,--benchmark-step-size", benchmarkStepSize, "Benchmark step size")
+		->default_val(1);
+	app.add_option("-n,--benchmark-batch-size", benchmarkBatchSize, "Benchmark batch size")
+		->default_val(0);
+	app.add_option("-r,--seed", seed, "Seed")
 		->default_val(0);
 }
 
@@ -148,17 +183,31 @@ int main(int argc, char *argv[]) {
 
 	SolvingMethod solvingMethod;
 	Datatype datatype;
-	bool benchmark = false;
-	int benchmarkIterations = 0;
-	int benchmarkSize = 0;
+	bool benchmark;
+	int benchmarkStartSize;
+	int benchmarkStopSize;
+	int benchmarkStepSize;
+	int benchmarkBatchSize;
+	int seed;
+
 	applyOptions(
 		app, solvingMethod, datatype,
-		benchmark, benchmarkIterations, benchmarkSize
+		benchmark,
+		benchmarkStartSize,
+		benchmarkStopSize,
+		benchmarkStepSize,
+		benchmarkBatchSize,
+		seed
 	);
 	CLI11_PARSE(app, argc, argv);
+	srand(seed);
 	run(
 		solvingMethod, datatype,
-		benchmark, benchmarkIterations, benchmarkSize
+		benchmark,
+		benchmarkStartSize,
+		benchmarkStopSize,
+		benchmarkStepSize,
+		benchmarkBatchSize
 	);
 
 	return 0;

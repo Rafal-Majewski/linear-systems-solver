@@ -17,4 +17,10 @@ std::map<std::string, SolvingMethod> solvingMethodByString = {
 	{"fg", SolvingMethod::FG},
 };
 
+std::map<SolvingMethod, std::string> stringBySolvingMethod = {
+	{SolvingMethod::G, "g"},
+	{SolvingMethod::PG, "pg"},
+	{SolvingMethod::FG, "fg"},
+};
+
 #endif // SOLVING_METHOD_H_INCLUDED
