@@ -1,4 +1,5 @@
 #include "./LinearSystemGenerator.hpp"
+#include <Matrix/MatrixSize/MatrixSize.hpp>
 
 
 template <typename T>
@@ -18,7 +19,7 @@ long LinearSystemGenerator<T>::generateRandomLong() {
 
 template <typename T>
 T LinearSystemGenerator<T>::generateRandomNumber() {
-	return T(generateRandomLong() % (max - min + 1) + min) / divisor;
+	return T(generateRandomLong() % (max - min + 1) + min) / T(divisor);
 }
 
 template <typename T>
@@ -35,7 +36,7 @@ LinearSystemGenerator<T>::LinearSystemGenerator(
 
 
 template <typename T>
-LinearSystem<T> LinearSystemGenerator<T>::generateLinearSystem() {
+LinearSystem<T> LinearSystemGenerator<T>::generate() {
 	std::vector<std::string> variables(size.variablesCount);
 	for (int variableIndex = 0; variableIndex < size.variablesCount; ++variableIndex) {
 		variables[variableIndex] = generateVariable(variableIndex);
@@ -44,7 +45,7 @@ LinearSystem<T> LinearSystemGenerator<T>::generateLinearSystem() {
 	for (int equationIndex = 0; equationIndex < size.equationsCount; ++equationIndex) {
 		constants[equationIndex] = generateRandomNumber();
 	}
-	Matrix<T> coefficients(size);
+	Matrix<T> coefficients(MatrixSize(size.equationsCount, size.variablesCount));
 	for (int equationIndex = 0; equationIndex < size.equationsCount; ++equationIndex) {
 		for (int variableIndex = 0; variableIndex < size.variablesCount; ++variableIndex) {
 			coefficients.set(

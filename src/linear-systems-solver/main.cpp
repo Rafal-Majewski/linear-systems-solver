@@ -36,8 +36,17 @@ void runBenchmark(
 	int benchmarkIterations,
 	int benchmarkSize
 ) {
+	LinearSystemGenerator<DT> linearSystemGenerator(
+		benchmarkSize,
+		-0b10000000000000000l,
+		0b10000000000000000l,
+		0b10000000000000000l
+	);
+	LinearSystemPrinter<DT> linearSystemPrinter(" ");
+	SL linearSystemSolver = SL();
 	for (int i = 0; i < benchmarkIterations; ++i) {
-
+		LinearSystem<DT> linearSystem = linearSystemGenerator.generate();
+		linearSystemSolver.solve(linearSystem);
 	}
 }
 
@@ -111,8 +120,10 @@ void applyOptions(
 		->required()
 		->transform(CLI::CheckedTransformer(datatypeByString, CLI::ignore_case));
 	app.add_flag("-b,--benchmark", benchmark, "Benchmark");
-	app.add_option("-i,--benchmark-iterations", benchmarkIterations, "Benchmark iterations");
-	app.add_option("-s,--benchmark-size", benchmarkSize, "Benchmark size");
+	app.add_option("-i,--benchmark-iterations", benchmarkIterations, "Benchmark iterations")
+		->default_val(0);
+	app.add_option("-s,--benchmark-size", benchmarkSize, "Benchmark size")
+		->default_val(0);
 }
 
 int main(int argc, char *argv[]) {

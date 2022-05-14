@@ -19,7 +19,7 @@ class LinearSystemGenerator {
 	const LinearSystemSize size;
 	public:
 	LinearSystemGenerator(int a_size, int min, int max, int divisor);
-	LinearSystem<T> generateLinearSystem();
+	LinearSystem<T> generate();
 };
 
 #include "./LinearSystemGenerator.tpp"
