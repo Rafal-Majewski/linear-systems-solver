@@ -30,6 +30,15 @@ void runSolve(
 	LinearSystemPrinter<DT> linearSystemPrinter(" ");
 	linearSystemPrinter.print(solve<DT, SL>(linearSystem));
 }
+template <typename DT>
+double calculateError(std::vector<DT> expected, std::vector<DT> actual) {
+	double error = 0;
+	for (int i = 0; i < expected.size(); i++) {
+		DT difference = expected[i] - actual[i];
+		error += double((difference < 0) ? -difference : difference);
+	}
+	return error;
+}
 
 template <typename DT, typename SL>
 void runBenchmark(
@@ -44,11 +53,16 @@ void runBenchmark(
 	);
 	LinearSystemPrinter<DT> linearSystemPrinter(" ");
 	SL linearSystemSolver = SL();
+	std::cout << "Iteration" << '\t' << "Error_(abs)" << '\t' << "Time_(s)" << '\n';
 	for (int i = 0; i < benchmarkIterations; ++i) {
-		auto [linearSystem, solutions] = linearSystemGenerator.generate();
-		linearSystemPrinter.print(linearSystemSolver.solve(linearSystem));
-		linearSystemPrinter.print(solutions);
-
+		auto [linearSystem, expectedSolutions] = linearSystemGenerator.generate();
+		auto start = std::chrono::high_resolution_clock::now();
+		std::vector<DT> actualSolutions = linearSystemSolver.solve(linearSystem);
+		auto end = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> float_ms = end - start;
+		std::cout << i + 1 << '\t';
+		std::cout << calculateError(expectedSolutions, actualSolutions) << '\t';
+		std::cout << float_ms.count() / 1000 << '\n';
 	}
 }
 

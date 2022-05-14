@@ -29,21 +29,6 @@ BigInt::operator std::string() const {
 	return (sign == -1 ? "-" : "") + std::string(digits);
 }
 
-// BigInt::BigInt(std::string a_str) {
-// 	if (a_str == "0" || a_str == "-0") {
-// 		sign = 0;
-// 		return;
-// 	}
-// 	std::string str = a_str;
-// 	if (str[0] == '-') {
-// 		sign = -1;
-// 		str = str.substr(1);
-// 	} else {
-// 		sign = 1;
-// 	}
-// 	digits = BigIntDigits(str);
-// }
-
 BigInt BigInt::operator+(const BigInt& other) const {
 	BigInt result(*this);
 	result += other;
@@ -217,18 +202,25 @@ BigInt BigInt::operator-() const {
 	return result;
 }
 
-BigInt::BigInt(std::string str) {
+// BigInt(char sign, BigIntDigits digits);
+
+BigInt::BigInt(char sign, BigIntDigits digits) : sign(sign), digits(digits) {
+}
+
+BigInt BigInt::fromString(std::string str) {
+	char sign = 1;
 	if (str[0] == '-') {
 		sign = -1;
 	} else {
 		sign = 1;
 	}
-	digits = BigIntDigits(
+	BigIntDigits digits = BigIntDigits::fromString(
 		str.substr(str[0] == '-' ? 1 : 0)
 	);
 	if (digits.size() == 0) {
 		sign = 0;
 	}
+	return BigInt(sign, digits);
 }
 
 
@@ -248,4 +240,8 @@ char BigInt::compare(const BigInt& other) const {
 	if (sign != other.sign) return sign;
 	char digitsComparisonResult = digits.compare(other.digits);
 	return sign * digitsComparisonResult;
+}
+
+BigInt::operator double() const {
+	return sign * double(digits);
 }

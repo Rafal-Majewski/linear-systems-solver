@@ -47,7 +47,7 @@ Rational<T>& Rational<T>::operator--() {
 
 template <typename T>
 T Rational<T>::stringToNumber(const std::string &str) {
-	return T(str);
+	return T::fromString(str);
 }
 
 template <>
@@ -272,4 +272,9 @@ Rational<T> Rational<T>::operator+() const {
 	Rational<T> result(*this);
 	result.numerator = +result.numerator;
 	return result;
+}
+
+template <typename T>
+Rational<T>::operator double() const {
+	return (double)numerator / (double)denominator;
 }

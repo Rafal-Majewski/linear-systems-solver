@@ -61,6 +61,7 @@ struct Rational {
 	Rational<T>& operator-=(int other);
 	Rational<T>& operator*=(int other);
 	Rational<T>& operator/=(int other);
+	explicit operator double() const;
 };
 
 template <typename T>

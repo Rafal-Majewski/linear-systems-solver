@@ -187,13 +187,17 @@ std::vector<char> BigIntDigits::stringToDecimalDigits(std::string str) {
 	return result;
 }
 
-BigIntDigits::BigIntDigits(std::string str) {
+BigIntDigits::BigIntDigits(std::vector<char> digits) : digits(digits) {}
+
+BigIntDigits BigIntDigits::fromString(std::string str) {
 	std::vector<char> decimalDigits = BigIntDigits::stringToDecimalDigits(str);
+	BigIntDigits result;
 	BigIntDigits multiplier(1);
 	for (int i = 0; i < decimalDigits.size(); ++i) {
-		*this += multiplier * decimalDigits[i];
+		result += multiplier * decimalDigits[i];
 		multiplier *= 10;
 	}
+	return result;
 }
 
 BigIntDigits::BigIntDigits() {
@@ -360,4 +364,14 @@ bool BigIntDigits::operator>(const BigIntDigits& other) const {
 		}
 	}
 	return false;
+}
+
+BigIntDigits::operator double() const {
+	double result = 0;
+	double multiplier = 1;
+	for (int i = 0; i < digits.size(); ++i) {
+		result += digits[i] * multiplier;
+		multiplier *= 2;
+	}
+	return result;
 }

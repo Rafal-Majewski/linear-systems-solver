@@ -13,6 +13,8 @@ struct BigInt {
 		// 1 for positive
 		// 0 for no sign (zero)
 	BigIntDigits digits;
+	BigInt(char sign, BigIntDigits digits);
+
 	public:
 	BigInt& operator>>=(int shift);
 	BigInt& operator<<=(int shift);
@@ -21,7 +23,7 @@ struct BigInt {
 	BigInt();
 	BigInt(int number);
 	BigInt(const BigInt& other);
-	explicit BigInt(std::string str);
+	static BigInt fromString(std::string str);
 	explicit operator std::string() const;
 	BigInt operator+(const BigInt& other) const;
 	BigInt operator-(const BigInt& other) const;
@@ -47,6 +49,7 @@ struct BigInt {
 	BigInt operator+() const;
 	char compare(const BigInt& other) const;
 	BigInt gcd(const BigInt& bigint) const;
+	explicit operator double() const;
 };
 
 std::ostream& operator<<(std::ostream& os, const BigInt& bigint);
