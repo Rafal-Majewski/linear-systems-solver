@@ -11,7 +11,6 @@ class LinearSystemReader {
 	private:
 	LinearSystemSize readSize() const;
 	std::pair<Matrix<T>, std::vector<T>> readCoefficientsAndConstants(LinearSystemSize size) const;
-	std::vector<std::string> readVariables(LinearSystemSize size) const;
 
 	public:
 	LinearSystem<T> read() const;

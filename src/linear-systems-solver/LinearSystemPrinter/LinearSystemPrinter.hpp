@@ -13,7 +13,7 @@ class LinearSystemPrinter {
 	public:
 	const std::string separator;
 	void print(const LinearSystem<T>& linearSystem) const;
-	void print(const std::vector<std::pair<std::string, T>>& solutions) const;
+	void print(const std::vector<T>& solutions) const;
 	LinearSystemPrinter(std::string separator);
 };
 

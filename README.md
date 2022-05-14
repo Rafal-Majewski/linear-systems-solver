@@ -27,7 +27,6 @@ The linear system itself is passed in the standard input.
 The required format is:
 ```
 rowsCount columnsCount
-var_0 var_1 ... var_{columnsCount - 1}
 coef_0_0 coef_0_1 ... coef_0_{columnsCount - 1} const_0
 coef_1_0 coef_1_1 ... coef_1_{columnsCount - 1} const_1
 ...
@@ -37,7 +36,6 @@ coef_{rowsCount - 1}_0 coef_{rowsCount - 1}_1 ... coef_{rowsCount - 1}_{columnsC
 For example:
 ```
 4 3
- x  y  z
  2  3  7  48
  3  0 -1  1
 -1 -5 -6 -47

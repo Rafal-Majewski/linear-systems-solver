@@ -14,7 +14,6 @@ class LinearSystem {
 	private:
 	Matrix<T> coefficients;
 	std::vector<T> constants;
-	std::vector<std::string> variables;
 	void assertValidVariablesCount() const;
 	void assertValidCoefficientsCount() const;
 	void assertQuadraticSize() const;
@@ -22,19 +21,16 @@ class LinearSystem {
 	public:
 	T getCoefficient(int equationIndex, int variableIndex) const;
 	T getConstant(int equationIndex) const;
-	std::string getVariable(int variableIndex) const;
 	void substractRows(int targetRowIndex, int toSubstractRowIndex, T factor);
 	const LinearSystemSize size;
 	LinearSystem(
 		Matrix<T> coefficients,
-		std::vector<T> constants,
-		std::vector<std::string> variables
+		std::vector<T> constants
 	);
 	LinearSystem(
 		LinearSystemSize size,
 		Matrix<T> coefficients,
-		std::vector<T> constants,
-		std::vector<std::string> variables
+		std::vector<T> constants
 	);
 };
 

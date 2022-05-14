@@ -8,7 +8,7 @@
 template <typename T>
 class LinearSystemSolver {
 	public:
-	virtual std::vector<std::pair<std::string, T>> solve(LinearSystem<T> linearSystem) const = 0;
+	virtual std::vector<T> solve(LinearSystem<T> linearSystem) const = 0;
 };
 
 #endif

@@ -3,11 +3,6 @@
 
 
 template <typename T>
-std::string LinearSystemGenerator<T>::generateVariable(int variableIndex) {
-	return "x" + std::to_string(variableIndex);
-}
-
-template <typename T>
 long LinearSystemGenerator<T>::generateRandomLong() {
 	long randomLong;
 	for (int i = 0; i < sizeof(long); ++i) {
@@ -37,10 +32,6 @@ LinearSystemGenerator<T>::LinearSystemGenerator(
 
 template <typename T>
 LinearSystem<T> LinearSystemGenerator<T>::generate() {
-	std::vector<std::string> variables(size.variablesCount);
-	for (int variableIndex = 0; variableIndex < size.variablesCount; ++variableIndex) {
-		variables[variableIndex] = generateVariable(variableIndex);
-	}
 	std::vector<T> constants(size.equationsCount);
 	for (int equationIndex = 0; equationIndex < size.equationsCount; ++equationIndex) {
 		constants[equationIndex] = generateRandomNumber();
@@ -55,5 +46,5 @@ LinearSystem<T> LinearSystemGenerator<T>::generate() {
 			);
 		}
 	}
-	return LinearSystem<T>(size, coefficients, constants, variables);
+	return LinearSystem<T>(size, coefficients, constants);
 }

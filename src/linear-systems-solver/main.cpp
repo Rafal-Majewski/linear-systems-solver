@@ -15,7 +15,7 @@
 
 
 template <typename DT, typename SL>
-std::vector<std::pair<std::string, DT>> solve(
+std::vector<DT> solve(
 	LinearSystem<DT> linearSystem
 ) {
 	SL linearSystemSolver = SL();

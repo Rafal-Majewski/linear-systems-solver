@@ -48,7 +48,9 @@ target_link_libraries(
 add_library(linear-system-solving-algorithms
 	./solvingalgorithms/GaussAlgorithm/GaussAlgorithm.cpp
 )
-
+target_link_libraries(linear-system-solving-algorithms
+	PUBLIC linear-system
+)
 target_link_libraries(linear-system-solving-algorithms
 	PUBLIC linear-system-solver
 )
