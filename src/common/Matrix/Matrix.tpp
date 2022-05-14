@@ -36,6 +36,13 @@ Matrix<T>::Matrix(MatrixSize a_size) : size(a_size) {
 }
 
 template <typename T>
+Matrix<T>::Matrix(std::vector<T> a_values) : Matrix(MatrixSize(a_values.size(), 1)) {
+	for (int y = 0; y < size.rowsCount; ++y) {
+		values[y][0] = a_values[y];
+	}
+}
+
+template <typename T>
 Matrix<T> Matrix<T>::unit(MatrixSize a_size) {
 	Matrix<T> result(a_size);
 	for (int y = 0; y < a_size.rowsCount; ++y) {
@@ -120,7 +127,7 @@ Matrix<T> Matrix<T>::operator*(const Matrix<T> &other) const {
 	Matrix<T> result(size.multipliedBy(other.size));
 	for (int y = 0; y < result.size.rowsCount; ++y) {
 		for (int x = 0; x < result.size.columnsCount; ++x) {
-			T sum = 0;
+			T sum = T(0);
 			for (int i = 0; i < size.columnsCount; ++i) {
 				sum += values[y][i] * other.values[i][x];
 			}

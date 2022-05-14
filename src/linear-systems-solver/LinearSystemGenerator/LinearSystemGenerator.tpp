@@ -3,7 +3,7 @@
 
 
 template <typename T>
-long LinearSystemGenerator<T>::generateRandomLong() {
+long LinearSystemGenerator<T>::generateRandomLong() const {
 	long randomLong;
 	for (int i = 0; i < sizeof(long); ++i) {
 		randomLong <<= 8;
@@ -13,7 +13,7 @@ long LinearSystemGenerator<T>::generateRandomLong() {
 }
 
 template <typename T>
-T LinearSystemGenerator<T>::generateRandomNumber() {
+T LinearSystemGenerator<T>::generateRandomNumber() const {
 	return T(generateRandomLong() % (max - min + 1) + min) / T(divisor);
 }
 
@@ -31,11 +31,12 @@ LinearSystemGenerator<T>::LinearSystemGenerator(
 
 
 template <typename T>
-LinearSystem<T> LinearSystemGenerator<T>::generate() {
-	std::vector<T> constants(size.equationsCount);
-	for (int equationIndex = 0; equationIndex < size.equationsCount; ++equationIndex) {
-		constants[equationIndex] = generateRandomNumber();
+std::pair<LinearSystem<T>, std::vector<T>> LinearSystemGenerator<T>::generate() const {
+	std::vector<T> solutions(size.variablesCount);
+	for (int y = 0; y < size.variablesCount; ++y) {
+		solutions[y] = generateRandomNumber();
 	}
+	Matrix<T> solutionsMatrix(solutions);
 	Matrix<T> coefficients(MatrixSize(size.equationsCount, size.variablesCount));
 	for (int equationIndex = 0; equationIndex < size.equationsCount; ++equationIndex) {
 		for (int variableIndex = 0; variableIndex < size.variablesCount; ++variableIndex) {
@@ -46,5 +47,13 @@ LinearSystem<T> LinearSystemGenerator<T>::generate() {
 			);
 		}
 	}
-	return LinearSystem<T>(size, coefficients, constants);
+	Matrix<T> constantsMatrix = coefficients * solutionsMatrix;
+	std::vector<T> constants(size.equationsCount);
+	for (int equationIndex = 0; equationIndex < size.equationsCount; ++equationIndex) {
+		constants[equationIndex] = constantsMatrix.get(equationIndex, 0);
+	}
+	return std::make_pair(
+		LinearSystem<T>(size, coefficients, constants),
+		solutions
+	);
 }

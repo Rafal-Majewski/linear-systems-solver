@@ -11,7 +11,7 @@
 #include <Rational/Rational.hpp>
 #include <BigInt/BigInt.hpp>
 #include <solvingalgorithms/GaussAlgorithm/GaussAlgorithm.hpp>
-
+#include <iomanip>
 
 
 template <typename DT, typename SL>
@@ -45,8 +45,10 @@ void runBenchmark(
 	LinearSystemPrinter<DT> linearSystemPrinter(" ");
 	SL linearSystemSolver = SL();
 	for (int i = 0; i < benchmarkIterations; ++i) {
-		LinearSystem<DT> linearSystem = linearSystemGenerator.generate();
-		linearSystemSolver.solve(linearSystem);
+		auto [linearSystem, solutions] = linearSystemGenerator.generate();
+		linearSystemPrinter.print(linearSystemSolver.solve(linearSystem));
+		linearSystemPrinter.print(solutions);
+
 	}
 }
 
@@ -87,6 +89,7 @@ void run(
 	int benchmarkIterations,
 	int benchmarkSize
 ) {
+	std::cout << std::setprecision(20);
 	switch (datatype) {
 		case Datatype::RATIONAL:
 			return runWithDatatype<Rational<BigInt>>(

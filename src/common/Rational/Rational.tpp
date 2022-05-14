@@ -56,16 +56,18 @@ int Rational<int>::stringToNumber(const std::string &str) {
 }
 
 template <typename T>
-Rational<T>::Rational(std::string str) {
+Rational<T> Rational<T>::fromString(std::string str) {
 	std::string::size_type pos = str.find('/');
+	T numerator;
+	T denominator;
 	if (pos == std::string::npos) {
-		numerator = stringToNumber(str);
+		numerator = Rational<T>::stringToNumber(str);
 		denominator = 1;
 	} else {
-		numerator = stringToNumber(str.substr(0, pos));
-		denominator = stringToNumber(str.substr(pos + 1));
+		numerator = Rational<T>::stringToNumber(str.substr(0, pos));
+		denominator = Rational<T>::stringToNumber(str.substr(pos + 1));
 	}
-	reduce();
+	return Rational<T>(numerator, denominator);
 }
 
 template <typename T>
@@ -143,7 +145,7 @@ template <typename T>
 std::istream& operator>>(std::istream& is, Rational<T>& rational) {
 	std::string str;
 	is >> str;
-	rational = Rational<T>(str);
+	rational = Rational<T>::fromString(str);
 	return is;
 }
 

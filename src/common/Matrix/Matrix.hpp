@@ -23,6 +23,7 @@ class Matrix {
 	static Matrix<T> unit(MatrixSize a_size);
 	Matrix(MatrixSize a_size, std::vector<std::vector<T>> a_values);
 	Matrix(std::vector<std::vector<T>> a_values);
+	Matrix(std::vector<T> a_values);
 	T get(int y, int x) const;
 	void set(int y, int x, T value);
 	Matrix<T> transposed() const;
