@@ -21,6 +21,10 @@ add_library(solving-method
 	./SolvingMethod/SolvingMethod.cpp
 )
 
+add_library(linear-system-generator
+	./LinearSystemGenerator/LinearSystemGenerator.cpp
+)
+target_link_libraries(linear-system-generator PUBLIC linear-system)
 
 add_library(linear-system-solver
 	./LinearSystemSolver/LinearSystemSolver.cpp
@@ -30,6 +34,8 @@ target_link_libraries(linear-system-solver PUBLIC linear-system)
 add_library(linear-system-reader
 	./LinearSystemReader/LinearSystemReader.cpp
 )
+
+
 
 add_library(linear-system-printer
 	./LinearSystemPrinter/LinearSystemPrinter.cpp
@@ -57,6 +63,7 @@ target_link_libraries(linear-systems-solver PUBLIC linear-system-solver)
 target_link_libraries(linear-systems-solver PUBLIC matrix)
 target_link_libraries(linear-systems-solver PUBLIC linear-system)
 target_link_libraries(linear-systems-solver PUBLIC linear-system-reader)
+target_link_libraries(linear-systems-solver PUBLIC linear-system-generator)
 target_link_libraries(linear-systems-solver PUBLIC linear-system-printer)
 target_link_libraries(linear-systems-solver PUBLIC datatype)
 target_link_libraries(linear-systems-solver PUBLIC bigint)
