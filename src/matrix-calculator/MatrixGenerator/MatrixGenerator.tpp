@@ -13,7 +13,7 @@ long MatrixGenerator<T>::generateRandomLong() const {
 
 template <typename T>
 T MatrixGenerator<T>::generateRandomNumber() const {
-	return T(generateRandomLong() % (max - min + 1) + min) / T(divisor);
+	return T(double(generateRandomLong() % (max - min + 1) + min)) / T(double(divisor));
 }
 
 template <typename T>

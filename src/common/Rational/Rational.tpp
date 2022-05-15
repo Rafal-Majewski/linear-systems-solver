@@ -50,11 +50,6 @@ T Rational<T>::stringToNumber(const std::string &str) {
 	return T::fromString(str);
 }
 
-template <>
-int Rational<int>::stringToNumber(const std::string &str) {
-	return std::stoi(str);
-}
-
 template <typename T>
 Rational<T> Rational<T>::fromString(std::string str) {
 	std::string::size_type pos = str.find('/');
@@ -88,19 +83,9 @@ void Rational<T>::reduce() {
 	} else if (denominator == 0) {
 		throw std::invalid_argument("Denominator cannot be 0");
 	}
-	T gcd = calculateGcd();
+	T gcd = numerator.gcd(denominator);
 	numerator /= gcd;
 	denominator /= gcd;
-}
-
-template <typename T>
-T Rational<T>::calculateGcd() {
-	return numerator.gcd(denominator);
-}
-
-template <>
-int Rational<int>::calculateGcd() {
-	return std::gcd(numerator, denominator);
 }
 
 template <typename T>
@@ -109,11 +94,11 @@ Rational<T>::Rational(T a_numerator, T a_denominator) : numerator(a_numerator), 
 }
 
 template <typename T>
-Rational<T>::Rational(T a_numerator) : numerator(a_numerator), denominator(1) {
+Rational<T>::Rational(T a_numerator) : numerator(a_numerator), denominator(T(1)) {
 }
 
 template <typename T>
-Rational<T>::Rational() : numerator(0), denominator(1) {
+Rational<T>::Rational() : numerator(T(0)), denominator(T(1)) {
 }
 
 template <typename T>
@@ -127,11 +112,6 @@ Rational<T>& Rational<T>::operator+=(Rational<T> rhs) {
 template <typename T>
 Rational<T>::operator std::string() const {
 	return std::string(numerator) + "/" + std::string(denominator);
-}
-
-template <>
-Rational<int>::operator std::string() const {
-	return std::to_string(numerator) + "/" + std::to_string(denominator);
 }
 
 template <typename T>
@@ -150,52 +130,6 @@ std::istream& operator>>(std::istream& is, Rational<T>& rational) {
 }
 
 template <typename T>
-bool Rational<T>::operator==(int other) const {
-	return *this == Rational<T>(other);
-}
-template <typename T>
-bool Rational<T>::operator!=(int other) const {
-	return *this != Rational<T>(other);
-}
-
-template <typename T>
-bool Rational<T>::operator<(int other) const {
-	return *this < Rational<T>(other);
-}
-
-template <typename T>
-bool Rational<T>::operator>(int other) const {
-	return *this > Rational<T>(other);
-}
-
-template <typename T>
-bool Rational<T>::operator<=(int other) const {
-	return *this <= Rational<T>(other);
-}
-
-template <typename T>
-bool Rational<T>::operator>=(int other) const {
-	return *this >= Rational<T>(other);
-}
-
-template <typename T>
-char Rational<T>::compare(int other) const {
-	return compare(Rational<T>(other));
-}
-
-template <typename T>
-Rational<T>& Rational<T>::operator+=(int other) {
-	*this += Rational<T>(other);
-	return *this;
-}
-
-template <typename T>
-Rational<T>& Rational<T>::operator-=(int other) {
-	*this -= Rational<T>(other);
-	return *this;
-}
-
-template <typename T>
 Rational<T>& Rational<T>::operator-=(Rational<T> other) {
 	numerator = numerator * other.denominator - other.numerator * denominator;
 	denominator *= other.denominator;
@@ -204,22 +138,10 @@ Rational<T>& Rational<T>::operator-=(Rational<T> other) {
 }
 
 template <typename T>
-Rational<T>& Rational<T>::operator*=(int other) {
-	*this *= Rational<T>(other);
-	return *this;
-}
-
-template <typename T>
 Rational<T>& Rational<T>::operator*=(Rational<T> other) {
 	numerator *= other.numerator;
 	denominator *= other.denominator;
 	reduce();
-	return *this;
-}
-
-template <typename T>
-Rational<T>& Rational<T>::operator/=(int other) {
-	*this /= Rational<T>(other);
 	return *this;
 }
 
@@ -282,4 +204,53 @@ Rational<T>::operator double() const {
 template <typename T>
 Rational<T> abs(const Rational<T> &rational) {
 	return Rational<T>(abs(rational.numerator), rational.denominator);
+}
+
+template <typename T>
+Rational<T>::Rational(int a_numerator, int a_denominator) : numerator(T(a_numerator)), denominator(T(a_denominator)) {
+	reduce();
+}
+
+template <typename T>
+Rational<T>::Rational(int a_numerator) : numerator(T(a_numerator)), denominator(T(1)) {
+}
+
+template <typename T>
+Rational<T>::Rational(double a_num) {
+	numerator = 0;
+	denominator = 1;
+	if (a_num == 0) return;
+	double sign = a_num < 0 ? -1 : 1;
+	double num = std::abs(a_num);
+	Rational<T> mult = T(1);
+	long long floored = (long long)(num);
+	*this += mult * T(floored);
+	for (int i = 0; num != 0; ++i) {
+		num -= floored;
+		num *= 2;
+		mult /= T(2);
+		floored = (long long)(num);
+		*this += mult * T(floored);
+	}
+	numerator *= sign;
+}
+
+template <typename T>
+Rational<T>::Rational(float a_num) {
+	numerator = 0;
+	denominator = 1;
+	if (a_num == 0) return;
+	double sign = a_num < 0 ? -1 : 1;
+	double num = std::abs(a_num);
+	Rational<T> mult = T(1);
+	long long floored = (long long)(num);
+	*this += mult * T(floored);
+	for (int i = 0; num != 0; ++i) {
+		num -= floored;
+		num *= 2;
+		mult /= T(2);
+		floored = (long long)(num);
+		*this += mult * T(floored);
+	}
+	numerator *= sign;
 }

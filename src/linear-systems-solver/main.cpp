@@ -49,7 +49,7 @@ void runBenchmark(
 ) {
 	LinearSystemPrinter<DT> linearSystemPrinter(" ");
 	SL linearSystemSolver = SL();
-	std::cout << "Size\tError\tTime" << std::endl;
+	std::cout << "Size\tError\tTime" << '\n';
 
 	for (int benchmarkSize = benchmarkStartSize; benchmarkSize <= benchmarkStopSize; benchmarkSize += benchmarkStepSize) {
 		double averageError = 0;

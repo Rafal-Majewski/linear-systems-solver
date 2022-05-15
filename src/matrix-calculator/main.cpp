@@ -89,20 +89,53 @@ std::map<std::string, Matrix<DT>> readVariables() {
 }
 
 template <typename DT>
+double calculateAbsError(Matrix<Rational<BigInt>> expected, Matrix<DT> actual) {
+	double error = 0;
+	for (int y = 0; y < expected.size.rowsCount; y++) {
+		for (int x = 0; x < expected.size.columnsCount; x++) {
+			error += abs(double(expected.get(y, x)) - double(actual.get(y, x)));
+		}
+	}
+	return error;
+}
+
+template <typename DT>
 void runBenchmark(
 	std::vector<std::string> tokens,
 	std::map<std::string, MatrixOperator<DT>*> operators,
+	std::map<std::string, MatrixOperator<Rational<BigInt>>*> rationalOperators,
 	int benchmarkMatrixSize
 ) {
 	std::map<std::string, Matrix<DT>> variables = generateVariables<DT>(
 		tokens, operators, benchmarkMatrixSize
 	);
+	std::map<std::string, Matrix<Rational<BigInt>>> rationalVariables;
+	for (auto& pair : variables) {
+		std::string variableName = pair.first;
+		Matrix<DT> variableValue = pair.second;
+		Matrix<Rational<BigInt>> rationalVariableValue = Matrix<Rational<BigInt>>(variableValue.size);
+		for (int y = 0; y < variableValue.size.rowsCount; ++y) {
+			for (int x = 0; x < variableValue.size.columnsCount; ++x) {
+				rationalVariableValue.set(
+					y,
+					x,
+					Rational<BigInt>(variableValue.get(y, x))
+				);
+			}
+		}
+		rationalVariables.insert({variableName, rationalVariableValue});
+	}
+	Matrix<Rational<BigInt>> expectedResult = solve<Rational<BigInt>>(
+		tokens, rationalOperators, rationalVariables
+	);
 	auto start = std::chrono::high_resolution_clock::now();
-	Matrix<DT> result = solve<DT>(tokens, operators, variables);
-	solveEigen<DT>(tokens, operators, variables);
+	Matrix<DT> actualResult = solve<DT>(tokens, operators, variables);
 	auto end = std::chrono::high_resolution_clock::now();
+
 	std::chrono::duration<double, std::milli> float_ms = end - start;
-	std::cout << float_ms.count() / 1000 << std::endl;
+	std::cout << "Error\tTime" << '\n';
+	double error = calculateAbsError(expectedResult, actualResult);
+	std::cout << error << '\t' << float_ms.count() / 1000 << '\n';
 }
 
 template <typename DT>
@@ -129,12 +162,25 @@ void runWithDatatype(
 	MatrixAdditionOperator<DT> additionOperator = MatrixAdditionOperator<DT>();
 	MatrixMultiplicationOperator<DT> multiplicationOperator = MatrixMultiplicationOperator<DT>();
 
+	MatrixAdditionOperator<Rational<BigInt>> rationalAdditionOperator = MatrixAdditionOperator<Rational<BigInt>>();
+	MatrixMultiplicationOperator<Rational<BigInt>> rationalMultiplicationOperator = MatrixMultiplicationOperator<Rational<BigInt>>();
+
 	std::map<std::string, MatrixOperator<DT>*> matrixOperatorByToken = {
 		{"+", &additionOperator},
 		{"*", &multiplicationOperator}
 	};
+
+	std::map<std::string, MatrixOperator<Rational<BigInt>>*> rationalOperatorByToken = {
+		{"+", &rationalAdditionOperator},
+		{"*", &rationalMultiplicationOperator}
+	};
 	if (benchmark) {
-		runBenchmark<DT>(tokens, matrixOperatorByToken, benchmarkMatrixSize);
+		runBenchmark<DT>(
+			tokens,
+			matrixOperatorByToken,
+			rationalOperatorByToken,
+			benchmarkMatrixSize
+		);
 	} else {
 		runSolve<DT>(tokens, matrixOperatorByToken);
 	}

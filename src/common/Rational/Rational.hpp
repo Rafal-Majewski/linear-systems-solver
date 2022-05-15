@@ -22,10 +22,15 @@ struct Rational {
 	public:
 	T getNumerator() const;
 	T getDenominator() const;
-	Rational(T a_numerator, T a_denominator);
-	Rational(T a_numerator);
+	Rational(T numerator, T denominator);
+	Rational(T numerator);
+	Rational(int numerator, int denominator);
+	Rational(int numerator);
+	Rational(long numerator, long denominator);
+	Rational(long numerator);
+	Rational(float num);
+	Rational(double num);
 	Rational();
-	// explicit Rational(std::string str);
 	static Rational<T> fromString(std::string str);
 	Rational<T> operator+(const Rational<T> &other) const;
 	Rational<T> operator-(const Rational<T> &other) const;
@@ -50,24 +55,7 @@ struct Rational {
 	Rational<T> operator--(int);
 	operator std::string() const;
 
-	// overload operators for int specifically
-	// to prevent ambiguity
-	Rational<T> operator+(int other) const;
-	Rational<T> operator-(int other) const;
-	Rational<T> operator*(int other) const;
-	Rational<T> operator/(int other) const;
-	bool operator==(int other) const;
-	bool operator!=(int other) const;
-	bool operator<(int other) const;
-	bool operator>(int other) const;
-	bool operator<=(int other) const;
-	bool operator>=(int other) const;
-	char compare(int other) const;
-	Rational<T>& operator+=(int other);
-	Rational<T>& operator-=(int other);
-	Rational<T>& operator*=(int other);
-	Rational<T>& operator/=(int other);
-	explicit operator double() const;
+	operator double() const;
 	friend Rational<T> abs<T>(const Rational<T> &rational);
 };
 
