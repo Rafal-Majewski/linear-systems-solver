@@ -7,9 +7,13 @@
 #include <BigInt/BigInt.hpp>
 #include <MatrixOperator/MatrixOperator.hpp>
 #include <MatrixOperator/MatrixAdditionOperator.hpp>
+#include <MatrixOperator/MatrixMultiplicationOperator.hpp>
 #include <MatrixGenerator/MatrixGenerator.hpp>
 #include <MatrixReader/MatrixReader.hpp>
+#include <MatrixPrinter/MatrixPrinter.hpp>
 #include <TokensReader/TokensReader.hpp>
+#include "../../lib/eigen3/Eigen/Dense"
+
 
 template <typename DT>
 std::map<std::string, Matrix<DT>> generateVariables(
@@ -46,10 +50,10 @@ std::map<std::string, Matrix<DT>> readVariables() {
 	int variablesCount;
 	std::cin >> variablesCount;
 	for (int i = 0; i < variablesCount; i++) {
-		std::string variable;
-		std::cin >> variable;
+		std::string variableName;
+		std::cin >> variableName;
 		Matrix<DT> matrix = reader.read();
-		variables.insert({variable, matrix});
+		variables.insert({variableName, matrix});
 	}
 	return variables;
 }
@@ -63,6 +67,12 @@ void runBenchmark(
 	std::map<std::string, Matrix<DT>> variables = generateVariables<DT>(
 		tokens, operators, benchmarkMatrixSize
 	);
+	auto start = std::chrono::high_resolution_clock::now();
+	Matrix<DT> result = solve<DT>(tokens, operators, variables);
+	solveEigen<DT>(tokens, operators, variables);
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> float_ms = end - start;
+	std::cout << float_ms.count() / 1000 << std::endl;
 }
 
 template <typename DT>
@@ -71,6 +81,11 @@ void runSolve(
 	std::map<std::string, MatrixOperator<DT>*> operators
 ) {
 	std::map<std::string, Matrix<DT>> variables = readVariables<DT>();
+	Matrix<DT> solution = solve<DT>(
+		tokens, operators, variables
+	);
+	MatrixPrinter<DT> printer = MatrixPrinter<DT>(" ");
+	printer.print(solution);
 }
 
 template <typename DT>
@@ -82,9 +97,11 @@ void runWithDatatype(
 	std::vector<std::string> tokens = tokensReader.read();
 
 	MatrixAdditionOperator<DT> additionOperator = MatrixAdditionOperator<DT>();
+	MatrixMultiplicationOperator<DT> multiplicationOperator = MatrixMultiplicationOperator<DT>();
 
 	std::map<std::string, MatrixOperator<DT>*> matrixOperatorByToken = {
-		{"+", &additionOperator}
+		{"+", &additionOperator},
+		{"*", &multiplicationOperator}
 	};
 	if (benchmark) {
 		runBenchmark<DT>(tokens, matrixOperatorByToken, benchmarkMatrixSize);
@@ -134,14 +151,15 @@ void applyOptions(
 	app.add_flag("-b,--benchmark", benchmark, "Benchmark");
 	app.add_option("-r,--seed", seed, "Seed")
 		->default_val(0);
-	app.add_option("-s,--benchmark-matrix-size", benchmarkMatrixSize, "Benchmark matrix size");
+	app.add_option("-s,--benchmark-matrix-size", benchmarkMatrixSize, "Benchmark matrix size")
+		->default_val(0);	
 }
 
 int main(int argc, char *argv[]) {
 	CLI::App app{"Matrix Calculator"};
 
 	Datatype datatype;
-	bool benchmark;
+	bool benchmark = false;
 	int seed;
 	int benchmarkMatrixSize;
 

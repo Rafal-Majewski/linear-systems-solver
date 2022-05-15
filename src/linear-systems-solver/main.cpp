@@ -193,7 +193,7 @@ int main(int argc, char *argv[]) {
 
 	SolvingMethod solvingMethod;
 	Datatype datatype;
-	bool benchmark;
+	bool benchmark = false;
 	int benchmarkStartSize;
 	int benchmarkStopSize;
 	int benchmarkStepSize;

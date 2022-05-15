@@ -3,6 +3,10 @@ include_directories(
 )
 
 include_directories(
+	lib/eigen3/Eigen
+)
+
+include_directories(
 	.
 )
 
@@ -13,9 +17,21 @@ add_executable(matrix-calculator
 add_library(matrix-reader
 	./MatrixReader/MatrixReader.cpp
 )
+target_link_libraries(matrix-reader
+	matrix
+)
+
+add_library(matrix-printer
+	./MatrixPrinter/MatrixPrinter.cpp
+)
+target_link_libraries(matrix-printer
+	matrix
+)
+
 add_library(matrix-operator
 	./MatrixOperator/MatrixOperator.cpp
 	./MatrixOperator/MatrixAdditionOperator.cpp
+	./MatrixOperator/MatrixMultiplicationOperator.cpp
 )
 target_link_libraries(matrix-operator PUBLIC matrix)
 add_library(matrix-generator
@@ -28,3 +44,4 @@ target_link_libraries(matrix-calculator PUBLIC matrix-operator)
 target_link_libraries(matrix-calculator PUBLIC matrix-generator)
 target_link_libraries(matrix-calculator PUBLIC rational)
 target_link_libraries(matrix-calculator PUBLIC bigint)
+target_link_libraries(matrix-calculator PUBLIC matrix-printer)
