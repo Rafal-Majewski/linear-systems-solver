@@ -216,6 +216,15 @@ Rational<T>::Rational(int a_numerator) : numerator(T(a_numerator)), denominator(
 }
 
 template <typename T>
+Rational<T>::Rational(long a_numerator, long a_denominator) : numerator(T(a_numerator)), denominator(T(a_denominator)) {
+	reduce();
+}
+
+template <typename T>
+Rational<T>::Rational(long a_numerator) : numerator(T(a_numerator)), denominator(T(1)) {
+}
+
+template <typename T>
 Rational<T>::Rational(double a_num) {
 	numerator = 0;
 	denominator = 1;

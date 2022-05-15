@@ -32,12 +32,12 @@ void runSolve(
 }
 template <typename DT>
 double calculateAbsError(std::vector<DT> expected, std::vector<DT> actual) {
-	double error = 0;
+	DT error = 0;
 	for (int i = 0; i < expected.size(); i++) {
 		DT difference = expected[i] - actual[i];
-		error += double((difference < 0) ? -difference : difference);
+		error += (difference < DT(0)) ? -difference : difference;
 	}
-	return error;
+	return double(error);
 }
 
 template <typename DT, typename SL>
