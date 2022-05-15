@@ -12,8 +12,38 @@
 #include <MatrixReader/MatrixReader.hpp>
 #include <MatrixPrinter/MatrixPrinter.hpp>
 #include <TokensReader/TokensReader.hpp>
-#include "../../lib/eigen3/Eigen/Dense"
 
+
+template <typename DT>
+Matrix<DT> solve(
+	std::vector<std::string> tokens,
+	std::map<std::string, MatrixOperator<DT>*> operators,
+	std::map<std::string, Matrix<DT>> variables
+) {
+	std::vector<Matrix<DT>> stack;
+	for (int i = 0; i < tokens.size(); ++i) {
+		std::string token = tokens[i];
+		if (operators.contains(token)) {
+			MatrixOperator<DT>* op = operators[token];
+			Matrix<DT> m2 = stack.back();
+			stack.pop_back();
+			Matrix<DT> m1 = stack.back();
+			stack.pop_back();
+			stack.push_back(op->operate(m1, m2));
+		}
+		else if (variables.contains(token)) {
+			stack.push_back(Matrix<DT>(variables.at(token)));
+		} else {
+			throw std::invalid_argument("Invalid token: " + token);
+		}
+	}
+	if (stack.size() != 1) {
+		throw std::invalid_argument("Invalid expression");
+	}
+	Matrix<DT> result = stack[0];
+	stack.pop_back();
+	return result;
+}
 
 template <typename DT>
 std::map<std::string, Matrix<DT>> generateVariables(
