@@ -89,7 +89,7 @@ void runWithDatatype(
 	if (benchmark) {
 		runBenchmark<DT>(tokens, matrixOperatorByToken, benchmarkMatrixSize);
 	} else {
-		runSolver<DT>(tokens, matrixOperatorByToken);
+		runSolve<DT>(tokens, matrixOperatorByToken);
 	}
 }
 
