@@ -2,7 +2,6 @@ include_directories(
 	lib/CLI11/include/CLI
 )
 
-
 include_directories(
 	.
 )
