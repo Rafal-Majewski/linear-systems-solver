@@ -245,3 +245,8 @@ char BigInt::compare(const BigInt& other) const {
 BigInt::operator double() const {
 	return sign * double(digits);
 }
+
+BigInt abs(const BigInt& bigint) {
+	using std::abs;
+	return BigInt(abs(bigint.sign), bigint.digits);
+}

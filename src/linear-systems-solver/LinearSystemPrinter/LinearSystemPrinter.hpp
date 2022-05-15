@@ -8,7 +8,6 @@ template <typename T>
 class LinearSystemPrinter {
 	private:
 	void printSize(const LinearSystem<T>& linearSystem) const;
-	void printVariables(const LinearSystem<T>& linearSystem) const;
 	void printCoefficientsAndConstants(const LinearSystem<T>& linearSystem) const;
 	public:
 	const std::string separator;

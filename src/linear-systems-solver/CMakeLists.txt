@@ -45,21 +45,18 @@ target_link_libraries(
 	linear-system-printer PUBLIC linear-system
 )
 
-add_library(linear-system-solving-algorithms
-	./solvingalgorithms/GaussAlgorithm/GaussAlgorithm.cpp
+add_library(gauss-algorithm
+	./GaussAlgorithm/GaussAlgorithm.cpp
 )
-target_link_libraries(linear-system-solving-algorithms
+target_link_libraries(gauss-algorithm
 	PUBLIC linear-system
 )
-target_link_libraries(linear-system-solving-algorithms
+target_link_libraries(gauss-algorithm
 	PUBLIC linear-system-solver
 )
 
-target_link_libraries(linear-system-solving-algorithms
-	PUBLIC linear-system
-)
 
-target_link_libraries(linear-systems-solver PUBLIC linear-system-solving-algorithms)
+target_link_libraries(linear-systems-solver PUBLIC gauss-algorithm)
 target_link_libraries(linear-systems-solver PUBLIC CLI11)
 target_link_libraries(linear-systems-solver PUBLIC linear-system-solver)
 target_link_libraries(linear-systems-solver PUBLIC matrix)

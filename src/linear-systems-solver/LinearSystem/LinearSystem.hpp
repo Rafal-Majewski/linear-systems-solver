@@ -22,6 +22,8 @@ class LinearSystem {
 	T getCoefficient(int equationIndex, int variableIndex) const;
 	T getConstant(int equationIndex) const;
 	void substractRows(int targetRowIndex, int toSubstractRowIndex, T factor);
+	void swapRows(int firstRowIndex, int secondRowIndex);
+	void swapColumns(int firstColumnIndex, int secondColumnIndex);
 	const LinearSystemSize size;
 	LinearSystem(
 		Matrix<T> coefficients,

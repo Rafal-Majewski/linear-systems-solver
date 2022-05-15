@@ -3,6 +3,12 @@
 
 #include <iostream>
 
+template <typename T>
+struct Rational;
+
+template <typename T>
+Rational<T> abs(const Rational<T> &rational);
+
 
 template <typename T>
 struct Rational {
@@ -62,6 +68,7 @@ struct Rational {
 	Rational<T>& operator*=(int other);
 	Rational<T>& operator/=(int other);
 	explicit operator double() const;
+	friend Rational<T> abs<T>(const Rational<T> &rational);
 };
 
 template <typename T>

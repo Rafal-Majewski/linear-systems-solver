@@ -10,7 +10,7 @@
 #include <Datatype/Datatype.hpp>
 #include <Rational/Rational.hpp>
 #include <BigInt/BigInt.hpp>
-#include <solvingalgorithms/GaussAlgorithm/GaussAlgorithm.hpp>
+#include <GaussAlgorithm/GaussAlgorithm.hpp>
 #include <iomanip>
 
 
@@ -108,6 +108,16 @@ void runWithDatatype(
 	switch (solvingMethod) {
 		case SolvingMethod::G:
 			return runWithDatatypeAndSolver<DT, GaussAlgorithm<DT>>(
+				benchmark,
+				benchmarkStartSize, benchmarkStopSize, benchmarkStepSize, benchmarkBatchSize
+			);
+		case SolvingMethod::PG:
+			return runWithDatatypeAndSolver<DT, PartialGaussAlgorithm<DT>>(
+				benchmark,
+				benchmarkStartSize, benchmarkStopSize, benchmarkStepSize, benchmarkBatchSize
+			);
+		case SolvingMethod::FG:
+			return runWithDatatypeAndSolver<DT, FullGaussAlgorithm<DT>>(
 				benchmark,
 				benchmarkStartSize, benchmarkStopSize, benchmarkStepSize, benchmarkBatchSize
 			);

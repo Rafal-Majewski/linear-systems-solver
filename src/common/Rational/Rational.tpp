@@ -278,3 +278,8 @@ template <typename T>
 Rational<T>::operator double() const {
 	return (double)numerator / (double)denominator;
 }
+
+template <typename T>
+Rational<T> abs(const Rational<T> &rational) {
+	return Rational<T>(abs(rational.numerator), rational.denominator);
+}

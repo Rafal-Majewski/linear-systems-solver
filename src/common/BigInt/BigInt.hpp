@@ -6,6 +6,10 @@
 #include <iostream>
 
 
+struct BigInt;
+
+BigInt abs(const BigInt &bigInt);
+
 struct BigInt {
 	private:
 	char sign;
@@ -50,6 +54,7 @@ struct BigInt {
 	char compare(const BigInt& other) const;
 	BigInt gcd(const BigInt& bigint) const;
 	explicit operator double() const;
+	friend BigInt abs(const BigInt &bigInt);
 };
 
 std::ostream& operator<<(std::ostream& os, const BigInt& bigint);

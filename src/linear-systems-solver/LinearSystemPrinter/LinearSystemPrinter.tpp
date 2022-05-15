@@ -8,15 +8,6 @@ void LinearSystemPrinter<T>::printSize(const LinearSystem<T>& linearSystem) cons
 }
 
 template <typename T>
-void LinearSystemPrinter<T>::printVariables(const LinearSystem<T>& linearSystem) const {
-	std::cout << linearSystem.getVariable(0);
-	for (int i = 1; i < linearSystem.size.variablesCount; ++i) {
-		std::cout << separator << linearSystem.getVariable(i);
-	}
-	std::cout << '\n';
-}
-
-template <typename T>
 void LinearSystemPrinter<T>::printCoefficientsAndConstants(const LinearSystem<T>& linearSystem) const {
 	for (int y = 0; y < linearSystem.size.equationsCount; ++y) {
 		std::cout << linearSystem.getCoefficient(y, 0);
@@ -30,9 +21,6 @@ void LinearSystemPrinter<T>::printCoefficientsAndConstants(const LinearSystem<T>
 template <typename T>
 void LinearSystemPrinter<T>::print(const LinearSystem<T>& linearSystem) const {
 	printSize(linearSystem);
-	if (linearSystem.size.variablesCount > 0) {
-		printVariables(linearSystem);
-	} else return;
 	if (linearSystem.size.equationsCount > 0) {
 		printCoefficientsAndConstants(linearSystem);
 	}

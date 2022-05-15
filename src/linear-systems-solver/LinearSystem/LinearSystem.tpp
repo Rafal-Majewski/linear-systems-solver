@@ -67,3 +67,22 @@ template <typename T>
 T LinearSystem<T>::getConstant(int equationIndex) const {
 	return constants[equationIndex];
 }
+
+template <typename T>
+void LinearSystem<T>::swapRows(int firstRowIndex, int secondRowIndex) {
+	std::swap(constants[firstRowIndex], constants[secondRowIndex]);
+	for (int x = 0; x < size.variablesCount; ++x) {
+		T temp = coefficients.get(firstRowIndex, x);
+		coefficients.set(firstRowIndex, x, coefficients.get(secondRowIndex, x));
+		coefficients.set(secondRowIndex, x, temp);
+	}
+}
+
+template <typename T>
+void LinearSystem<T>::swapColumns(int firstColumnIndex, int secondColumnIndex) {
+	for (int y = 0; y < size.equationsCount; ++y) {
+		T temp = coefficients.get(y, firstColumnIndex);
+		coefficients.set(y, firstColumnIndex, coefficients.get(y, secondColumnIndex));
+		coefficients.set(y, secondColumnIndex, temp);
+	}
+}
