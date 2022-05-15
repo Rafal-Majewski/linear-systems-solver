@@ -13,7 +13,7 @@ class AbstractGaussAlgorithm : public LinearSystemSolver<T> {
 		LinearSystem<T> linearSystem,
 		std::vector<int> &originalVariablesIndexes
 	) const;
-	virtual void choose(
+	inline virtual void choose(
 		LinearSystem<T> &linearSystem,
 		int equationIndex,
 		int variableIndex,
