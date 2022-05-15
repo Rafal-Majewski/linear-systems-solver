@@ -90,13 +90,13 @@ std::map<std::string, Matrix<DT>> readVariables() {
 
 template <typename DT>
 double calculateAbsError(Matrix<Rational<BigInt>> expected, Matrix<DT> actual) {
-	double error = 0;
+	Rational<BigInt> error = (0);
 	for (int y = 0; y < expected.size.rowsCount; y++) {
 		for (int x = 0; x < expected.size.columnsCount; x++) {
-			error += abs(double(expected.get(y, x)) - double(actual.get(y, x)));
+			error += abs(expected.get(y, x) - Rational<BigInt>(actual.get(y, x)));
 		}
 	}
-	return error;
+	return double(error);
 }
 
 template <typename DT>
@@ -104,38 +104,51 @@ void runBenchmark(
 	std::vector<std::string> tokens,
 	std::map<std::string, MatrixOperator<DT>*> operators,
 	std::map<std::string, MatrixOperator<Rational<BigInt>>*> rationalOperators,
-	int benchmarkMatrixSize
+	int benchmarkStartSize,
+	int benchmarkStopSize,
+	int benchmarkStepSize,
+	int benchmarkBatchSize
 ) {
-	std::map<std::string, Matrix<DT>> variables = generateVariables<DT>(
-		tokens, operators, benchmarkMatrixSize
-	);
-	std::map<std::string, Matrix<Rational<BigInt>>> rationalVariables;
-	for (auto& pair : variables) {
-		std::string variableName = pair.first;
-		Matrix<DT> variableValue = pair.second;
-		Matrix<Rational<BigInt>> rationalVariableValue = Matrix<Rational<BigInt>>(variableValue.size);
-		for (int y = 0; y < variableValue.size.rowsCount; ++y) {
-			for (int x = 0; x < variableValue.size.columnsCount; ++x) {
-				rationalVariableValue.set(
-					y,
-					x,
-					Rational<BigInt>(variableValue.get(y, x))
-				);
+	std::cout << "Size\tError\tTime" << '\n';
+	for (int benchmarkSize = benchmarkStartSize; benchmarkSize <= benchmarkStopSize; benchmarkSize += benchmarkStepSize) {
+		std::map<std::string, Matrix<DT>> variables = generateVariables<DT>(
+			tokens, operators, benchmarkSize
+		);
+		std::map<std::string, Matrix<Rational<BigInt>>> rationalVariables;
+		for (auto& pair : variables) {
+			std::string variableName = pair.first;
+			Matrix<DT> variableValue = pair.second;
+			Matrix<Rational<BigInt>> rationalVariableValue = Matrix<Rational<BigInt>>(variableValue.size);
+			for (int y = 0; y < variableValue.size.rowsCount; ++y) {
+				for (int x = 0; x < variableValue.size.columnsCount; ++x) {
+					rationalVariableValue.set(
+						y,
+						x,
+						Rational<BigInt>(variableValue.get(y, x))
+					);
+				}
 			}
+			rationalVariables.insert({variableName, rationalVariableValue});
 		}
-		rationalVariables.insert({variableName, rationalVariableValue});
-	}
-	Matrix<Rational<BigInt>> expectedResult = solve<Rational<BigInt>>(
-		tokens, rationalOperators, rationalVariables
-	);
-	auto start = std::chrono::high_resolution_clock::now();
-	Matrix<DT> actualResult = solve<DT>(tokens, operators, variables);
-	auto end = std::chrono::high_resolution_clock::now();
+		Matrix<Rational<BigInt>> expectedResult = solve<Rational<BigInt>>(
+			tokens, rationalOperators, rationalVariables
+		);
+		double averageTime = 0;
+		double averageError = 0;
+		for (int i = 0; i < benchmarkBatchSize; ++i) {
+			auto start = std::chrono::high_resolution_clock::now();
+			Matrix<DT> actualResult = solve<DT>(tokens, operators, variables);
+			auto end = std::chrono::high_resolution_clock::now();
 
-	std::chrono::duration<double, std::milli> float_ms = end - start;
-	std::cout << "Error\tTime" << '\n';
-	double error = calculateAbsError(expectedResult, actualResult);
-	std::cout << error << '\t' << float_ms.count() / 1000 << '\n';
+			std::chrono::duration<double, std::milli> float_ms = end - start;
+			averageTime += float_ms.count()/ 1000;
+			averageError += calculateAbsError(expectedResult, actualResult);
+			// double error = calculateAbsError(expectedResult, actualResult);
+		}
+		averageError /= benchmarkBatchSize;
+		averageTime /= benchmarkBatchSize;
+		std::cout << benchmarkSize << '\t' << averageError << '\t' << averageTime << '\n';
+	}
 }
 
 template <typename DT>
@@ -154,7 +167,10 @@ void runSolve(
 template <typename DT>
 void runWithDatatype(
 	bool benchmark,
-	int benchmarkMatrixSize
+	int benchmarkStartSize,
+	int benchmarkStopSize,
+	int benchmarkStepSize,
+	int benchmarkBatchSize
 ) {
 	TokensReader<DT> tokensReader = TokensReader<DT>();
 	std::vector<std::string> tokens = tokensReader.read();
@@ -179,7 +195,10 @@ void runWithDatatype(
 			tokens,
 			matrixOperatorByToken,
 			rationalOperatorByToken,
-			benchmarkMatrixSize
+			benchmarkStartSize,
+			benchmarkStopSize,
+			benchmarkStepSize,
+			benchmarkBatchSize
 		);
 	} else {
 		runSolve<DT>(tokens, matrixOperatorByToken);
@@ -190,24 +209,36 @@ void runWithDatatype(
 void run(
 	Datatype datatype,
 	bool benchmark,
-	int benchmarkMatrixSize
+	int benchmarkStartSize,
+	int benchmarkStopSize,
+	int benchmarkStepSize,
+	int benchmarkBatchSize
 ) {
 	std::cout << std::setprecision(20);
 	switch (datatype) {
 		case Datatype::RATIONAL:
 			return runWithDatatype<Rational<BigInt>>(
 				benchmark,
-				benchmarkMatrixSize
+				benchmarkStartSize,
+				benchmarkStopSize,
+				benchmarkStepSize,
+				benchmarkBatchSize
 			);
 		case Datatype::FLOAT:
 			return runWithDatatype<float>(
 				benchmark,
-				benchmarkMatrixSize
+				benchmarkStartSize,
+				benchmarkStopSize,
+				benchmarkStepSize,
+				benchmarkBatchSize
 			);
 		case Datatype::DOUBLE:
 			return runWithDatatype<double>(
 				benchmark,
-				benchmarkMatrixSize
+				benchmarkStartSize,
+				benchmarkStopSize,
+				benchmarkStepSize,
+				benchmarkBatchSize
 			);
 		default:
 			throw std::runtime_error("Unknown datatype");
@@ -219,7 +250,10 @@ void applyOptions(
 	Datatype& datatype,
 	bool& benchmark,
 	int& seed,
-	int& benchmarkMatrixSize
+	int& benchmarkStartSize,
+	int& benchmarkStopSize,
+	int& benchmarkStepSize,
+	int& benchmarkBatchSize
 ) {
 	app.add_option("-d,--datatype", datatype, "Datatype")
 		->required()
@@ -227,8 +261,14 @@ void applyOptions(
 	app.add_flag("-b,--benchmark", benchmark, "Benchmark");
 	app.add_option("-r,--seed", seed, "Seed")
 		->default_val(0);
-	app.add_option("-s,--benchmark-matrix-size", benchmarkMatrixSize, "Benchmark matrix size")
-		->default_val(0);	
+	app.add_option("-s,--benchmark-start-size", benchmarkStartSize, "Benchmark start size")
+		->default_val(0);
+	app.add_option("-e,--benchmark-stop-size", benchmarkStopSize, "Benchmark stop size")
+		->default_val(0);
+	app.add_option("-i,--benchmark-step-size", benchmarkStepSize, "Benchmark step size")
+		->default_val(1);
+	app.add_option("-n,--benchmark-batch-size", benchmarkBatchSize, "Benchmark batch size")
+		->default_val(0);
 }
 
 int main(int argc, char *argv[]) {
@@ -237,20 +277,29 @@ int main(int argc, char *argv[]) {
 	Datatype datatype;
 	bool benchmark = false;
 	int seed;
-	int benchmarkMatrixSize;
+	int benchmarkStartSize;
+	int benchmarkStopSize;
+	int benchmarkStepSize;
+	int benchmarkBatchSize;
 
 	applyOptions(
 		app, datatype,
 		benchmark,
 		seed,
-		benchmarkMatrixSize
+		benchmarkStartSize,
+		benchmarkStopSize,
+		benchmarkStepSize,
+		benchmarkBatchSize
 	);
 	CLI11_PARSE(app, argc, argv);
 	srand(seed);
 	run(
 		datatype,
 		benchmark,
-		benchmarkMatrixSize
+		benchmarkStartSize,
+		benchmarkStopSize,
+		benchmarkStepSize,
+		benchmarkBatchSize
 	);
 
 	return 0;
